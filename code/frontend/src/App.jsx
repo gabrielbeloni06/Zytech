@@ -359,7 +359,7 @@ function PlansPage({ navigateTo }) {
             </PricingCard>
           </div>
 
-          <PricingCard title="Modelo Premium" icon={<Crown size={32} className="text-purple-400" />} description="Ecossistema completo de vendas e CRM." delay="200" color="purple" price="R$1099,90" subPrice="/mes" onHire={() => openContactModal('Modelo Premium')}>
+          <PricingCard title="Modelo Premium" icon={<Crown size={32} className="text-purple-400" />} description="Ecossistema completo de vendas e CRM." delay="200" color="purple" price="R$1099,90" subPrice="/mês" onHire={() => openContactModal('Modelo Premium')}>
              <ul className="space-y-4 text-sm text-gray-300 mb-8">
                <li className="flex gap-3 items-center"><Check size={16} className="text-purple-500" /> Tudo do Smart +</li>
                <li className="flex gap-3 items-center"><Check size={16} className="text-purple-500" /> Conforto máximo</li>
