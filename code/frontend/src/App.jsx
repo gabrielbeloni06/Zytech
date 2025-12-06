@@ -321,8 +321,26 @@ function ChatbotPage({ navigateTo }) {
 function PlansPage({ navigateTo }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('');
+  const [billingCycle, setBillingCycle] = useState('monthly');
+  const prices = {
+    basic: {
+      monthly: "R$ 197,00",
+      semiannual: "R$ 177,30",
+      annual: "R$ 147,75"
+    },
+    smart: {
+      monthly: "R$ 499,90",
+      semiannual: "R$ 449,90",
+      annual: "R$ 374,90"
+    },
+    premium: {
+      monthly: "R$ 1099,90",
+      semiannual: "R$ 989,90",
+      annual: "R$ 824,90"
+    }
+  };
 
-  const openContactModal = (planName) => { setSelectedPlan(planName); setModalOpen(true); };
+  const openContactModal = (planName) => { setSelectedPlan(`${planName} (${billingCycle === 'monthly' ? 'Mensal' : billingCycle === 'semiannual' ? 'Semestral' : 'Anual'})`); setModalOpen(true); };
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
@@ -332,12 +350,40 @@ function PlansPage({ navigateTo }) {
        </div>
       <div className="container mx-auto px-6 relative z-10">
         <button onClick={() => navigateTo('chatbot')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-12 text-sm uppercase tracking-wider"><ArrowRight className="rotate-180" size={16} /> Voltar para Soluções</button>
-        <div className="text-center mb-16 animate-fade-in-up">
-           <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide mb-6 drop-shadow-2xl">Escolha seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">ChatBot</span> para Whatsapp</h1>
-           <p className="text-gray-300 max-w-2xl mx-auto text-lg font-light">Modelos de IA desenhados para escalar operações. Do atendimento básico à automação corporativa completa.</p>
+        
+        <div className="text-center mb-10 animate-fade-in-up">
+           <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide mb-6 drop-shadow-2xl">Escolha seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">ChatBot</span></h1>
+           <p className="text-gray-300 max-w-2xl mx-auto text-lg font-light">Modelos de IA desenhados para escalar operações. Escolha o ciclo ideal para o seu negócio.</p>
         </div>
+        <div className="flex justify-center mb-16 animate-fade-in-up animation-delay-500">
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-full flex flex-wrap justify-center gap-1 sm:gap-0 relative">
+            
+            <button 
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'monthly' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+            >
+              Mensal
+            </button>
+            
+            <button 
+              onClick={() => setBillingCycle('semiannual')}
+              className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'semiannual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+            >
+              Semestral <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-10%</span>
+            </button>
+            
+            <button 
+              onClick={() => setBillingCycle('annual')}
+              className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'annual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+            >
+              Anual <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-25%</span>
+            </button>
+
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-          <PricingCard title="Modelo Básico" icon={<Shield size={32} className="text-blue-400" />} description="Entrada perfeita para automação de atendimento." delay="0" color="blue" price="R$197,00 " subPrice="/mês" onHire={() => openContactModal('Modelo Básico')}>
+          <PricingCard title="Modelo Básico" icon={<Shield size={32} className="text-blue-400" />} description="Entrada perfeita para automação de atendimento." delay="0" color="blue" price={prices.basic[billingCycle]} subPrice="/mês" onHire={() => openContactModal('Modelo Básico')}>
              <ul className="space-y-4 text-sm text-gray-300 mb-8">
                <li className="flex gap-3 items-center"><Check size={16} className="text-blue-500" /> Respostas Rápidas</li>
                <li className="flex gap-3 items-center"><Check size={16} className="text-blue-500" /> Pré definição</li>
@@ -348,7 +394,7 @@ function PlansPage({ navigateTo }) {
 
           <div className="relative group/glow">
             <div className="absolute -inset-1 bg-gradient-to-r from-amber-500 to-orange-600 rounded-[2rem] blur-xl opacity-40 group-hover/glow:opacity-70 transition duration-1000 animate-pulse"></div>
-            <PricingCard title="Modelo Smart" icon={<Zap size={32} className="text-amber-950" />} iconBg="bg-gradient-to-br from-amber-400 to-orange-500 text-white border-none shadow-[0_0_15px_rgba(251,191,36,0.5)]" description="IA Generativa que aprende e vende por você 24h." delay="100" featured={true} color="amber" price="R$499,90" subPrice="/mês" onHire={() => openContactModal('Modelo Smart')}>
+            <PricingCard title="Modelo Smart" icon={<Zap size={32} className="text-amber-950" />} iconBg="bg-gradient-to-br from-amber-400 to-orange-500 text-white border-none shadow-[0_0_15px_rgba(251,191,36,0.5)]" description="IA Generativa que aprende e vende por você 24h." delay="100" featured={true} color="amber" price={prices.smart[billingCycle]} subPrice="/mês" onHire={() => openContactModal('Modelo Smart')}>
                <ul className="space-y-4 text-sm text-gray-200 mb-8">
                  <li className="flex gap-3 items-center"><Star size={16} className="text-amber-400 fill-amber-400" /> <strong>IA ChatGPT-4 Integrada</strong></li>
                  <li className="flex gap-3 items-center"><Check size={16} className="text-amber-400" /> Melhor atendimento para seus clientes</li>
@@ -359,7 +405,7 @@ function PlansPage({ navigateTo }) {
             </PricingCard>
           </div>
 
-          <PricingCard title="Modelo Premium" icon={<Crown size={32} className="text-purple-400" />} description="Ecossistema completo de vendas e CRM." delay="200" color="purple" price="R$1099,90" subPrice="/mês" onHire={() => openContactModal('Modelo Premium')}>
+          <PricingCard title="Modelo Premium" icon={<Crown size={32} className="text-purple-400" />} description="Ecossistema completo de vendas e CRM." delay="200" color="purple" price={prices.premium[billingCycle]} subPrice="/mês" onHire={() => openContactModal('Modelo Premium')}>
              <ul className="space-y-4 text-sm text-gray-300 mb-8">
                <li className="flex gap-3 items-center"><Check size={16} className="text-purple-500" /> Tudo do Smart +</li>
                <li className="flex gap-3 items-center"><Check size={16} className="text-purple-500" /> Conforto máximo</li>
