@@ -238,7 +238,6 @@ function WebsitesPage({ navigateTo }) {
     </div>
   );
 }
-
 function AutomationsPage({ navigateTo }) {
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
