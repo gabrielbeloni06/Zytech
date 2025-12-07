@@ -309,10 +309,10 @@ function WebsitesPage({ navigateTo }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const tiers = [
-    { id: 'basic', name: 'Básico', price: 1500, color: 'blue', desc: 'Landing Page única, ideal para lançamentos.', features: ['Design Responsivo', 'Hospedagem Inclusa', '1 Página'] },
-    { id: 'inter', name: 'Standard', price: 2800, color: 'purple', desc: 'Site institucional com até 5 páginas e blog.', features: ['Design Premium', 'SEO Básico', '5 Páginas', 'Blog'] },
-    { id: 'adv', name: 'Business', price: 4500, color: 'pink', desc: 'Portal completo com CMS e área de membros.', features: ['Painel Admin', 'SEO Avançado', '10+ Páginas', 'Login de Usuário'] },
-    { id: 'pro', name: 'Enterprise', price: 8000, color: 'amber', desc: 'Ecommerce ou aplicação web complexa.', features: ['Banco de Dados', 'API Própria', 'Pagamentos Online', 'App PWA'] },
+    { id: 'basic', name: 'Básico', price: 500, color: 'blue', desc: 'Site simples, o ideal para começar, com até 5 páginas.', features: ['Design Responsivo', 'Hospedagem Inclusa', '5 Páginas'] },
+    { id: 'inter', name: 'Intermediário', price: 2000, color: 'purple', desc: 'Site institucional com até 10 páginas e blog.', features: ['Design Premium', 'SEO Básico', '10 Páginas', 'Blog'] },
+    { id: 'adv', name: 'Avançado', price: 5000, color: 'pink', desc: 'Portal completo e ecommerce.', features: ['Painel Admin', 'SEO Avançado', '10+ Páginas', 'Login de Usuário'] },
+    { id: 'pro', name: 'Empresarial', price: 8000, color: 'amber', desc: 'Aplicação web complexa.', features: ['Banco de Dados', 'API Própria', 'Pagamentos Online', 'App PWA'] },
   ];
 
   const availableAddons = [
@@ -543,9 +543,9 @@ function AutomationsPage({ navigateTo }) {
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
     const tiers = [
-        { name: 'Start', price: '990', color: 'cyan', icon: <Zap size={24}/>, desc: 'Automação de e-mails, planilhas e tarefas simples.', features: ['Até 3 Automações', 'Integração Google Sheets', 'Alertas por Email'] },
-        { name: 'Scale', price: '2.490', color: 'purple', icon: <Workflow size={24}/>, desc: 'Integração CRM, WhatsApp API e Dashboards BI.', features: ['Até 10 Automações', 'CRM Bidirecional', 'Disparos WhatsApp', 'Suporte Prioritário'] },
-        { name: 'Enterprise', price: '5.990', color: 'emerald', icon: <Server size={24}/>, desc: 'IA Agents, Web Scraping e Sistemas Complexos.', features: ['Fluxos Ilimitados', 'IA Personalizada', 'Servidor Dedicado', 'Consultoria Semanal'] },
+        { name: 'Básico', price: '600', color: 'cyan', icon: <Zap size={24}/>, desc: 'Automação de e-mails, planilhas e tarefas simples.', features: ['Automação única', 'Integração com APIs', 'Alertas por Email'] },
+        { name: 'Intermediário', price: '1.499', color: 'purple', icon: <Workflow size={24}/>, desc: 'Integração CRM, WhatsApp API e Dashboards BI.', features: ['Mais de uma Automação', 'Automações Modernas', 'Disparos Sociais', 'Suporte Prioritário'] },
+        { name: 'Avançado', price: '2.999', color: 'emerald', icon: <Server size={24}/>, desc: 'IA Agents, Web Scraping e Sistemas Complexos.', features: ['Fluxos Ilimitados', 'IA Personalizada', 'Servidor Dedicado', 'Suporte Premium'] },
     ];
 
     const openAutoModal = (tier) => {
@@ -597,7 +597,7 @@ function AutomationsPage({ navigateTo }) {
                                 <div className="flex items-baseline gap-1 mb-6">
                                     <span className="text-2xl font-bold text-gray-400">R$</span>
                                     <span className={`text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-${tier.color}-400`}>{tier.price}</span>
-                                    <span className="text-sm font-normal text-gray-500">/setup</span>
+                                    <span className="text-sm font-normal text-gray-500">/+ taxa de reparo mensal</span>
                                 </div>
                                 
                                 <p className="text-gray-400 text-sm mb-8 flex-grow leading-relaxed border-b border-white/5 pb-8">{tier.desc}</p>
