@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { 
   MessageSquare, Globe, Cpu, LineChart, ChevronRight, Menu, X, Rocket, Send, 
   ArrowRight, Check, Zap, Crown, Shield, Star, Phone, Mail, Users, Target, 
-  Eye, Award, Code, Layout, Workflow, ShoppingCart, Server, ExternalLink, Database, Settings, Play 
+  Eye, Award, Code, Layout, Workflow, ShoppingCart, Server, ExternalLink, Database, Settings, Play,
+  BarChart3, TrendingUp, PieChart 
 } from 'lucide-react';
 import logoZytech from './assets/logo.png';
 import bgVideo from './assets/background.mp4';
 import bgVideo2 from './assets/background2.mp4';
 import bgWeb from './assets/website.jpg';
 import bgAuto from './assets/automation.jpg';
+import bgConsultoria from './assets/consulting.jpg'; 
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('landing'); 
@@ -57,7 +59,7 @@ export default function App() {
             <button onClick={() => navigateTo('landing')} className={`text-sm uppercase tracking-widest hover:text-blue-400 transition-colors ${currentPage === 'landing' ? 'text-blue-400' : ''}`}>Home</button>
             <button onClick={() => navigateTo('about')} className={`text-sm uppercase tracking-widest hover:text-blue-400 transition-colors ${currentPage === 'about' ? 'text-blue-400' : ''}`}>Sobre</button>
             <div className="relative group/nav">
-                <button className={`text-sm uppercase tracking-widest hover:text-blue-400 transition-colors flex items-center gap-1 ${['chatbot', 'websites', 'automations', 'plans'].includes(currentPage) ? 'text-blue-400' : ''}`}>
+                <button className={`text-sm uppercase tracking-widest hover:text-blue-400 transition-colors flex items-center gap-1 ${['chatbot', 'websites', 'automations', 'plans', 'consultoria'].includes(currentPage) ? 'text-blue-400' : ''}`}>
                     Soluções <ChevronRight size={14} className="rotate-90" />
                 </button>
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 hidden group-hover/nav:block w-48">
@@ -65,6 +67,7 @@ export default function App() {
                         <button onClick={() => navigateTo('chatbot')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><MessageSquare size={14}/> Chatbots</button>
                         <button onClick={() => navigateTo('websites')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><Globe size={14}/> Websites</button>
                         <button onClick={() => navigateTo('automations')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><Workflow size={14}/> Automações</button>
+                        <button onClick={() => navigateTo('consultoria')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><LineChart size={14}/> Consultoria</button>
                     </div>
                 </div>
             </div>
@@ -85,6 +88,7 @@ export default function App() {
       {currentPage === 'plans' && <PlansPage navigateTo={navigateTo} />}
       {currentPage === 'websites' && <WebsitesPage navigateTo={navigateTo} />}
       {currentPage === 'automations' && <AutomationsPage navigateTo={navigateTo} />}
+      {currentPage === 'consultoria' && <ConsultoriaPage navigateTo={navigateTo} />}
 
       <footer className="relative z-10 bg-slate-950 border-t border-white/10 py-12">
         <div className="container mx-auto px-6 text-center">
@@ -100,6 +104,115 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+function ConsultoriaPage({ navigateTo }) {
+    useEffect(() => { window.scrollTo(0, 0); }, []);
+
+    return (
+        <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-black">
+            <div className="absolute inset-0 z-0">
+                 <img src={bgConsultoria} alt="Consultoria Background" className="w-full h-full object-cover opacity-60 mix-blend-overlay" />
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black"></div>
+            </div>
+
+            <div className="container mx-auto px-6 relative z-10">
+                <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-colors mb-12 text-sm uppercase tracking-wider group">
+                    <ArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={16} /> Voltar para Home
+                </button>
+
+                <div className="flex flex-col lg:flex-row gap-16 items-center">
+                    <div className="lg:w-1/2 animate-fade-in-up">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono mb-6">
+                            <Zap size={12} /> ZYTECH INTELLIGENCE
+                        </div>
+                        <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 text-white leading-none">
+                            Estratégia <br/>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">
+                                Cyberpunk
+                            </span>
+                        </h1>
+                        <p className="text-gray-400 text-lg mb-8 font-light leading-relaxed border-l-2 border-cyan-500/50 pl-6">
+                            Não apenas adaptamos seu negócio ao futuro. Nós o reprogramamos. 
+                            Análise de dados profunda, arquitetura de sistemas e crescimento exponencial.
+                        </p>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                            <div className="bg-white/5 border border-white/10 p-4 rounded-xl hover:border-cyan-500/50 transition-colors">
+                                <TrendingUp className="text-cyan-400 mb-2" />
+                                <h3 className="font-bold text-white uppercase text-sm">Growth Hacking</h3>
+                                <p className="text-xs text-gray-500 mt-1">Escala agressiva baseada em dados.</p>
+                            </div>
+                            <div className="bg-white/5 border border-white/10 p-4 rounded-xl hover:border-purple-500/50 transition-colors">
+                                <PieChart className="text-purple-400 mb-2" />
+                                <h3 className="font-bold text-white uppercase text-sm">Business Intelligence</h3>
+                                <p className="text-xs text-gray-500 mt-1">Dashboards em tempo real.</p>
+                            </div>
+                        </div>
+
+                        <a 
+                            href="https://wa.me/553186550113?text=Olá,%20gostaria%20de%20agendar%20um%20diagnóstico%20de%20consultoria." 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-3 px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-black font-bold uppercase tracking-widest rounded transition-all shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] group"
+                        >
+                            Agendar Diagnóstico <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
+                        </a>
+                    </div>
+
+                    <div className="lg:w-1/2 w-full animate-fade-in-up animation-delay-500">
+                        <div className="relative bg-slate-900/80 border border-slate-700 rounded-2xl p-8 overflow-hidden shadow-2xl backdrop-blur-xl group hover:border-cyan-500/30 transition-colors">
+                            <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
+                                <div className="text-xs font-mono text-cyan-500 flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
+                                    LIVE METRICS
+                                </div>
+                                <div className="text-xs text-gray-600 font-mono">ZY-ANALYTICS v2.0</div>
+                            </div>
+
+                            <div className="h-64 flex items-end justify-between gap-2 sm:gap-4 relative z-10">
+                                <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
+                                    <div className="w-full h-px bg-cyan-500/30"></div>
+                                    <div className="w-full h-px bg-cyan-500/30"></div>
+                                    <div className="w-full h-px bg-cyan-500/30"></div>
+                                    <div className="w-full h-px bg-cyan-500/30"></div>
+                                </div>
+                                {[35, 55, 45, 70, 60, 85, 100].map((h, i) => (
+                                    <div key={i} className="w-full bg-slate-800 rounded-t-sm relative group/bar hover:bg-slate-700 transition-colors">
+                                        <div 
+                                            className="absolute bottom-0 w-full bg-gradient-to-t from-cyan-900 to-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-all duration-1000 ease-out rounded-t-sm"
+                                            style={{ 
+                                                height: `${h}%`, 
+                                                animation: `growBar 1.5s ease-out ${i * 0.1}s forwards`
+                                            }}
+                                        >
+                                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-cyan-300 text-[10px] font-mono px-2 py-1 rounded border border-cyan-500/30 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none">
+                                                +{h}% ROI
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            
+                            <div className="flex justify-between mt-4 text-[10px] text-gray-500 font-mono uppercase">
+                                <span>Day 1</span>
+                                <span>Day 7</span>
+                                <span>Day 14</span>
+                                <span>Day 30</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>{`
+                @keyframes growBar {
+                    from { height: 0%; opacity: 0; }
+                    to { opacity: 1; }
+                }
+            `}</style>
+        </div>
+    );
 }
 
 function WebsitesPage({ navigateTo }) {
@@ -171,6 +284,12 @@ function WebsitesPage({ navigateTo }) {
       return map[color] || map.blue;
   };
 
+  const getWhatsAppLink = () => {
+    if (!orderData) return "#";
+    const message = `*NOVO PEDIDO DE WEBSITE*\n\nEsse é meu Pedido de Website com o seguinte JSON:\n\n\`\`\`json\n${JSON.stringify(orderData, null, 2)}\n\`\`\``;
+    return `https://wa.me/553186550113?text=${encodeURIComponent(message)}`;
+  };
+
   return (
     <div className="relative min-h-screen pt-24 pb-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -222,7 +341,7 @@ function WebsitesPage({ navigateTo }) {
                             {tier.features.map(f => <li key={f} className="flex gap-3 items-center"><div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${getGradient(tier.color)}`}></div> {f}</li>)}
                         </ul>
                         
-                        <button className={`w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-white/5 border border-white/10 hover:bg-white hover:text-slate-950 group-hover:border-transparent`}>
+                        <button className={`w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-white/5 border border-white/10 hover:bg-white hover:text-slate-900 group-hover:border-transparent`}>
                             Configurar
                         </button>
                     </div>
@@ -321,7 +440,7 @@ function WebsitesPage({ navigateTo }) {
 
                 <div className="flex justify-center gap-4">
                     <button onClick={() => navigateTo('landing')} className="px-8 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-colors uppercase text-xs font-bold tracking-widest">Voltar para Home</button>
-                    <a href={`https://wa.me/5511999999999?text=Olá,%20acabei%20de%20gerar%20o%20pedido%20${orderData.orderId}%20de%20Website.`} target="_blank" rel="noopener noreferrer" className="px-8 py-3 rounded-full bg-green-600 hover:bg-green-500 transition-colors uppercase text-xs font-bold tracking-widest text-white shadow-lg flex items-center gap-2">
+                    <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer" className="px-8 py-3 rounded-full bg-green-600 hover:bg-green-500 transition-colors uppercase text-xs font-bold tracking-widest text-white shadow-lg flex items-center gap-2">
                         Falar com Engenheiro <MessageSquare size={16}/>
                     </a>
                 </div>
@@ -456,7 +575,7 @@ function AutomationContactModal({ tier, onClose }) {
                 </div>
 
                 <a 
-                    href={`https://wa.me/5511999999999?text=Olá,%20tenho%20interesse%20no%20plano%20de%20Automação%20${tier.name}.`} 
+                    href={`https://wa.me/553186550113?text=Olá,%20tenho%20interesse%20no%20plano%20de%20Automação%20${tier.name}.`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className={`flex items-center justify-center gap-3 w-full py-4 bg-${tier.color}-600 hover:bg-${tier.color}-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-${tier.color}-500/30 group uppercase tracking-wider text-sm`}
@@ -533,6 +652,15 @@ function AboutPage({ navigateTo }) {
 }
 
 function LandingPage({ navigateTo }) {
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    const text = `*NOVO CONTATO VIA SITE*\n\n*Nome:* ${contactForm.name}\n*Email:* ${contactForm.email}\n*Mensagem:* ${contactForm.message}`;
+    const url = `https://wa.me/553186550113?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+
   return (
     <>
       <header className="relative h-screen flex items-center justify-center overflow-hidden">
@@ -560,7 +688,7 @@ function LandingPage({ navigateTo }) {
             <ServiceCard icon={<MessageSquare size={32} className="text-blue-400" />} title="Chatbots IA" desc="Atendimento 24/7 com inteligência artificial que aprende e converte." active={true} onClick={() => navigateTo('chatbot')} delay="0" />
             <ServiceCard icon={<Globe size={32} className="text-purple-400" />} title="Websites" desc="Landing pages de alta conversão e design futurista." active={true} onClick={() => navigateTo('websites')} tag="Disponível" delay="100" />
             <ServiceCard icon={<Cpu size={32} className="text-amber-400" />} title="Automações" desc="Integrações que eliminam tarefas repetitivas do seu negócio." active={true} onClick={() => navigateTo('automations')} tag="Disponível" delay="200" />
-            <ServiceCard icon={<LineChart size={32} className="text-emerald-400" />} title="Consultoria" desc="Análise de dados e estratégias digitais para escalar." active={false} tag="Em Breve" delay="300" />
+            <ServiceCard icon={<LineChart size={32} className="text-emerald-400" />} title="Consultoria" desc="Análise de dados e estratégias digitais para escalar." active={true} onClick={() => navigateTo('consultoria')} tag="Novo" delay="300" />
           </div>
         </div>
       </section>
@@ -573,18 +701,48 @@ function LandingPage({ navigateTo }) {
                 <h3 className="text-2xl font-bold uppercase tracking-wider mb-6">Vamos Conversar?</h3>
                 <p className="text-gray-300 mb-8 font-light">Seu negócio está pronto para o próximo nível? Preencha o formulário e a equipe Zytech entrará em contato.</p>
                 <div className="space-y-4">
-                  <a href="mailto:contatozytechbh@gmail.com" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><Mail size={16} /></div>contatozytechbh@gmail.com</a>
+                  <a href="mailto:contato.zytech@gmail.com" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><Mail size={16} /></div>contato.zytech@gmail.com</a>
                   <a href="https://wa.me/553186550113?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20conhecer%20as%20soluções%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-green-500 group-hover:text-white transition-all"><Phone size={16} /></div>+55 (31) 86550113</a>
                 </div>
               </div>
               <div className="mt-12"><p className="text-xs text-gray-500 uppercase tracking-widest">Localização</p><p className="text-white">Belo Horizonte, MG</p></div>
             </div>
             <div className="w-full md:w-1/2 p-10 bg-slate-950/50">
-              <form className="space-y-6">
-                <div><label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Nome</label><input type="text" className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="Seu nome" /></div>
-                <div><label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Email</label><input type="email" className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" placeholder="seu@email.com" /></div>
-                <div><label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Mensagem</label><textarea rows="4" className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors resize-none" placeholder="Como podemos ajudar?"></textarea></div>
-                <button type="button" className="w-full py-3 bg-white text-slate-900 font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 group">Enviar <Send size={16} className="group-hover:translate-x-1 transition-transform" /></button>
+              <form onSubmit={handleContactSubmit} className="space-y-6">
+                <div>
+                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Nome</label>
+                    <input 
+                        type="text" 
+                        required
+                        className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                        placeholder="Seu nome"
+                        value={contactForm.name}
+                        onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Email</label>
+                    <input 
+                        type="email" 
+                        required
+                        className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                        placeholder="seu@email.com" 
+                        value={contactForm.email}
+                        onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Mensagem</label>
+                    <textarea 
+                        rows="4" 
+                        required
+                        className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors resize-none" 
+                        placeholder="Como podemos ajudar?"
+                        value={contactForm.message}
+                        onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
+                    ></textarea>
+                </div>
+                <button type="submit" className="w-full py-3 bg-white text-slate-900 font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 group">Enviar <Send size={16} className="group-hover:translate-x-1 transition-transform" /></button>
               </form>
             </div>
           </div>
@@ -725,7 +883,7 @@ function ContactModal({ plan, onClose }) {
         <p className="text-gray-300 text-center mb-8 leading-relaxed">Para garantir o melhor atendimento e personalização, a contratação é feita diretamente com nossos consultores especialistas.</p>
         <div className="space-y-3">
           <a href="https://wa.me/553186550113?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20plano%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-green-900/20 group"><MessageSquare size={20} /> Chamar no WhatsApp <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></a>
-          <p className="flex items-center justify-center gap-3 w-full py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl border border-white/10 transition-colors"><Mail size={20} />contatozytechbh@gmail.com</p>
+          <p className="flex items-center justify-center gap-3 w-full py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl border border-white/10 transition-colors"><Mail size={20} />contato.zytech@gmail.com</p>
         </div>
         <div className="mt-6 text-center"><p className="text-xs text-gray-500">Tempo médio de resposta: <span className="text-green-400">5 minutos</span></p></div>
       </div>
