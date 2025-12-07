@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, Globe, Cpu, LineChart, ChevronRight, Menu, X, Rocket, Send, ArrowRight, Check, Zap, Crown, Shield, Star, Phone, Mail, Users, Target, Eye, Award, Code } from 'lucide-react';
-
+import { 
+  MessageSquare, Globe, Cpu, LineChart, ChevronRight, Menu, X, Rocket, Send, 
+  ArrowRight, Check, Zap, Crown, Shield, Star, Phone, Mail, Users, Target, 
+  Eye, Award, Code, Layout, Workflow, ShoppingCart, Server, ExternalLink, Database, Settings 
+} from 'lucide-react';
 import logoZytech from './assets/logo.png';
 import bgVideo from './assets/background.mp4';
 import bgVideo2 from './assets/background2.mp4';
@@ -43,16 +46,28 @@ export default function App() {
             onClick={() => navigateTo('landing')}
           >
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.5)] group-hover:shadow-[0_0_25px_rgba(37,99,235,0.8)] transition-all overflow-hidden p-1">
-               <img src={logoZytech} alt="Zytech Logo" className="w-full h-full object-contain" />
+               <img src={logoZytech} alt="Zytech Logo" className="w-full h-full object-contain filter brightness-0 invert" />
             </div>
             <span className="text-xl font-bold tracking-widest uppercase">Zy<span className="text-blue-500">tech</span></span>
           </div>
 
           <div className="hidden md:flex items-center gap-8 bg-white/5 px-8 py-2 rounded-full backdrop-blur-sm border border-white/5">
             <button onClick={() => navigateTo('landing')} className={`text-sm uppercase tracking-widest hover:text-blue-400 transition-colors ${currentPage === 'landing' ? 'text-blue-400' : ''}`}>Home</button>
-            <button onClick={() => navigateTo('chatbot')} className={`text-sm uppercase tracking-widest hover:text-blue-400 transition-colors ${currentPage === 'chatbot' ? 'text-blue-400' : ''}`}>Soluções</button>
-            <button onClick={handleContactClick} className="text-sm uppercase tracking-widest hover:text-blue-400 transition-colors">Contato</button>
             <button onClick={() => navigateTo('about')} className={`text-sm uppercase tracking-widest hover:text-blue-400 transition-colors ${currentPage === 'about' ? 'text-blue-400' : ''}`}>Sobre</button>
+            <div className="relative group/nav">
+                <button className={`text-sm uppercase tracking-widest hover:text-blue-400 transition-colors flex items-center gap-1 ${['chatbot', 'websites', 'automations'].includes(currentPage) ? 'text-blue-400' : ''}`}>
+                    Soluções <ChevronRight size={14} className="rotate-90" />
+                </button>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 hidden group-hover/nav:block w-48">
+                    <div className="bg-slate-900 border border-white/10 rounded-xl p-2 shadow-2xl flex flex-col gap-1 backdrop-blur-xl">
+                        <button onClick={() => navigateTo('chatbot')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><MessageSquare size={14}/> Chatbots</button>
+                        <button onClick={() => navigateTo('websites')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><Globe size={14}/> Websites</button>
+                        <button onClick={() => navigateTo('automations')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><Workflow size={14}/> Automações</button>
+                    </div>
+                </div>
+            </div>
+
+            <button onClick={handleContactClick} className="text-sm uppercase tracking-widest hover:text-blue-400 transition-colors">Contato</button>
           </div>
 
           <div className="md:hidden text-white">
@@ -61,15 +76,19 @@ export default function App() {
           <div className="hidden md:block w-10"></div>
         </div>
       </nav>
+
       {currentPage === 'landing' && <LandingPage navigateTo={navigateTo} />}
       {currentPage === 'about' && <AboutPage navigateTo={navigateTo} />}
       {currentPage === 'chatbot' && <ChatbotPage navigateTo={navigateTo} />}
       {currentPage === 'plans' && <PlansPage navigateTo={navigateTo} />}
+      {currentPage === 'websites' && <WebsitesPage navigateTo={navigateTo} />}
+      {currentPage === 'automations' && <AutomationsPage navigateTo={navigateTo} />}
+
       <footer className="relative z-10 bg-slate-950 border-t border-white/10 py-12">
         <div className="container mx-auto px-6 text-center">
           <div className="flex justify-center mb-6">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center p-1 opacity-50 hover:opacity-100 transition-all">
-               <img src={logoZytech} alt="Zytech Logo" className="w-full h-full object-contain" />
+               <img src={logoZytech} alt="Zytech Logo" className="w-full h-full object-contain filter brightness-0 invert" />
             </div>
           </div>
           <p className="text-gray-500 text-sm tracking-wider">
@@ -81,11 +100,192 @@ export default function App() {
   );
 }
 
-function AboutPage({ navigateTo }) {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+function WebsitesPage({ navigateTo }) {
+  const [step, setStep] = useState(1);
+  const [selectedTier, setSelectedTier] = useState(null);
+  const [addons, setAddons] = useState({});
+  const [orderData, setOrderData] = useState(null);
 
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const tiers = [
+    { id: 'basic', name: 'Básico', price: 1500, desc: 'Landing Page única, ideal para lançamentos.', features: ['Design Responsivo', 'Hospedagem Inclusa', '1 Página'] },
+    { id: 'inter', name: 'Intermediário', price: 2800, desc: 'Site institucional com até 5 páginas e blog.', features: ['Design Premium', 'SEO Básico', '5 Páginas', 'Blog'] },
+    { id: 'adv', name: 'Avançado', price: 4500, desc: 'Portal completo com CMS e área de membros.', features: ['Painel Admin', 'SEO Avançado', '10+ Páginas', 'Login de Usuário'] },
+    { id: 'pro', name: 'Profissional', price: 8000, desc: 'Ecommerce ou aplicação web complexa.', features: ['Banco de Dados', 'API Própria', 'Pagamentos Online', 'App PWA'] },
+  ];
+
+  const availableAddons = [
+    { id: 'seo_plus', name: 'SEO Ultra Otimizado', price: 500 },
+    { id: 'copy', name: 'Copywriting Profissional', price: 800 },
+    { id: 'logo', name: 'Criação de Identidade Visual', price: 1200 },
+    { id: 'analytics', name: 'Dashboard de Analytics Custom', price: 600 },
+  ];
+
+  const handleTierSelect = (tier) => {
+    setSelectedTier(tier);
+    setStep(2);
+  };
+
+  const toggleAddon = (addonId) => {
+    setAddons(prev => ({ ...prev, [addonId]: !prev[addonId] }));
+  };
+
+  const finishOrder = () => {
+    const orderId = 'ZY-WEB-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    let total = selectedTier.price;
+    availableAddons.forEach(a => {
+        if(addons[a.id]) total += a.price;
+    });
+
+    const finalJson = {
+        orderId,
+        service: 'Website Development',
+        tier: selectedTier.name,
+        basePrice: selectedTier.price,
+        addons: availableAddons.filter(a => addons[a.id]).map(a => a.name),
+        totalPrice: total,
+        timestamp: new Date().toISOString()
+    };
+
+    console.log("PEDIDO GERADO (JSON):", JSON.stringify(finalJson, null, 2));
+    setOrderData(finalJson);
+    setStep(3);
+  };
+
+  return (
+    <div className="pt-24 min-h-screen bg-slate-950 pb-20">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-12">
+            <span className="text-blue-500 font-bold tracking-widest text-xs uppercase mb-2 block">Zytech Web Studio</span>
+            <h1 className="text-4xl md:text-6xl font-bold uppercase mb-4">Monte seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Universo Digital</span></h1>
+        </div>
+
+        {step === 1 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up">
+                {tiers.map((tier, idx) => (
+                    <div key={tier.id} onClick={() => handleTierSelect(tier)} className="group relative bg-white/5 border border-white/10 rounded-2xl p-6 cursor-pointer hover:bg-white/10 hover:-translate-y-2 transition-all duration-300 flex flex-col h-full">
+                        <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${idx === 3 ? 'from-amber-400 to-red-500' : 'from-blue-500 to-cyan-400'} rounded-t-2xl opacity-50 group-hover:opacity-100 transition-opacity`}></div>
+                        <h3 className="text-2xl font-bold uppercase mt-4 mb-2">{tier.name}</h3>
+                        <p className="text-gray-400 text-sm mb-6 flex-grow">{tier.desc}</p>
+                        <div className="text-2xl font-bold text-white mb-6">A partir de <br/> R$ {tier.price}</div>
+                        <ul className="text-xs text-gray-300 space-y-2 mb-6">
+                            {tier.features.map(f => <li key={f} className="flex gap-2"><Check size={14} className="text-blue-400"/> {f}</li>)}
+                        </ul>
+                        <button className="w-full py-3 bg-white/5 border border-white/10 rounded-lg text-xs font-bold uppercase hover:bg-blue-600 hover:border-blue-600 hover:text-white transition-all">Selecionar</button>
+                    </div>
+                ))}
+            </div>
+        )}
+
+        {step === 2 && selectedTier && (
+            <div className="max-w-3xl mx-auto bg-slate-900 border border-white/10 rounded-3xl p-8 animate-fade-in relative overflow-hidden">
+                <button onClick={() => setStep(1)} className="absolute top-6 left-6 text-gray-500 hover:text-white flex gap-2 items-center text-xs uppercase font-bold"><ChevronRight className="rotate-180" size={14}/> Voltar</button>
+                <div className="mt-8 mb-8">
+                    <h2 className="text-2xl font-bold uppercase mb-2">Personalize seu {selectedTier.name}</h2>
+                    <p className="text-gray-400 text-sm">Adicione funcionalidades extras ao seu projeto.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    {availableAddons.map(addon => (
+                        <div 
+                            key={addon.id} 
+                            onClick={() => toggleAddon(addon.id)}
+                            className={`p-4 rounded-xl border cursor-pointer flex justify-between items-center transition-all ${addons[addon.id] ? 'bg-blue-600/20 border-blue-500' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}
+                        >
+                            <div>
+                                <div className="font-bold text-sm">{addon.name}</div>
+                                <div className="text-xs text-gray-400">+ R$ {addon.price}</div>
+                            </div>
+                            <div className={`w-5 h-5 rounded border flex items-center justify-center ${addons[addon.id] ? 'bg-blue-500 border-blue-500' : 'border-gray-500'}`}>
+                                {addons[addon.id] && <Check size={12} className="text-white"/>}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="flex justify-between items-center border-t border-white/10 pt-6">
+                    <div>
+                        <div className="text-xs text-gray-500 uppercase">Valor Estimado</div>
+                        <div className="text-3xl font-bold text-white">
+                            R$ {selectedTier.price + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0)}
+                        </div>
+                    </div>
+                    <button onClick={finishOrder} className="px-8 py-4 bg-green-600 hover:bg-green-500 text-white rounded-xl font-bold uppercase tracking-wider flex gap-2 items-center shadow-lg shadow-green-900/20 transition-all">
+                        Realizar Pedido <ArrowRight size={18}/>
+                    </button>
+                </div>
+            </div>
+        )}
+
+        {step === 3 && orderData && (
+            <div className="max-w-2xl mx-auto text-center animate-fade-in-up">
+                <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(34,197,94,0.5)]">
+                    <Check size={40} className="text-white" />
+                </div>
+                <h2 className="text-3xl font-bold uppercase mb-4">Pedido Recebido!</h2>
+                <p className="text-gray-400 mb-8">Nossa equipe de engenharia já recebeu sua solicitação. Abaixo está o comprovante digital gerado.</p>
+                
+                <div className="bg-black/50 border border-white/10 rounded-xl p-6 text-left font-mono text-xs text-green-400 overflow-x-auto shadow-inner relative">
+                    <div className="absolute top-4 right-4 text-gray-600 uppercase font-bold tracking-widest text-[10px]">JSON Output</div>
+                    <pre>{JSON.stringify(orderData, null, 2)}</pre>
+                </div>
+
+                <button onClick={() => navigateTo('landing')} className="mt-8 text-gray-500 hover:text-white uppercase text-xs font-bold tracking-widest">Voltar para Home</button>
+            </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function AutomationsPage({ navigateTo }) {
+    useEffect(() => { window.scrollTo(0, 0); }, []);
+
+    const tiers = [
+        { name: 'Start', price: '990', color: 'green', desc: 'Automação de e-mails e planilhas simples.' },
+        { name: 'Scale', price: '2.490', color: 'purple', desc: 'Integração CRM, WhatsApp e Dashboards.' },
+        { name: 'Enterprise', price: '5.990', color: 'cyan', desc: 'IA Agents, Web Scraping e Sistemas Complexos.' },
+    ];
+
+    return (
+        <div className="pt-24 min-h-screen bg-slate-950 pb-20 relative overflow-hidden">
+            <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 50% 50%, #22c55e 1px, transparent 1px)`, backgroundSize: '40px 40px' }}></div>
+
+            <div className="container mx-auto px-6 relative z-10">
+                <div className="text-center mb-16">
+                    <h1 className="text-4xl md:text-6xl font-bold uppercase mb-4">
+                        Fluxos <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-purple-500">Automáticos</span>
+                    </h1>
+                    <p className="text-gray-400 max-w-2xl mx-auto">Elimine o trabalho manual. Conectamos seus softwares para trabalharem sozinhos.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {tiers.map((tier, idx) => (
+                        <div key={idx} className="relative group">
+                            <div className={`absolute -inset-0.5 bg-gradient-to-r from-${tier.color}-500 to-${tier.color}-800 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-500`}></div>
+                            
+                            <div className="relative bg-slate-900 border border-white/10 rounded-2xl p-8 h-full flex flex-col hover:bg-slate-800 transition-colors">
+                                <div className={`w-12 h-12 rounded-lg bg-${tier.color}-500/20 flex items-center justify-center mb-6 text-${tier.color}-400`}>
+                                    <Workflow size={24} />
+                                </div>
+                                <h3 className="text-2xl font-bold uppercase tracking-widest mb-2">{tier.name}</h3>
+                                <div className="text-3xl font-bold text-white mb-4">R$ {tier.price} <span className="text-sm font-normal text-gray-500">/setup</span></div>
+                                <p className="text-gray-400 text-sm mb-8 flex-grow">{tier.desc}</p>
+                                <button className={`w-full py-4 rounded-xl border border-${tier.color}-500/50 text-${tier.color}-400 font-bold uppercase tracking-widest hover:bg-${tier.color}-500 hover:text-white transition-all shadow-[0_0_20px_rgba(0,0,0,0)] hover:shadow-[0_0_20px_rgba(34,197,94,0.3)]`}>
+                                    Iniciar Projeto
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function AboutPage({ navigateTo }) {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="min-h-screen bg-slate-950">
       <header className="relative h-[60vh] flex items-center overflow-hidden">
@@ -96,14 +296,9 @@ function AboutPage({ navigateTo }) {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
           <div className="absolute inset-0 bg-slate-950/30 backdrop-blur-[2px]"></div>
         </div>
-
         <div className="container mx-auto px-6 relative z-10 mt-20">
-          <span className="inline-block py-1 px-3 border border-blue-500/50 rounded-full text-blue-400 text-xs font-bold uppercase tracking-[0.2em] mb-4 bg-blue-500/10 backdrop-blur-md">
-            QUEM SOMOS
-          </span>
-          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-tight max-w-4xl">
-            Nós construímos a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">inteligência</span> por trás do seu negócio.
-          </h1>
+          <span className="inline-block py-1 px-3 border border-blue-500/50 rounded-full text-blue-400 text-xs font-bold uppercase tracking-[0.2em] mb-4 bg-blue-500/10 backdrop-blur-md">QUEM SOMOS</span>
+          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-tight max-w-4xl">Nós construímos a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">inteligência</span> por trás do seu negócio.</h1>
         </div>
       </header>
       <section className="py-20 relative">
@@ -114,78 +309,35 @@ function AboutPage({ navigateTo }) {
                <div>
                  <Rocket size={40} className="text-blue-500 mb-6" />
                  <h2 className="text-3xl font-bold uppercase tracking-wide mb-6">A Revolução Zytech</h2>
-                 <p className="text-gray-300 text-lg leading-relaxed max-w-2xl">
-                   Nascemos com um propósito claro: democratizar o acesso à inteligência artificial de alta performance. 
-                   Não somos apenas desenvolvedores; somos arquitetos de ecossistemas digitais que funcionam enquanto você dorme.
-                 </p>
+                 <p className="text-gray-300 text-lg leading-relaxed max-w-2xl">Nascemos com um propósito claro: democratizar o acesso à inteligência artificial de alta performance.</p>
                </div>
             </div>
             <div className="col-span-1 md:col-span-6 lg:col-span-5 row-span-1 bg-gradient-to-br from-blue-900 to-slate-900 border border-white/10 rounded-[2rem] p-8 flex items-center relative overflow-hidden">
                <Target className="absolute right-4 top-4 text-white/5 w-32 h-32 rotate-12" />
-               <div className="relative z-10">
-                 <h3 className="text-xl font-bold uppercase tracking-widest text-blue-300 mb-2 flex items-center gap-2"><Target size={18}/> Missão</h3>
-                 <p className="text-white/90 font-light">Eliminar a ineficiência. Transformar cada interação digital em uma oportunidade de negócio real e mensurável.</p>
-               </div>
+               <div className="relative z-10"><h3 className="text-xl font-bold uppercase tracking-widest text-blue-300 mb-2 flex items-center gap-2"><Target size={18}/> Missão</h3><p className="text-white/90 font-light">Eliminar a ineficiência. Transformar cada interação digital em uma oportunidade.</p></div>
             </div>
             <div className="col-span-1 md:col-span-3 lg:col-span-3 row-span-1 bg-white/5 border border-white/10 rounded-[2rem] p-6 flex flex-col justify-center items-center text-center hover:bg-white/10 transition-colors">
-               <span className="text-4xl font-bold text-emerald-400 mb-1">98%</span>
-               <span className="text-xs text-gray-400 uppercase tracking-widest">Satisfação (CSAT)</span>
+               <span className="text-4xl font-bold text-emerald-400 mb-1">98%</span><span className="text-xs text-gray-400 uppercase tracking-widest">Satisfação (CSAT)</span>
             </div>
              <div className="col-span-1 md:col-span-3 lg:col-span-2 row-span-1 bg-white/5 border border-white/10 rounded-[2rem] p-6 flex flex-col justify-center items-center text-center hover:bg-white/10 transition-colors">
-               <span className="text-4xl font-bold text-purple-400 mb-1">24/7</span>
-               <span className="text-xs text-gray-400 uppercase tracking-widest">Suporte Ativo</span>
+               <span className="text-4xl font-bold text-purple-400 mb-1">24/7</span><span className="text-xs text-gray-400 uppercase tracking-widest">Suporte Ativo</span>
             </div>
             <div className="col-span-1 md:col-span-6 lg:col-span-5 row-span-1 backdrop-blur-lg bg-white/5 border border-white/10 rounded-[2rem] p-8 flex items-center relative overflow-hidden group">
                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-               <div className="relative z-10">
-                 <h3 className="text-xl font-bold uppercase tracking-widest text-purple-300 mb-2 flex items-center gap-2"><Eye size={18}/> Visão</h3>
-                 <p className="text-gray-300 font-light">Ser a espinha dorsal tecnológica das empresas que liderarão o mercado na próxima década.</p>
-               </div>
+               <div className="relative z-10"><h3 className="text-xl font-bold uppercase tracking-widest text-purple-300 mb-2 flex items-center gap-2"><Eye size={18}/> Visão</h3><p className="text-gray-300 font-light">Ser a espinha dorsal tecnológica das empresas que liderarão o mercado.</p></div>
             </div>
             <div className="col-span-1 md:col-span-6 lg:col-span-7 row-span-1 bg-slate-900 border border-white/10 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-4 min-w-fit">
-                  <div className="p-3 bg-amber-500/10 rounded-xl text-amber-500"><Award size={24} /></div>
-                  <span className="font-bold uppercase tracking-wider text-sm">Nossos Valores</span>
-                </div>
+                <div className="flex items-center gap-4 min-w-fit"><div className="p-3 bg-amber-500/10 rounded-xl text-amber-500"><Award size={24} /></div><span className="font-bold uppercase tracking-wider text-sm">Nossos Valores</span></div>
                 <div className="h-px w-full bg-white/10 md:hidden"></div>
-                <div className="flex flex-wrap justify-center md:justify-end gap-3">
-                  {['Inovação', 'Transparência', 'Agilidade', 'Resultado'].map((val) => (
-                    <span key={val} className="px-4 py-2 rounded-full border border-white/10 text-xs uppercase tracking-wide text-gray-400 hover:text-white hover:border-blue-500 transition-colors cursor-default">
-                      {val}
-                    </span>
-                  ))}
-                </div>
+                <div className="flex flex-wrap justify-center md:justify-end gap-3">{['Inovação', 'Transparência', 'Agilidade', 'Resultado'].map((val) => (<span key={val} className="px-4 py-2 rounded-full border border-white/10 text-xs uppercase tracking-wide text-gray-400 hover:text-white hover:border-blue-500 transition-colors cursor-default">{val}</span>))}</div>
             </div>
              <div className="col-span-1 md:col-span-12 lg:col-span-5 row-span-1 bg-white/[0.02] border border-white/10 rounded-[2rem] p-8 overflow-hidden relative">
-                <div className="absolute top-0 right-0 p-4 opacity-20"><Code size={64}/></div>
-                <h3 className="text-lg font-bold uppercase tracking-widest text-gray-500 mb-4">Tech DNA</h3>
-                <div className="flex gap-4 text-gray-300 font-mono text-sm">
-                   <span className="text-blue-400">React</span>
-                   <span>•</span>
-                   <span className="text-yellow-400">Python</span>
-                   <span>•</span>
-                   <span className="text-green-400">Node.js</span>
-                   <span>•</span>
-                   <span className="text-cyan-400">Tailwind</span>
-                </div>
+                <div className="absolute top-0 right-0 p-4 opacity-20"><Code size={64}/></div><h3 className="text-lg font-bold uppercase tracking-widest text-gray-500 mb-4">Tech DNA</h3>
+                <div className="flex gap-4 text-gray-300 font-mono text-sm"><span className="text-blue-400">React</span><span>•</span><span className="text-yellow-400">Python</span><span>•</span><span className="text-green-400">Node.js</span><span>•</span><span className="text-cyan-400">Tailwind</span></div>
              </div>
-
           </div>
         </div>
       </section>
-      <section className="py-24 border-t border-white/5 relative overflow-hidden">
-        <div className="absolute inset-0 bg-blue-900/5"></div>
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-bold uppercase mb-8">Pronto para o futuro?</h2>
-          <button 
-            onClick={() => navigateTo('landing')}
-            className="px-10 py-5 bg-white text-slate-950 rounded-full font-bold uppercase tracking-widest hover:scale-105 transition-transform shadow-[0_0_40px_rgba(255,255,255,0.3)]"
-          >
-            Começar Agora
-          </button>
-        </div>
-      </section>
-
     </div>
   );
 }
@@ -200,40 +352,24 @@ function LandingPage({ navigateTo }) {
           </video>
           <div className="absolute inset-0 bg-slate-950/70 bg-gradient-to-b from-slate-950/40 via-slate-950/60 to-slate-950"></div>
         </div>
-
         <div className="relative z-10 container mx-auto px-6 text-center mt-16">
           <p className="text-blue-400 tracking-[0.3em] text-sm uppercase mb-4 animate-fade-in-up">Tecnologia de Ponta</p>
-          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500 drop-shadow-lg">
-            O Futuro do <br/> Atendimento
-          </h1>
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-            Automatize, venda e cresça. A Zytech transforma visitantes em clientes com inteligência artificial e design de alta performance.
-          </p>
-          
+          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500 drop-shadow-lg">O Futuro do <br/> Atendimento</h1>
+          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">Automatize, venda e cresça. A Zytech transforma visitantes em clientes com inteligência artificial e design de alta performance.</p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => navigateTo('chatbot')}
-              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium tracking-wide transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] flex items-center justify-center gap-2"
-            >
-              Conhecer Soluções <ArrowRight size={18} />
-            </button>
-            <button className="px-8 py-3 bg-transparent border border-white/20 hover:bg-white/5 text-white rounded-full font-medium tracking-wide transition-all backdrop-blur-sm">
-              Falar com Consultor
-            </button>
+            <button onClick={() => navigateTo('chatbot')} className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium tracking-wide transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] flex items-center justify-center gap-2">Conhecer Soluções <ArrowRight size={18} /></button>
+            <button className="px-8 py-3 bg-transparent border border-white/20 hover:bg-white/5 text-white rounded-full font-medium tracking-wide transition-all backdrop-blur-sm">Falar com Consultor</button>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-950 to-transparent z-20"></div>
       </header>
       <section className="py-24 bg-slate-950 relative">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-2">Nossos Serviços</h2>
-            <div className="h-1 w-20 bg-blue-600 mx-auto rounded-full"></div>
-          </div>
+          <div className="text-center mb-16"><h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-2">Nossos Serviços</h2><div className="h-1 w-20 bg-blue-600 mx-auto rounded-full"></div></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <ServiceCard icon={<MessageSquare size={32} className="text-blue-400" />} title="Chatbots IA" desc="Atendimento 24/7 com inteligência artificial que aprende e converte." active={true} onClick={() => navigateTo('chatbot')} delay="0" />
-            <ServiceCard icon={<Globe size={32} className="text-purple-400" />} title="Websites" desc="Landing pages de alta conversão e design futurista." active={false} tag="Em Breve" delay="100" />
-            <ServiceCard icon={<Cpu size={32} className="text-amber-400" />} title="Automações" desc="Integrações que eliminam tarefas repetitivas do seu negócio." active={false} tag="Em Breve" delay="200" />
+            <ServiceCard icon={<Globe size={32} className="text-purple-400" />} title="Websites" desc="Landing pages de alta conversão e design futurista." active={true} onClick={() => navigateTo('websites')} tag="Disponível" delay="100" />
+            <ServiceCard icon={<Cpu size={32} className="text-amber-400" />} title="Automações" desc="Integrações que eliminam tarefas repetitivas do seu negócio." active={true} onClick={() => navigateTo('automations')} tag="Disponível" delay="200" />
             <ServiceCard icon={<LineChart size={32} className="text-emerald-400" />} title="Consultoria" desc="Análise de dados e estratégias digitais para escalar." active={false} tag="Em Breve" delay="300" />
           </div>
         </div>
@@ -247,20 +383,11 @@ function LandingPage({ navigateTo }) {
                 <h3 className="text-2xl font-bold uppercase tracking-wider mb-6">Vamos Conversar?</h3>
                 <p className="text-gray-300 mb-8 font-light">Seu negócio está pronto para o próximo nível? Preencha o formulário e a equipe Zytech entrará em contato.</p>
                 <div className="space-y-4">
-                  <a href="mailto:contatozytechbh@gmail.com" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group">
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><Mail size={16} /></div>
-                    contatozytechbh@gmail.com
-                  </a>
-                  <a href="https://wa.me/553186550113?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20conhecer%20as%20soluções%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group">
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-green-500 group-hover:text-white transition-all"><Phone size={16} /></div>
-                    +55 (31) 86550113
-                  </a>
+                  <a href="mailto:contatozytechbh@gmail.com" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><Mail size={16} /></div>contatozytechbh@gmail.com</a>
+                  <a href="https://wa.me/553186550113?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20conhecer%20as%20soluções%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-green-500 group-hover:text-white transition-all"><Phone size={16} /></div>+55 (31) 86550113</a>
                 </div>
               </div>
-              <div className="mt-12">
-                 <p className="text-xs text-gray-500 uppercase tracking-widest">Localização</p>
-                 <p className="text-white">Belo Horizonte, MG</p>
-              </div>
+              <div className="mt-12"><p className="text-xs text-gray-500 uppercase tracking-widest">Localização</p><p className="text-white">Belo Horizonte, MG</p></div>
             </div>
             <div className="w-full md:w-1/2 p-10 bg-slate-950/50">
               <form className="space-y-6">
@@ -294,13 +421,18 @@ function ChatbotPage({ navigateTo }) {
               <li className="flex items-start gap-3"><div className="mt-1 w-5 h-5 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center text-xs">✓</div><span className="text-gray-300">Integração com ChatGPT para respostas naturais.</span></li>
               <li className="flex items-start gap-3"><div className="mt-1 w-5 h-5 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center text-xs">✓</div><span className="text-gray-300">Banco de dados para armazenar pedidos.</span></li>
             </ul>
-            <button onClick={() => navigateTo('plans')} className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded font-bold uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] flex items-center gap-2 group">Ver Planos Disponíveis <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/></button>
+            <div className="flex gap-4">
+                <button onClick={() => navigateTo('plans')} className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded font-bold uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] flex items-center gap-2 group">Ver Planos Disponíveis <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/></button>
+                <a href="https://google.com.br" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded font-bold uppercase tracking-widest transition-all border border-white/20 flex items-center gap-2">
+                    Testar Agora <ExternalLink size={18}/>
+                </a>
+            </div>
           </div>
           <div className="order-1 lg:order-2 flex justify-center">
              <div className="relative w-full max-w-md aspect-[3/4] bg-slate-900 border border-white/10 rounded-2xl p-6 shadow-2xl overflow-hidden flex flex-col">
                 <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-transparent pointer-events-none"></div>
                 <div className="flex items-center gap-4 pb-4 border-b border-white/5 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center p-1"><img src={logoZytech} className="w-full h-full object-contain" alt="bot icon" /></div>
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center p-1"><img src={logoZytech} className="w-full h-full object-contain filter brightness-0 invert" alt="bot icon" /></div>
                   <div><div className="font-bold text-sm">Zytech Assist</div><div className="text-xs text-green-400 flex items-center gap-1">● Online</div></div>
                 </div>
                 <div className="flex-1 space-y-4 text-sm">
@@ -321,8 +453,15 @@ function ChatbotPage({ navigateTo }) {
 function PlansPage({ navigateTo }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('');
+  const [billingCycle, setBillingCycle] = useState('monthly'); 
 
-  const openContactModal = (planName) => { setSelectedPlan(planName); setModalOpen(true); };
+  const prices = {
+    basic: { monthly: "R$ 197,00", semiannual: "R$ 177,30", annual: "R$ 147,75" },
+    smart: { monthly: "R$ 499,90", semiannual: "R$ 449,90", annual: "R$ 374,90" },
+    premium: { monthly: "R$ 1099,90", semiannual: "R$ 989,90", annual: "R$ 824,90" }
+  };
+
+  const openContactModal = (planName) => { setSelectedPlan(`${planName} (${billingCycle === 'monthly' ? 'Mensal' : billingCycle === 'semiannual' ? 'Semestral' : 'Anual'})`); setModalOpen(true); };
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
@@ -332,12 +471,19 @@ function PlansPage({ navigateTo }) {
        </div>
       <div className="container mx-auto px-6 relative z-10">
         <button onClick={() => navigateTo('chatbot')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-12 text-sm uppercase tracking-wider"><ArrowRight className="rotate-180" size={16} /> Voltar para Soluções</button>
-        <div className="text-center mb-16 animate-fade-in-up">
+        <div className="text-center mb-10 animate-fade-in-up">
            <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide mb-6 drop-shadow-2xl">Escolha seu <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">ChatBot</span> para Whatsapp</h1>
-           <p className="text-gray-300 max-w-2xl mx-auto text-lg font-light">Modelos de IA desenhados para escalar operações. Do atendimento básico à automação corporativa completa.</p>
+           <p className="text-gray-300 max-w-2xl mx-auto text-lg font-light">Modelos de IA desenhados para escalar operações. Escolha o ciclo ideal para o seu negócio.</p>
+        </div>
+        <div className="flex justify-center mb-16 animate-fade-in-up animation-delay-500">
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-full flex flex-wrap justify-center gap-1 sm:gap-0 relative">
+            <button onClick={() => setBillingCycle('monthly')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'monthly' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Mensal</button>
+            <button onClick={() => setBillingCycle('semiannual')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'semiannual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Semestral <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-10%</span></button>
+            <button onClick={() => setBillingCycle('annual')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'annual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Anual <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-25%</span></button>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-          <PricingCard title="Modelo Básico" icon={<Shield size={32} className="text-blue-400" />} description="Entrada perfeita para automação de atendimento." delay="0" color="blue" price="R$197,00 " subPrice="/mês" onHire={() => openContactModal('Modelo Básico')}>
+          <PricingCard title="Modelo Básico" icon={<Shield size={32} className="text-blue-400" />} description="Entrada perfeita para automação de atendimento." delay="0" color="blue" price={prices.basic[billingCycle]} subPrice="/mês" onHire={() => openContactModal('Modelo Básico')}>
              <ul className="space-y-4 text-sm text-gray-300 mb-8">
                <li className="flex gap-3 items-center"><Check size={16} className="text-blue-500" /> Respostas Rápidas</li>
                <li className="flex gap-3 items-center"><Check size={16} className="text-blue-500" /> Pré definição</li>
@@ -345,10 +491,9 @@ function PlansPage({ navigateTo }) {
              </ul>
              <div className="mt-4 border-t border-white/10 pt-4 text-xs text-gray-400"><p className="mb-2 font-bold text-blue-200">Especificações:</p><p>Bot baseado em regras simples. Ideal para triagem inicial.</p><p>Valor da Instalação: R$497,00</p></div>
           </PricingCard>
-
           <div className="relative group/glow">
             <div className="absolute -inset-1 bg-gradient-to-r from-amber-500 to-orange-600 rounded-[2rem] blur-xl opacity-40 group-hover/glow:opacity-70 transition duration-1000 animate-pulse"></div>
-            <PricingCard title="Modelo Smart" icon={<Zap size={32} className="text-amber-950" />} iconBg="bg-gradient-to-br from-amber-400 to-orange-500 text-white border-none shadow-[0_0_15px_rgba(251,191,36,0.5)]" description="IA Generativa que aprende e vende por você 24h." delay="100" featured={true} color="amber" price="R$499,90" subPrice="/mês" onHire={() => openContactModal('Modelo Smart')}>
+            <PricingCard title="Modelo Smart" icon={<Zap size={32} className="text-amber-950" />} iconBg="bg-gradient-to-br from-amber-400 to-orange-500 text-white border-none shadow-[0_0_15px_rgba(251,191,36,0.5)]" description="IA Generativa que aprende e vende por você 24h." delay="100" featured={true} color="amber" price={prices.smart[billingCycle]} subPrice="/mês" onHire={() => openContactModal('Modelo Smart')}>
                <ul className="space-y-4 text-sm text-gray-200 mb-8">
                  <li className="flex gap-3 items-center"><Star size={16} className="text-amber-400 fill-amber-400" /> <strong>IA ChatGPT-4 Integrada</strong></li>
                  <li className="flex gap-3 items-center"><Check size={16} className="text-amber-400" /> Melhor atendimento para seus clientes</li>
@@ -358,8 +503,7 @@ function PlansPage({ navigateTo }) {
                <div className="mt-4 border-t border-white/10 pt-4 text-xs text-gray-300"><p className="mb-2 font-bold text-amber-200">Especificações:</p><p>Processamento de Linguagem Natural (NLP). Atendimento diversificado.</p><p>Valor da Instalação: R$999,90</p></div>
             </PricingCard>
           </div>
-
-          <PricingCard title="Modelo Premium" icon={<Crown size={32} className="text-purple-400" />} description="Ecossistema completo de vendas e CRM." delay="200" color="purple" price="R$1099,90" subPrice="/mês" onHire={() => openContactModal('Modelo Premium')}>
+          <PricingCard title="Modelo Premium" icon={<Crown size={32} className="text-purple-400" />} description="Ecossistema completo de vendas e CRM." delay="200" color="purple" price={prices.premium[billingCycle]} subPrice="/mês" onHire={() => openContactModal('Modelo Premium')}>
              <ul className="space-y-4 text-sm text-gray-300 mb-8">
                <li className="flex gap-3 items-center"><Check size={16} className="text-purple-500" /> Tudo do Smart +</li>
                <li className="flex gap-3 items-center"><Check size={16} className="text-purple-500" /> Conforto máximo</li>
