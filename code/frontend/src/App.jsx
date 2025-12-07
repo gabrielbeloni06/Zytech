@@ -7,8 +7,8 @@ import {
 import logoZytech from './assets/logo.png';
 import bgVideo from './assets/background.mp4';
 import bgVideo2 from './assets/background2.mp4';
-import bgWeb from './assets/website_bg.jpg';
-import bgAuto from './assets/automation_bg.jpg';
+import bgWeb from './assets/website.jpg';
+import bgAuto from './assets/automation.jpg';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('landing'); 
