@@ -8,6 +8,7 @@ import {
 import logoZytech from './assets/logo.png';
 import bgVideo from './assets/background.mp4';
 import bgVideo2 from './assets/background2.mp4';
+import bgVideo3 from './assets/background3.mp4';
 import bgWeb from './assets/website.jpg';
 import bgAuto from './assets/automation.jpg';
 import bgConsultoria from './assets/consulting.jpg'; 
@@ -110,110 +111,194 @@ function ConsultoriaPage({ navigateTo }) {
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
     return (
-        <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-black">
+        <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-black flex flex-col justify-center">
             <div className="absolute inset-0 z-0">
-                 <img src={bgConsultoria} alt="Consultoria Background" className="w-full h-full object-cover opacity-60 mix-blend-overlay" />
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black"></div>
+                 <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-40 mix-blend-screen">
+                    <source src={bgVideo3} type="video/mp4" />
+                 </video>
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
             </div>
 
-            <div className="container mx-auto px-6 relative z-10">
-                <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-colors mb-12 text-sm uppercase tracking-wider group">
+            <div className="container mx-auto px-6 relative z-10 w-full">
+                <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-colors mb-8 text-sm uppercase tracking-wider group">
                     <ArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={16} /> Voltar para Home
                 </button>
 
-                <div className="flex flex-col lg:flex-row gap-16 items-center">
-                    <div className="lg:w-1/2 animate-fade-in-up">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono mb-6">
-                            <Zap size={12} /> ZYTECH INTELLIGENCE
-                        </div>
-                        <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6 text-white leading-none">
-                            Estratégia <br/>
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">
-                                Cyberpunk
-                            </span>
-                        </h1>
-                        <p className="text-gray-400 text-lg mb-8 font-light leading-relaxed border-l-2 border-cyan-500/50 pl-6">
-                            Não apenas adaptamos seu negócio ao futuro. Nós o reprogramamos. 
-                            Análise de dados profunda, arquitetura de sistemas e crescimento exponencial.
-                        </p>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-                            <div className="bg-white/5 border border-white/10 p-4 rounded-xl hover:border-cyan-500/50 transition-colors">
-                                <TrendingUp className="text-cyan-400 mb-2" />
-                                <h3 className="font-bold text-white uppercase text-sm">Growth Hacking</h3>
-                                <p className="text-xs text-gray-500 mt-1">Escala agressiva baseada em dados.</p>
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    <div className="animate-fade-in-up space-y-8">
+                        <div>
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono mb-4 animate-pulse">
+                                <Zap size={12} /> SYSTEM_READY // V.2.04
                             </div>
-                            <div className="bg-white/5 border border-white/10 p-4 rounded-xl hover:border-purple-500/50 transition-colors">
-                                <PieChart className="text-purple-400 mb-2" />
-                                <h3 className="font-bold text-white uppercase text-sm">Business Intelligence</h3>
-                                <p className="text-xs text-gray-500 mt-1">Dashboards em tempo real.</p>
+                            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white leading-[0.9]">
+                                Dominância <br/>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 filter drop-shadow-[0_0_10px_rgba(236,72,153,0.5)]">
+                                    Digital
+                                </span>
+                            </h1>
+                        </div>
+                        
+                        <p className="text-gray-300 text-lg font-light leading-relaxed border-l-2 border-pink-500/50 pl-6 max-w-lg">
+                            Transformamos dados caóticos em estratégias letais. Nossa consultoria não sugere, ela <strong className="text-white">implementa</strong> o futuro da sua operação com arquitetura de software escalável e inteligência de mercado.
+                        </p>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="bg-slate-900/50 border border-white/10 p-4 rounded-xl backdrop-blur-sm hover:border-cyan-500/50 transition-all group">
+                                <div className="w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-cyan-500/20 transition-colors">
+                                    <TrendingUp className="text-cyan-400" size={20} />
+                                </div>
+                                <h3 className="font-bold text-white uppercase text-xs tracking-wider mb-1">Growth Hacking</h3>
+                                <p className="text-[10px] text-gray-500">Escala baseada em experimentação rápida.</p>
+                            </div>
+                             <div className="bg-slate-900/50 border border-white/10 p-4 rounded-xl backdrop-blur-sm hover:border-pink-500/50 transition-all group">
+                                <div className="w-10 h-10 bg-pink-500/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-pink-500/20 transition-colors">
+                                    <Database className="text-pink-400" size={20} />
+                                </div>
+                                <h3 className="font-bold text-white uppercase text-xs tracking-wider mb-1">Data Architecture</h3>
+                                <p className="text-[10px] text-gray-500">Estruturação de dados para IA.</p>
                             </div>
                         </div>
 
-                        <a 
-                            href="https://wa.me/553186550113?text=Olá,%20gostaria%20de%20agendar%20um%20diagnóstico%20de%20consultoria." 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-3 px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-black font-bold uppercase tracking-widest rounded transition-all shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] group"
-                        >
-                            Agendar Diagnóstico <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
-                        </a>
+                        <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                            <a 
+                                href="https://wa.me/553186550113?text=Olá,%20gostaria%20de%20agendar%20um%20diagnóstico%20de%20consultoria%20estratégica." 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex justify-center items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold uppercase tracking-widest rounded-lg transition-all shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] group transform hover:-translate-y-1"
+                            >
+                                Iniciar Protocolo <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
+                            </a>
+                        </div>
                     </div>
 
-                    <div className="lg:w-1/2 w-full animate-fade-in-up animation-delay-500">
-                        <div className="relative bg-slate-900/80 border border-slate-700 rounded-2xl p-8 overflow-hidden shadow-2xl backdrop-blur-xl group hover:border-cyan-500/30 transition-colors">
-                            <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
-                                <div className="text-xs font-mono text-cyan-500 flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
-                                    LIVE METRICS
-                                </div>
-                                <div className="text-xs text-gray-600 font-mono">ZY-ANALYTICS v2.0</div>
-                            </div>
+                    <div className="w-full h-full flex items-center justify-center animate-fade-in-up animation-delay-500">
+                        <CyberpunkChart />
+                    </div>
+                </div>
 
-                            <div className="h-64 flex items-end justify-between gap-2 sm:gap-4 relative z-10">
-                                <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
-                                    <div className="w-full h-px bg-cyan-500/30"></div>
-                                    <div className="w-full h-px bg-cyan-500/30"></div>
-                                    <div className="w-full h-px bg-cyan-500/30"></div>
-                                    <div className="w-full h-px bg-cyan-500/30"></div>
-                                </div>
-                                {[35, 55, 45, 70, 60, 85, 100].map((h, i) => (
-                                    <div key={i} className="w-full bg-slate-800 rounded-t-sm relative group/bar hover:bg-slate-700 transition-colors">
-                                        <div 
-                                            className="absolute bottom-0 w-full bg-gradient-to-t from-cyan-900 to-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-all duration-1000 ease-out rounded-t-sm"
-                                            style={{ 
-                                                height: `${h}%`, 
-                                                animation: `growBar 1.5s ease-out ${i * 0.1}s forwards`
-                                            }}
-                                        >
-                                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black/80 text-cyan-300 text-[10px] font-mono px-2 py-1 rounded border border-cyan-500/30 opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap z-20 pointer-events-none">
-                                                +{h}% ROI
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            
-                            <div className="flex justify-between mt-4 text-[10px] text-gray-500 font-mono uppercase">
-                                <span>Day 1</span>
-                                <span>Day 7</span>
-                                <span>Day 14</span>
-                                <span>Day 30</span>
-                            </div>
-                        </div>
+                <div className="mt-20 pt-10 border-t border-white/5 grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-fade-in opacity-50 hover:opacity-100 transition-opacity">
+                    <div>
+                        <div className="text-3xl font-black text-white mb-1">R$ 15M+</div>
+                        <div className="text-[10px] uppercase tracking-widest text-gray-500">Receita Gerada</div>
+                    </div>
+                     <div>
+                        <div className="text-3xl font-black text-white mb-1">+400%</div>
+                        <div className="text-[10px] uppercase tracking-widest text-gray-500">ROI Médio</div>
+                    </div>
+                     <div>
+                        <div className="text-3xl font-black text-white mb-1">85</div>
+                        <div className="text-[10px] uppercase tracking-widest text-gray-500">Projetos Entregues</div>
+                    </div>
+                     <div>
+                        <div className="text-3xl font-black text-white mb-1">24/7</div>
+                        <div className="text-[10px] uppercase tracking-widest text-gray-500">Monitoramento</div>
                     </div>
                 </div>
             </div>
-            <style>{`
-                @keyframes growBar {
-                    from { height: 0%; opacity: 0; }
-                    to { opacity: 1; }
-                }
-            `}</style>
         </div>
     );
 }
+
+const CyberpunkChart = () => {
+    const pointsPink = "0,60 16.6,50 33.3,50 50,30 66.6,10 83.3,20 100,40";
+    const pointsCyan = "0,90 16.6,70 33.3,10 50,50 66.6,80 83.3,90 100,90";
+
+    const areaPink = `0,100 ${pointsPink} 100,100`;
+    const areaCyan = `0,100 ${pointsCyan} 100,100`;
+
+    return (
+        <div className="relative w-full aspect-[16/10] bg-slate-900/80 border border-slate-700 rounded-xl p-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
+             <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+             
+             <div className="absolute top-4 left-6 z-20">
+                 <div className="flex items-center gap-2 mb-1">
+                    <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+                    <span className="text-xs font-bold text-pink-400 font-mono tracking-wider">PROJECTED</span>
+                 </div>
+                 <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse delay-75"></span>
+                    <span className="text-xs font-bold text-cyan-400 font-mono tracking-wider">ACTUAL</span>
+                 </div>
+             </div>
+
+             <svg viewBox="0 0 100 100" className="w-full h-full relative z-10 preserve-3d" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="gradPink" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="#ec4899" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#ec4899" stopOpacity="0" />
+                    </linearGradient>
+                    <linearGradient id="gradCyan" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <polygon points={areaPink} fill="url(#gradPink)" className="animate-fade-in opacity-50" />
+                <polygon points={areaCyan} fill="url(#gradCyan)" className="animate-fade-in opacity-50" />
+
+                <polyline 
+                    points={pointsPink} 
+                    fill="none" 
+                    stroke="#ec4899" 
+                    strokeWidth="1.5" 
+                    filter="url(#glow)"
+                    className="drop-shadow-[0_0_8px_rgba(236,72,153,0.8)]"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                     <animate attributeName="stroke-dasharray" from="0, 200" to="200, 0" dur="2s" fill="freeze" />
+                </polyline>
+
+                <polyline 
+                    points={pointsCyan} 
+                    fill="none" 
+                    stroke="#22d3ee" 
+                    strokeWidth="1.5" 
+                    filter="url(#glow)"
+                    className="drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <animate attributeName="stroke-dasharray" from="0, 200" to="200, 0" dur="2.5s" fill="freeze" />
+                </polyline>
+
+                {[
+                    {x:0,y:60}, {x:16.6,y:50}, {x:33.3,y:50}, {x:50,y:30}, {x:66.6,y:10}, {x:83.3,y:20}, {x:100,y:40}
+                ].map((p,i) => (
+                    <g key={`p-${i}`}>
+                        <circle cx={p.x} cy={p.y} r="1.5" fill="#ec4899" className="animate-ping" style={{animationDuration: '3s', animationDelay: `${i*0.2}s`}} />
+                        <circle cx={p.x} cy={p.y} r="1" fill="white" />
+                    </g>
+                ))}
+                
+                {[
+                    {x:0,y:90}, {x:16.6,y:70}, {x:33.3,y:10}, {x:50,y:50}, {x:66.6,y:80}, {x:83.3,y:90}, {x:100,y:90}
+                ].map((p,i) => (
+                     <g key={`c-${i}`}>
+                        <circle cx={p.x} cy={p.y} r="1.5" fill="#22d3ee" className="animate-ping" style={{animationDuration: '2s', animationDelay: `${i*0.1}s`}} />
+                        <circle cx={p.x} cy={p.y} r="1" fill="white" />
+                    </g>
+                ))}
+
+             </svg>
+
+             <div className="absolute bottom-2 left-0 w-full flex justify-between px-4 text-[8px] text-slate-500 font-mono">
+                <span>START</span>
+                <span>Q1</span>
+                <span>Q2</span>
+                <span>Q3</span>
+                <span>END</span>
+             </div>
+        </div>
+    );
+};
 
 function WebsitesPage({ navigateTo }) {
   const [step, setStep] = useState(1); 
