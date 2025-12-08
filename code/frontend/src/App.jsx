@@ -3,12 +3,13 @@ import {
   MessageSquare, Globe, Cpu, LineChart, ChevronRight, Menu, X, Rocket, Send, 
   ArrowRight, Check, Zap, Crown, Shield, Star, Phone, Mail, Users, Target, 
   Eye, Award, Code, Layout, Workflow, ShoppingCart, Server, ExternalLink, Database, Settings, Play,
-  BarChart3, TrendingUp, PieChart 
+  TrendingUp, PieChart, Activity, Store, Bike, Calendar, Bell
 } from 'lucide-react';
+
+// Imports locais mantidos conforme solicitado
 import logoZytech from './assets/logo.png';
 import bgVideo from './assets/background.mp4';
 import bgVideo2 from './assets/background2.mp4';
-import bgVideo3 from './assets/background3.mp4';
 import bgWeb from './assets/website.jpg';
 import bgAuto from './assets/automation.jpg';
 import bgConsultoria from './assets/consulting.jpg'; 
@@ -65,7 +66,7 @@ export default function App() {
                 </button>
                 <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 hidden group-hover/nav:block w-48">
                     <div className="bg-slate-900 border border-white/10 rounded-xl p-2 shadow-2xl flex flex-col gap-1 backdrop-blur-xl">
-                        <button onClick={() => navigateTo('chatbot')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><MessageSquare size={14}/> Chatbots</button>
+                        <button onClick={() => navigateTo('chatbot')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><Store size={14}/> Comércio</button>
                         <button onClick={() => navigateTo('websites')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><Globe size={14}/> Websites</button>
                         <button onClick={() => navigateTo('automations')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><Workflow size={14}/> Automações</button>
                         <button onClick={() => navigateTo('consultoria')} className="text-xs uppercase text-left px-4 py-3 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2"><LineChart size={14}/> Consultoria</button>
@@ -86,7 +87,6 @@ export default function App() {
       {currentPage === 'landing' && <LandingPage navigateTo={navigateTo} />}
       {currentPage === 'about' && <AboutPage navigateTo={navigateTo} />}
       {currentPage === 'chatbot' && <ChatbotPage navigateTo={navigateTo} />}
-      {currentPage === 'plans' && <PlansPage navigateTo={navigateTo} />}
       {currentPage === 'websites' && <WebsitesPage navigateTo={navigateTo} />}
       {currentPage === 'automations' && <AutomationsPage navigateTo={navigateTo} />}
       {currentPage === 'consultoria' && <ConsultoriaPage navigateTo={navigateTo} />}
@@ -107,16 +107,233 @@ export default function App() {
   );
 }
 
+function ChatbotPage({ navigateTo }) {
+  const [step, setStep] = useState(1);
+  const [selectedIndustry, setSelectedIndustry] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const deliveryPlans = [
+    { name: 'Básico', price: '197,00', color: 'blue', icon: <Shield size={32} />, desc: 'Atendimento inicial para delivery.', features: ['Cardápio Digital', 'Pedidos no WhatsApp', 'Sem Taxas por pedido'] },
+    { name: 'Smart', price: '499,90', color: 'amber', icon: <Zap size={32} />, desc: 'IA que vende por você.', features: ['IA de Vendas', 'Sugestão de adicionais', 'Integração iFood', 'Relatórios'] },
+    { name: 'Premium', price: '1099,90', color: 'purple', icon: <Crown size={32} />, desc: 'Gestão completa de franquias.', features: ['Múltiplos Atendentes', 'API Oficial', 'CRM de Clientes', 'Dashboard Avançado'] },
+  ];
+
+  const otherPlans = [
+    { name: 'Gestão Control', price: '299,90', color: 'cyan', icon: <Database size={32} />, desc: 'Organização sem Inteligência Artificial.', features: ['Dashboard de Pedidos', 'CRM Básico', 'Link de Pagamento', 'Sem IA (Menu Fixo)'] },
+    { name: 'IA Agendamento', price: '599,90', color: 'emerald', icon: <Calendar size={32} />, desc: 'Automatize sua agenda com IA.', features: ['IA Tira Dúvidas', 'Agendamento Automático', 'Sincronização Google Calendar', 'Triagem de Clientes'] },
+    { name: 'Full Manager', price: '899,90', color: 'rose', icon: <Bell size={32} />, desc: 'A solução definitiva para serviços.', features: ['Tudo do Plano Agendamento', 'Lembretes Automáticos (No-Show)', 'Campanhas de Retorno', 'Gestão Financeira'] },
+  ];
+
+  const handleIndustrySelect = (type) => {
+    setSelectedIndustry(type);
+    setStep(2);
+  };
+
+  const openContactModal = (plan) => {
+    setSelectedPlan(plan);
+    setModalOpen(true);
+  };
+
+  return (
+    <div className="relative min-h-screen pt-24 pb-24 overflow-hidden">
+       <div className="absolute inset-0 z-0">
+            <img src={bgWeb} alt="Background" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-slate-950/90 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(2,6,23,0.8)_100%)]"></div>
+       </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-12 text-sm uppercase tracking-wider">
+            <ArrowRight className="rotate-180" size={16} /> Voltar para Home
+        </button>
+
+        <div className="text-center mb-10 animate-fade-in-up">
+           <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide mb-6 drop-shadow-2xl">
+               {step === 1 ? 'Qual o seu ' : 'Planos para '} 
+               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                   {step === 1 ? 'Negócio?' : selectedIndustry === 'delivery' ? 'Delivery' : 'Serviços'}
+               </span>
+           </h1>
+           <p className="text-gray-300 max-w-2xl mx-auto text-lg font-light">
+               {step === 1 
+                ? 'Selecione o segmento para visualizarmos as melhores soluções de automação.' 
+                : 'Tecnologia de ponta adaptada para a realidade da sua empresa.'}
+           </p>
+        </div>
+
+        {step === 1 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto animate-fade-in-up">
+                <div 
+                    onClick={() => handleIndustrySelect('delivery')}
+                    className="group bg-slate-900/60 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800/80 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center"
+                >
+                    <div className="w-24 h-24 bg-amber-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-amber-500/30 transition-colors">
+                        <Bike size={48} className="text-amber-400" />
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-2">Delivery</h3>
+                    <p className="text-gray-400">Pizzarias, Hamburguerias, Sushi e Restaurantes.</p>
+                    <div className="mt-6 px-6 py-2 rounded-full border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest group-hover:bg-amber-500 group-hover:text-black transition-all">Ver Planos</div>
+                </div>
+
+                <div 
+                    onClick={() => handleIndustrySelect('other')}
+                    className="group bg-slate-900/60 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800/80 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center"
+                >
+                    <div className="w-24 h-24 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-emerald-500/30 transition-colors">
+                        <Store size={48} className="text-emerald-400" />
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-2">Outros Comércios</h3>
+                    <p className="text-gray-400">Clínicas, Barbearias, Escritórios e Varejo.</p>
+                    <div className="mt-6 px-6 py-2 rounded-full border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-widest group-hover:bg-emerald-500 group-hover:text-black transition-all">Ver Planos</div>
+                </div>
+            </div>
+        )}
+
+        {step === 2 && (
+            <div className="animate-fade-in">
+                <div className="flex justify-center mb-12">
+                    <button onClick={() => setStep(1)} className="text-sm text-gray-400 hover:text-white flex items-center gap-2 border-b border-transparent hover:border-white transition-all pb-1">
+                        <ArrowRight className="rotate-180" size={14} /> Alterar Segmento
+                    </button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                    {(selectedIndustry === 'delivery' ? deliveryPlans : otherPlans).map((plan, idx) => (
+                        <div key={idx} className="relative group/glow">
+                            {idx === 1 && <div className={`absolute -inset-1 bg-gradient-to-r from-${plan.color}-500 to-${plan.color}-700 rounded-[2rem] blur-xl opacity-40 group-hover/glow:opacity-70 transition duration-1000 animate-pulse`}></div>}
+                            
+                            <PricingCard 
+                                title={`Modelo ${plan.name}`} 
+                                icon={plan.icon} 
+                                iconBg={idx === 1 ? `bg-gradient-to-br from-${plan.color}-400 to-${plan.color}-600 text-white border-none shadow-lg` : null}
+                                description={plan.desc} 
+                                delay={idx * 100} 
+                                featured={idx === 1} 
+                                color={plan.color} 
+                                price={plan.price} 
+                                subPrice="/mês" 
+                                onHire={() => openContactModal(plan.name)}
+                            >
+                                <ul className="space-y-4 text-sm text-gray-300 mb-8">
+                                    {plan.features.map((feat, i) => (
+                                        <li key={i} className="flex gap-3 items-center">
+                                            <Check size={16} className={`text-${plan.color}-500`} /> 
+                                            {feat}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="mt-4 border-t border-white/10 pt-4 text-xs text-gray-400">
+                                    <p className={`mb-2 font-bold text-${plan.color}-300`}>Ideal para:</p>
+                                    <p>{selectedIndustry === 'delivery' ? 'Operações de delivery.' : 'Gestão de agenda e clientes.'}</p>
+                                </div>
+                            </PricingCard>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )}
+      </div>
+      {modalOpen && <ContactModal plan={selectedPlan} onClose={() => setModalOpen(false)} />}
+    </div>
+  );
+}
+
+function ContactModal({ plan, onClose }) {
+  const handleBackdropClick = (e) => { if (e.target === e.currentTarget) onClose(); };
+  return (
+    <div onClick={handleBackdropClick} className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm animate-fade-in p-4">
+      <div className="bg-slate-900 border border-white/10 rounded-3xl p-8 max-w-md w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-fade-in-up overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-amber-500"></div>
+        <div className="absolute top-[-50px] left-[-50px] w-32 h-32 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"><X size={24} /></button>
+        <div className="text-center mb-6">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg"><MessageSquare size={32} className="text-white" /></div>
+          <h2 className="text-2xl font-bold text-white mb-2">Ótima Escolha!</h2>
+          <p className="text-gray-400 text-sm">Você selecionou o <span className="text-blue-400 font-bold">{plan}</span>.</p>
+        </div>
+        <p className="text-gray-300 text-center mb-8 leading-relaxed">Para garantir o melhor atendimento e personalização, a contratação é feita diretamente com nossos consultores especialistas.</p>
+        <div className="space-y-3">
+          <a href={`https://wa.me/553186550113?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20plano%20${plan}%20da%20Zytech`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-green-900/20 group"><MessageSquare size={20} /> Chamar no WhatsApp <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></a>
+          <p className="flex items-center justify-center gap-3 w-full py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl border border-white/10 transition-colors"><Mail size={20} />contato.zytech@gmail.com</p>
+        </div>
+        <div className="mt-6 text-center"><p className="text-xs text-gray-500">Tempo médio de resposta: <span className="text-green-400">5 minutos</span></p></div>
+      </div>
+    </div>
+  );
+}
+
+function PricingCard({ title, icon, description, children, delay, featured, color, price, subPrice, iconBg, onHire }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const borderColors = { 
+      blue: 'hover:border-blue-500/50', 
+      amber: 'border-amber-500/50', 
+      purple: 'hover:border-purple-500/50',
+      cyan: 'hover:border-cyan-500/50',
+      emerald: 'hover:border-emerald-500/50',
+      rose: 'hover:border-rose-500/50'
+  };
+  const btnColors = { 
+      blue: 'bg-blue-600 hover:bg-blue-500 shadow-blue-900/20', 
+      amber: 'bg-gradient-to-r from-amber-500 to-orange-600 hover:brightness-110 shadow-amber-900/30 text-white', 
+      purple: 'bg-purple-600 hover:bg-purple-500 shadow-purple-900/20',
+      cyan: 'bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/20',
+      emerald: 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/20',
+      rose: 'bg-rose-600 hover:bg-rose-500 shadow-rose-900/20'
+  };
+
+  const safeBorder = borderColors[color] || borderColors.blue;
+  const safeBtn = btnColors[color] || btnColors.blue;
+
+  return (
+    <div className={`relative p-8 rounded-[2rem] border transition-all duration-500 ease-out flex flex-col backdrop-blur-xl ${featured ? 'bg-slate-900/80 border-amber-500/30 z-10 scale-100 md:scale-110 shadow-2xl' : 'bg-white/[0.03] border-white/5 hover:bg-slate-900/60 hover:-translate-y-2'} ${safeBorder}`} style={{ animationDelay: `${delay}ms` }}>
+      {featured && <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-[0_5px_15px_rgba(245,158,11,0.4)] flex items-center gap-2"><Star size={12} className="fill-white" /> Escolha Popular</div>}
+      <div className={`mb-6 p-4 w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-500 hover:scale-110 ${iconBg || 'bg-white/5 border border-white/10'}`}>{icon}</div>
+      <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-2">{title}</h3>
+      <div className="mb-4">
+          <span className="text-xs text-gray-500 font-normal block -mb-1">A partir de:</span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-3xl lg:text-4xl font-bold text-white tracking-tight">{price}</span>
+            <span className="text-sm text-gray-500 font-normal">{subPrice}</span>
+          </div>
+      </div>
+      <p className="text-gray-400 text-sm leading-relaxed mb-8 border-b border-white/5 pb-8 min-h-[100px]">{description}</p>
+      <button onClick={onHire} className={`relative overflow-hidden w-full py-4 rounded-xl font-bold uppercase tracking-wider text-xs mb-6 transition-all shadow-lg group ${safeBtn}`}>
+        <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine" />
+        <span className="relative z-10">Contratar Plano</span>
+      </button>
+      <div onClick={() => setIsExpanded(!isExpanded)} className="cursor-pointer group/toggle flex items-center justify-between py-2 border-t border-white/5">
+        <span className="text-xs uppercase tracking-widest text-gray-500 group-hover/toggle:text-white transition-colors">{isExpanded ? 'Ocultar Detalhes' : 'Ver todos recursos'}</span>
+        <div className={`p-1 rounded-full bg-white/5 transition-transform duration-300 ${isExpanded ? 'rotate-180 bg-white/20' : ''}`}><ChevronRight size={14} className="text-gray-400" /></div>
+      </div>
+      <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isExpanded ? 'max-h-[500px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>{children}</div>
+    </div>
+  );
+}
+
+function ServiceCard({ icon, title, desc, active, onClick, tag, delay }) {
+  return (
+    <div onClick={active ? onClick : undefined} className={`group relative p-8 rounded-2xl border border-white/5 backdrop-blur-md bg-white/[0.02] transition-all duration-500 ease-out overflow-hidden ${active ? 'cursor-pointer hover:bg-white/[0.05] hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] hover:-translate-y-2' : 'opacity-70 grayscale hover:grayscale-0 hover:opacity-100'}`} style={{ animationDelay: `${delay}ms` }}>
+      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-lg transition duration-500"></div>
+      <div className="relative z-10 flex flex-col h-full">
+        <div className="mb-6 p-3 bg-white/5 w-fit rounded-xl border border-white/10 group-hover:scale-110 transition-transform duration-300">{icon}</div>
+        <div className="flex justify-between items-start"><h3 className="text-xl font-bold uppercase tracking-wider mb-3 group-hover:text-blue-400 transition-colors">{title}</h3>{tag && <span className="text-[10px] uppercase bg-white/10 px-2 py-1 rounded text-gray-400">{tag}</span>}</div>
+        <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">{desc}</p>
+        {active && <div className="flex items-center gap-2 text-sm font-bold text-blue-500 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">SAIBA MAIS <ChevronRight size={16} /></div>}
+      </div>
+    </div>
+  );
+}
+
 function ConsultoriaPage({ navigateTo }) {
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
     return (
         <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-black flex flex-col justify-center">
             <div className="absolute inset-0 z-0">
-                 <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-40 mix-blend-screen">
-                    <source src={bgVideo3} type="video/mp4" />
-                 </video>
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+                 <img src={bgConsultoria} alt="Consultoria BG" className="w-full h-full object-cover opacity-40 mix-blend-screen" />
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] animate-pulse"></div>
                 <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
             </div>
 
@@ -144,14 +361,14 @@ function ConsultoriaPage({ navigateTo }) {
                         </p>
 
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-slate-900/50 border border-white/10 p-4 rounded-xl backdrop-blur-sm hover:border-cyan-500/50 transition-all group">
+                            <div className="bg-slate-900/50 border border-white/10 p-4 rounded-xl backdrop-blur-sm hover:border-cyan-500/50 transition-all group cursor-default">
                                 <div className="w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-cyan-500/20 transition-colors">
                                     <TrendingUp className="text-cyan-400" size={20} />
                                 </div>
                                 <h3 className="font-bold text-white uppercase text-xs tracking-wider mb-1">Growth Hacking</h3>
                                 <p className="text-[10px] text-gray-500">Escala baseada em experimentação rápida.</p>
                             </div>
-                             <div className="bg-slate-900/50 border border-white/10 p-4 rounded-xl backdrop-blur-sm hover:border-pink-500/50 transition-all group">
+                             <div className="bg-slate-900/50 border border-white/10 p-4 rounded-xl backdrop-blur-sm hover:border-pink-500/50 transition-all group cursor-default">
                                 <div className="w-10 h-10 bg-pink-500/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-pink-500/20 transition-colors">
                                     <Database className="text-pink-400" size={20} />
                                 </div>
@@ -200,106 +417,6 @@ function ConsultoriaPage({ navigateTo }) {
     );
 }
 
-const CyberpunkChart = () => {
-    const pointsPink = "0,60 16.6,50 33.3,50 50,30 66.6,10 83.3,20 100,40";
-    const pointsCyan = "0,90 16.6,70 33.3,10 50,50 66.6,80 83.3,90 100,90";
-
-    const areaPink = `0,100 ${pointsPink} 100,100`;
-    const areaCyan = `0,100 ${pointsCyan} 100,100`;
-
-    return (
-        <div className="relative w-full aspect-[16/10] bg-slate-900/80 border border-slate-700 rounded-xl p-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
-             <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
-             
-             <div className="absolute top-4 left-6 z-20">
-                 <div className="flex items-center gap-2 mb-1">
-                    <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
-                    <span className="text-xs font-bold text-pink-400 font-mono tracking-wider">PROJECTED</span>
-                 </div>
-                 <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse delay-75"></span>
-                    <span className="text-xs font-bold text-cyan-400 font-mono tracking-wider">ACTUAL</span>
-                 </div>
-             </div>
-
-             <svg viewBox="0 0 100 100" className="w-full h-full relative z-10 preserve-3d" preserveAspectRatio="none">
-                <defs>
-                    <linearGradient id="gradPink" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stopColor="#ec4899" stopOpacity="0.5" />
-                        <stop offset="100%" stopColor="#ec4899" stopOpacity="0" />
-                    </linearGradient>
-                    <linearGradient id="gradCyan" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.5" />
-                        <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
-                    </linearGradient>
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
-                        <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
-                <polygon points={areaPink} fill="url(#gradPink)" className="animate-fade-in opacity-50" />
-                <polygon points={areaCyan} fill="url(#gradCyan)" className="animate-fade-in opacity-50" />
-
-                <polyline 
-                    points={pointsPink} 
-                    fill="none" 
-                    stroke="#ec4899" 
-                    strokeWidth="1.5" 
-                    filter="url(#glow)"
-                    className="drop-shadow-[0_0_8px_rgba(236,72,153,0.8)]"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                >
-                     <animate attributeName="stroke-dasharray" from="0, 200" to="200, 0" dur="2s" fill="freeze" />
-                </polyline>
-
-                <polyline 
-                    points={pointsCyan} 
-                    fill="none" 
-                    stroke="#22d3ee" 
-                    strokeWidth="1.5" 
-                    filter="url(#glow)"
-                    className="drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                >
-                    <animate attributeName="stroke-dasharray" from="0, 200" to="200, 0" dur="2.5s" fill="freeze" />
-                </polyline>
-
-                {[
-                    {x:0,y:60}, {x:16.6,y:50}, {x:33.3,y:50}, {x:50,y:30}, {x:66.6,y:10}, {x:83.3,y:20}, {x:100,y:40}
-                ].map((p,i) => (
-                    <g key={`p-${i}`}>
-                        <circle cx={p.x} cy={p.y} r="1.5" fill="#ec4899" className="animate-ping" style={{animationDuration: '3s', animationDelay: `${i*0.2}s`}} />
-                        <circle cx={p.x} cy={p.y} r="1" fill="white" />
-                    </g>
-                ))}
-                
-                {[
-                    {x:0,y:90}, {x:16.6,y:70}, {x:33.3,y:10}, {x:50,y:50}, {x:66.6,y:80}, {x:83.3,y:90}, {x:100,y:90}
-                ].map((p,i) => (
-                     <g key={`c-${i}`}>
-                        <circle cx={p.x} cy={p.y} r="1.5" fill="#22d3ee" className="animate-ping" style={{animationDuration: '2s', animationDelay: `${i*0.1}s`}} />
-                        <circle cx={p.x} cy={p.y} r="1" fill="white" />
-                    </g>
-                ))}
-
-             </svg>
-
-             <div className="absolute bottom-2 left-0 w-full flex justify-between px-4 text-[8px] text-slate-500 font-mono">
-                <span>START</span>
-                <span>Q1</span>
-                <span>Q2</span>
-                <span>Q3</span>
-                <span>END</span>
-             </div>
-        </div>
-    );
-};
-
 function WebsitesPage({ navigateTo }) {
   const [step, setStep] = useState(1); 
   const [selectedTier, setSelectedTier] = useState(null);
@@ -309,10 +426,10 @@ function WebsitesPage({ navigateTo }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const tiers = [
-    { id: 'basic', name: 'Básico', price: 500, color: 'blue', desc: 'Site simples, o ideal para começar, com até 5 páginas.', features: ['Design Responsivo', 'Hospedagem Inclusa', '5 Páginas'] },
-    { id: 'inter', name: 'Intermediário', price: 2000, color: 'purple', desc: 'Site institucional com até 10 páginas e blog.', features: ['Design Premium', 'SEO Básico', '10 Páginas', 'Blog'] },
-    { id: 'adv', name: 'Avançado', price: 5000, color: 'pink', desc: 'Portal completo e ecommerce.', features: ['Painel Admin', 'SEO Avançado', '10+ Páginas', 'Login de Usuário'] },
-    { id: 'pro', name: 'Empresarial', price: 8000, color: 'amber', desc: 'Aplicação web complexa.', features: ['Banco de Dados', 'API Própria', 'Pagamentos Online', 'App PWA'] },
+    { id: 'basic', name: 'Básico', price: 500, color: 'blue', desc: 'Landing Page única, ideal para lançamentos.', features: ['Design Responsivo', 'Hospedagem Inclusa', '1 Página'] },
+    { id: 'inter', name: 'Standard', price: 2000, color: 'purple', desc: 'Site institucional com até 5 páginas e blog.', features: ['Design Premium', 'SEO Básico', '5 Páginas', 'Blog'] },
+    { id: 'adv', name: 'Business', price: 5000, color: 'pink', desc: 'Portal completo com CMS e área de membros.', features: ['Painel Admin', 'SEO Avançado', '10+ Páginas', 'Login de Usuário'] },
+    { id: 'pro', name: 'Enterprise', price: 8000, color: 'amber', desc: 'Ecommerce ou aplicação web complexa.', features: ['Banco de Dados', 'API Própria', 'Pagamentos Online', 'App PWA'] },
   ];
 
   const availableAddons = [
@@ -418,7 +535,7 @@ function WebsitesPage({ navigateTo }) {
                         <p className="text-gray-400 text-sm mb-6 flex-grow leading-relaxed">{tier.desc}</p>
                         
                         <div className="mb-6">
-                            <span className="text-sm text-gray-500">A partir de</span>
+                            <span className="text-xs text-gray-500 font-normal block mb-1">A partir de:</span>
                             <div className="text-3xl font-bold text-white tracking-tight">R$ {tier.price}</div>
                         </div>
 
@@ -594,10 +711,13 @@ function AutomationsPage({ navigateTo }) {
                                 </div>
                                 
                                 <h3 className="text-3xl font-bold uppercase tracking-wide mb-2 text-white">{tier.name}</h3>
-                                <div className="flex items-baseline gap-1 mb-6">
-                                    <span className="text-2xl font-bold text-gray-400">R$</span>
-                                    <span className={`text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-${tier.color}-400`}>{tier.price}</span>
-                                    <span className="text-sm font-normal text-gray-500">/+ taxa de reparo mensal</span>
+                                <div className="flex flex-col mb-6">
+                                    <span className="text-xs text-gray-500 font-normal block mb-1">A partir de:</span>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-2xl font-bold text-gray-400">R$</span>
+                                        <span className={`text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-${tier.color}-400`}>{tier.price}</span>
+                                        <span className="text-sm font-normal text-gray-500">/setup</span>
+                                    </div>
                                 </div>
                                 
                                 <p className="text-gray-400 text-sm mb-8 flex-grow leading-relaxed border-b border-white/5 pb-8">{tier.desc}</p>
@@ -674,6 +794,107 @@ function AutomationContactModal({ tier, onClose }) {
       </div>
     );
 }
+
+const CyberpunkChart = () => {
+    const pointsPink = "0,60 16.6,50 33.3,50 50,30 66.6,10 83.3,20 100,40";
+    const pointsCyan = "0,90 16.6,70 33.3,10 50,50 66.6,80 83.3,90 100,90";
+
+    const areaPink = `0,100 ${pointsPink} 100,100`;
+    const areaCyan = `0,100 ${pointsCyan} 100,100`;
+
+    return (
+        <div className="relative w-full aspect-[16/10] bg-slate-900/80 border border-slate-700 rounded-xl p-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
+             <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+             
+             <div className="absolute top-4 left-6 z-20">
+                 <div className="flex items-center gap-2 mb-1">
+                    <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+                    <span className="text-xs font-bold text-pink-400 font-mono tracking-wider">PROJECTED</span>
+                 </div>
+                 <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse delay-75"></span>
+                    <span className="text-xs font-bold text-cyan-400 font-mono tracking-wider">ACTUAL</span>
+                 </div>
+             </div>
+
+             <svg viewBox="0 0 100 100" className="w-full h-full relative z-10 preserve-3d" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="gradPink" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="#ec4899" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#ec4899" stopOpacity="0" />
+                    </linearGradient>
+                    <linearGradient id="gradCyan" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <polygon points={areaPink} fill="url(#gradPink)" className="animate-fade-in opacity-50" />
+                <polygon points={areaCyan} fill="url(#gradCyan)" className="animate-fade-in opacity-50" />
+
+                <polyline 
+                    points={pointsPink} 
+                    fill="none" 
+                    stroke="#ec4899" 
+                    strokeWidth="1.5" 
+                    filter="url(#glow)"
+                    className="drop-shadow-[0_0_8px_rgba(236,72,153,0.8)]"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                     <animate attributeName="stroke-dasharray" from="0, 200" to="200, 0" dur="2s" fill="freeze" />
+                </polyline>
+
+                <polyline 
+                    points={pointsCyan} 
+                    fill="none" 
+                    stroke="#22d3ee" 
+                    strokeWidth="1.5" 
+                    filter="url(#glow)"
+                    className="drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <animate attributeName="stroke-dasharray" from="0, 200" to="200, 0" dur="2.5s" fill="freeze" />
+                </polyline>
+
+                {[
+                    {x:0,y:60}, {x:16.6,y:50}, {x:33.3,y:50}, {x:50,y:30}, {x:66.6,y:10}, {x:83.3,y:20}, {x:100,y:40}
+                ].map((p,i) => (
+                    <g key={`p-${i}`}>
+                        <circle cx={p.x} cy={p.y} r="1.5" fill="#ec4899" className="animate-ping" style={{animationDuration: '3s', animationDelay: `${i*0.2}s`}} />
+                        <circle cx={p.x} cy={p.y} r="1" fill="white" />
+                    </g>
+                ))}
+                
+                {[
+                    {x:0,y:90}, {x:16.6,y:70}, {x:33.3,y:10}, {x:50,y:50}, {x:66.6,y:80}, {x:83.3,y:90}, {x:100,y:90}
+                ].map((p,i) => (
+                     <g key={`c-${i}`}>
+                        <circle cx={p.x} cy={p.y} r="1.5" fill="#22d3ee" className="animate-ping" style={{animationDuration: '2s', animationDelay: `${i*0.1}s`}} />
+                        <circle cx={p.x} cy={p.y} r="1" fill="white" />
+                    </g>
+                ))}
+
+             </svg>
+
+             <div className="absolute bottom-2 left-0 w-full flex justify-between px-4 text-[8px] text-slate-500 font-mono">
+                <span>START</span>
+                <span>Q1</span>
+                <span>Q2</span>
+                <span>Q3</span>
+                <span>END</span>
+             </div>
+        </div>
+    );
+};
 
 const SearchIcon = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>;
 const PenToolIcon = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>;
@@ -770,7 +991,7 @@ function LandingPage({ navigateTo }) {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16"><h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-2">Nossos Serviços</h2><div className="h-1 w-20 bg-blue-600 mx-auto rounded-full"></div></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <ServiceCard icon={<MessageSquare size={32} className="text-blue-400" />} title="Chatbots IA" desc="Atendimento 24/7 com inteligência artificial que aprende e converte." active={true} onClick={() => navigateTo('chatbot')} delay="0" />
+            <ServiceCard icon={<MessageSquare size={32} className="text-blue-400" />} title="Comércio" desc="Atendimento automatizado para Delivery e Serviços gerais." active={true} onClick={() => navigateTo('chatbot')} delay="0" />
             <ServiceCard icon={<Globe size={32} className="text-purple-400" />} title="Websites" desc="Landing pages de alta conversão e design futurista." active={true} onClick={() => navigateTo('websites')} tag="Disponível" delay="100" />
             <ServiceCard icon={<Cpu size={32} className="text-amber-400" />} title="Automações" desc="Integrações que eliminam tarefas repetitivas do seu negócio." active={true} onClick={() => navigateTo('automations')} tag="Disponível" delay="200" />
             <ServiceCard icon={<LineChart size={32} className="text-emerald-400" />} title="Consultoria" desc="Análise de dados e estratégias digitais para escalar." active={true} onClick={() => navigateTo('consultoria')} tag="Novo" delay="300" />
@@ -865,7 +1086,7 @@ function ChatbotPage({ navigateTo }) {
              <div className="relative w-full max-w-md aspect-[3/4] bg-slate-900 border border-white/10 rounded-2xl p-6 shadow-2xl overflow-hidden flex flex-col">
                 <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-transparent pointer-events-none"></div>
                 <div className="flex items-center gap-4 pb-4 border-b border-white/5 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center p-1"><img src={logoZytech} className="w-full h-full object-contain filter brightness-0 invert" alt="bot icon" /></div>
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center p-1"><Cpu className="text-white" /></div>
                   <div><div className="font-bold text-sm">Zytech Assist</div><div className="text-xs text-green-400 flex items-center gap-1">● Online</div></div>
                 </div>
                 <div className="flex-1 space-y-4 text-sm">
