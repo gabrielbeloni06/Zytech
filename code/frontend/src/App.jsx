@@ -108,8 +108,8 @@ export default function App() {
 
 function ChatbotPage({ navigateTo }) {
   const [step, setStep] = useState(1);
-  const [selectedIndustry, setSelectedIndustry] = useState(null);
-  const [subCategory, setSubCategory] = useState(null);
+  const [selectedIndustry, setSelectedIndustry] = useState(null); 
+  const [subCategory, setSubCategory] = useState(null); 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [billingCycle, setBillingCycle] = useState('monthly'); 
@@ -117,7 +117,7 @@ function ChatbotPage({ navigateTo }) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const getPrice = (basePrice) => {
-    if (billingCycle === 'semiannual') return Math.floor(basePrice * 0.9);
+    if (billingCycle === 'semiannual') return Math.floor(basePrice * 0.9); 
     if (billingCycle === 'annual') return Math.floor(basePrice * 0.75); 
     return basePrice;
   };
@@ -159,14 +159,14 @@ function ChatbotPage({ navigateTo }) {
     setModalOpen(true);
   };
 
-  const activePlans = selectedIndustry === 'delivery' 
-    ? deliveryPlans[subCategory] 
-    : commercePlans[subCategory];
+  const activePlans = selectedIndustry && subCategory && (selectedIndustry === 'delivery' ? deliveryPlans[subCategory] : commercePlans[subCategory]);
 
   return (
     <div className="relative min-h-screen pt-24 pb-24 overflow-hidden">
-       <div className="absolute inset-0 z-0 bg-cover bg-center bg-fixed" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=2070&auto=format&fit=crop")' }}>
-         <div className="absolute inset-0 bg-slate-950/90 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(2,6,23,0.8)_100%)]"></div>
+       <div className="absolute inset-0 z-0">
+            <img src={bgWeb} alt="Background" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-[2px]"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
        </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -228,7 +228,6 @@ function ChatbotPage({ navigateTo }) {
                 </div>
             </div>
         )}
-
         {step === 3 && activePlans && (
             <div className="animate-fade-in">
                 <div className="flex justify-center mb-8 gap-8">
@@ -281,93 +280,6 @@ function ChatbotPage({ navigateTo }) {
     </div>
   );
 }
-
-function ContactModal({ plan, onClose }) {
-  const handleBackdropClick = (e) => { if (e.target === e.currentTarget) onClose(); };
-  return (
-    <div onClick={handleBackdropClick} className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm animate-fade-in p-4">
-      <div className="bg-slate-900 border border-white/10 rounded-3xl p-8 max-w-md w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-fade-in-up overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-amber-500"></div>
-        <div className="absolute top-[-50px] left-[-50px] w-32 h-32 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"><X size={24} /></button>
-        <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg"><MessageSquare size={32} className="text-white" /></div>
-          <h2 className="text-2xl font-bold text-white mb-2">Ótima Escolha!</h2>
-          <p className="text-gray-400 text-sm">Você selecionou o <span className="text-blue-400 font-bold">{plan}</span>.</p>
-        </div>
-        <p className="text-gray-300 text-center mb-8 leading-relaxed">Para garantir o melhor atendimento e personalização, a contratação é feita diretamente com nossos consultores especialistas.</p>
-        <div className="space-y-3">
-          <a href={`https://wa.me/553186550113?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20plano%20${plan}%20da%20Zytech`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-green-900/20 group"><MessageSquare size={20} /> Chamar no WhatsApp <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></a>
-          <p className="flex items-center justify-center gap-3 w-full py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl border border-white/10 transition-colors"><Mail size={20} />contato.zytech@gmail.com</p>
-        </div>
-        <div className="mt-6 text-center"><p className="text-xs text-gray-500">Tempo médio de resposta: <span className="text-green-400">5 minutos</span></p></div>
-      </div>
-    </div>
-  );
-}
-
-function PricingCard({ title, icon, description, children, delay, featured, color, price, subPrice, iconBg, onHire }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const borderColors = { 
-      blue: 'hover:border-blue-500/50', 
-      amber: 'border-amber-500/50', 
-      purple: 'hover:border-purple-500/50',
-      cyan: 'hover:border-cyan-500/50',
-      emerald: 'hover:border-emerald-500/50',
-      rose: 'hover:border-rose-500/50'
-  };
-  const btnColors = { 
-      blue: 'bg-blue-600 hover:bg-blue-500 shadow-blue-900/20', 
-      amber: 'bg-gradient-to-r from-amber-500 to-orange-600 hover:brightness-110 shadow-amber-900/30 text-white', 
-      purple: 'bg-purple-600 hover:bg-purple-500 shadow-purple-900/20',
-      cyan: 'bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/20',
-      emerald: 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/20',
-      rose: 'bg-rose-600 hover:bg-rose-500 shadow-rose-900/20'
-  };
-
-  const safeBorder = borderColors[color] || borderColors.blue;
-  const safeBtn = btnColors[color] || btnColors.blue;
-
-  return (
-    <div className={`relative p-8 rounded-[2rem] border transition-all duration-500 ease-out flex flex-col backdrop-blur-xl ${featured ? 'bg-slate-900/80 border-amber-500/30 z-10 scale-100 md:scale-110 shadow-2xl' : 'bg-white/[0.03] border-white/5 hover:bg-slate-900/60 hover:-translate-y-2'} ${safeBorder}`} style={{ animationDelay: `${delay}ms` }}>
-      {featured && <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-[0_5px_15px_rgba(245,158,11,0.4)] flex items-center gap-2"><Star size={12} className="fill-white" /> Escolha Popular</div>}
-      <div className={`mb-6 p-4 w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-500 hover:scale-110 ${iconBg || 'bg-white/5 border border-white/10'}`}>{icon}</div>
-      <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-2">{title}</h3>
-      <div className="mb-4">
-          <span className="text-xs text-gray-500 font-normal block -mb-1">A partir de:</span>
-          <div className="flex items-baseline gap-1">
-            <span className="text-3xl lg:text-4xl font-bold text-white tracking-tight">{price}</span>
-            <span className="text-sm text-gray-500 font-normal">{subPrice}</span>
-          </div>
-      </div>
-      <p className="text-gray-400 text-sm leading-relaxed mb-8 border-b border-white/5 pb-8 min-h-[100px]">{description}</p>
-      <button onClick={onHire} className={`relative overflow-hidden w-full py-4 rounded-xl font-bold uppercase tracking-wider text-xs mb-6 transition-all shadow-lg group ${safeBtn}`}>
-        <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine" />
-        <span className="relative z-10">Contratar Plano</span>
-      </button>
-      <div onClick={() => setIsExpanded(!isExpanded)} className="cursor-pointer group/toggle flex items-center justify-between py-2 border-t border-white/5">
-        <span className="text-xs uppercase tracking-widest text-gray-500 group-hover/toggle:text-white transition-colors">{isExpanded ? 'Ocultar Detalhes' : 'Ver todos recursos'}</span>
-        <div className={`p-1 rounded-full bg-white/5 transition-transform duration-300 ${isExpanded ? 'rotate-180 bg-white/20' : ''}`}><ChevronRight size={14} className="text-gray-400" /></div>
-      </div>
-      <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isExpanded ? 'max-h-[500px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>{children}</div>
-    </div>
-  );
-}
-
-function ServiceCard({ icon, title, desc, active, onClick, tag, delay }) {
-  return (
-    <div onClick={active ? onClick : undefined} className={`group relative p-8 rounded-2xl border border-white/5 backdrop-blur-md bg-white/[0.02] transition-all duration-500 ease-out overflow-hidden ${active ? 'cursor-pointer hover:bg-white/[0.05] hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] hover:-translate-y-2' : 'opacity-70 grayscale hover:grayscale-0 hover:opacity-100'}`} style={{ animationDelay: `${delay}ms` }}>
-      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-lg transition duration-500"></div>
-      <div className="relative z-10 flex flex-col h-full">
-        <div className="mb-6 p-3 bg-white/5 w-fit rounded-xl border border-white/10 group-hover:scale-110 transition-transform duration-300">{icon}</div>
-        <div className="flex justify-between items-start"><h3 className="text-xl font-bold uppercase tracking-wider mb-3 group-hover:text-blue-400 transition-colors">{title}</h3>{tag && <span className="text-[10px] uppercase bg-white/10 px-2 py-1 rounded text-gray-400">{tag}</span>}</div>
-        <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">{desc}</p>
-        {active && <div className="flex items-center gap-2 text-sm font-bold text-blue-500 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">SAIBA MAIS <ChevronRight size={16} /></div>}
-      </div>
-    </div>
-  );
-}
-
 
 function WebsitesPage({ navigateTo }) {
   const [step, setStep] = useState(1); 
@@ -790,6 +702,7 @@ function ConsultoriaPage({ navigateTo }) {
                 </button>
 
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
                     <div className="animate-fade-in-up space-y-8">
                         <div>
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono mb-4 animate-pulse">
@@ -835,11 +748,11 @@ function ConsultoriaPage({ navigateTo }) {
                             </a>
                         </div>
                     </div>
-
                     <div className="w-full h-full flex items-center justify-center animate-fade-in-up animation-delay-500">
                         <CyberpunkChart />
                     </div>
                 </div>
+
                 <div className="mt-20 pt-10 border-t border-white/5 grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-fade-in opacity-50 hover:opacity-100 transition-opacity">
                     <div>
                         <div className="text-3xl font-black text-white mb-1">R$ 15M+</div>
@@ -964,3 +877,165 @@ const CyberpunkChart = () => {
         </div>
     );
 };
+
+const SearchIcon = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>;
+const PenToolIcon = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>;
+
+function AboutPage({ navigateTo }) {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  return (
+    <div className="min-h-screen bg-slate-950">
+      <header className="relative h-[60vh] flex items-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <video autoPlay loop muted playsInline className="w-full h-full object-cover grayscale opacity-60">
+            <source src={bgVideo2} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
+          <div className="absolute inset-0 bg-slate-950/30 backdrop-blur-[2px]"></div>
+        </div>
+        <div className="container mx-auto px-6 relative z-10 mt-20">
+          <span className="inline-block py-1 px-3 border border-blue-500/50 rounded-full text-blue-400 text-xs font-bold uppercase tracking-[0.2em] mb-4 bg-blue-500/10 backdrop-blur-md">QUEM SOMOS</span>
+          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-tight max-w-4xl">Nós construímos a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">inteligência</span> por trás do seu negócio.</h1>
+        </div>
+      </header>
+      <section className="py-20 relative">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6 auto-rows-[minmax(180px,auto)]">
+            <div className="col-span-1 md:col-span-6 lg:col-span-7 row-span-2 bg-white/5 border border-white/10 rounded-[2rem] p-10 flex flex-col justify-between hover:border-blue-500/30 transition-colors group relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-blue-600/30 transition-all"></div>
+               <div>
+                 <Rocket size={40} className="text-blue-500 mb-6" />
+                 <h2 className="text-3xl font-bold uppercase tracking-wide mb-6">A Revolução Zytech</h2>
+                 <p className="text-gray-300 text-lg leading-relaxed max-w-2xl">Nascemos com um propósito claro: democratizar o acesso à inteligência artificial de alta performance.</p>
+               </div>
+            </div>
+            <div className="col-span-1 md:col-span-6 lg:col-span-5 row-span-1 bg-gradient-to-br from-blue-900 to-slate-900 border border-white/10 rounded-[2rem] p-8 flex items-center relative overflow-hidden">
+               <Target className="absolute right-4 top-4 text-white/5 w-32 h-32 rotate-12" />
+               <div className="relative z-10"><h3 className="text-xl font-bold uppercase tracking-widest text-blue-300 mb-2 flex items-center gap-2"><Target size={18}/> Missão</h3><p className="text-white/90 font-light">Eliminar a ineficiência. Transformar cada interação digital em uma oportunidade.</p></div>
+            </div>
+            <div className="col-span-1 md:col-span-3 lg:col-span-3 row-span-1 bg-white/5 border border-white/10 rounded-[2rem] p-6 flex flex-col justify-center items-center text-center hover:bg-white/10 transition-colors">
+               <span className="text-4xl font-bold text-emerald-400 mb-1">98%</span><span className="text-xs text-gray-400 uppercase tracking-widest">Satisfação (CSAT)</span>
+            </div>
+             <div className="col-span-1 md:col-span-3 lg:col-span-2 row-span-1 bg-white/5 border border-white/10 rounded-[2rem] p-6 flex flex-col justify-center items-center text-center hover:bg-white/10 transition-colors">
+               <span className="text-4xl font-bold text-purple-400 mb-1">24/7</span><span className="text-xs text-gray-400 uppercase tracking-widest">Suporte Ativo</span>
+            </div>
+            <div className="col-span-1 md:col-span-6 lg:col-span-5 row-span-1 backdrop-blur-lg bg-white/5 border border-white/10 rounded-[2rem] p-8 flex items-center relative overflow-hidden group">
+               <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+               <div className="relative z-10"><h3 className="text-xl font-bold uppercase tracking-widest text-purple-300 mb-2 flex items-center gap-2"><Eye size={18}/> Visão</h3><p className="text-gray-300 font-light">Ser a espinha dorsal tecnológica das empresas que liderarão o mercado.</p></div>
+            </div>
+            <div className="col-span-1 md:col-span-6 lg:col-span-7 row-span-1 bg-slate-900 border border-white/10 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4 min-w-fit"><div className="p-3 bg-amber-500/10 rounded-xl text-amber-500"><Award size={24} /></div><span className="font-bold uppercase tracking-wider text-sm">Nossos Valores</span></div>
+                <div className="h-px w-full bg-white/10 md:hidden"></div>
+                <div className="flex flex-wrap justify-center md:justify-end gap-3">{['Inovação', 'Transparência', 'Agilidade', 'Resultado'].map((val) => (<span key={val} className="px-4 py-2 rounded-full border border-white/10 text-xs uppercase tracking-wide text-gray-400 hover:text-white hover:border-blue-500 transition-colors cursor-default">{val}</span>))}</div>
+            </div>
+             <div className="col-span-1 md:col-span-12 lg:col-span-5 row-span-1 bg-white/[0.02] border border-white/10 rounded-[2rem] p-8 overflow-hidden relative">
+                <div className="absolute top-0 right-0 p-4 opacity-20"><Code size={64}/></div><h3 className="text-lg font-bold uppercase tracking-widest text-gray-500 mb-4">Tech DNA</h3>
+                <div className="flex gap-4 text-gray-300 font-mono text-sm"><span className="text-blue-400">React</span><span>•</span><span className="text-yellow-400">Python</span><span>•</span><span className="text-green-400">Node.js</span><span>•</span><span className="text-cyan-400">Tailwind</span></div>
+             </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function LandingPage({ navigateTo }) {
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    const text = `*NOVO CONTATO VIA SITE*\n\n*Nome:* ${contactForm.name}\n*Email:* ${contactForm.email}\n*Mensagem:* ${contactForm.message}`;
+    const url = `https://wa.me/553186550113?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+
+  return (
+    <>
+      <header className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <video autoPlay loop muted playsInline className="w-full h-full object-cover">
+            <source src={bgVideo} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-slate-950/70 bg-gradient-to-b from-slate-950/40 via-slate-950/60 to-slate-950"></div>
+        </div>
+        <div className="relative z-10 container mx-auto px-6 text-center mt-16">
+          <p className="text-blue-400 tracking-[0.3em] text-sm uppercase mb-4 animate-fade-in-up">Tecnologia de Ponta</p>
+          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500 drop-shadow-lg">O Futuro do <br/> Atendimento</h1>
+          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">Automatize, venda e cresça. A Zytech transforma visitantes em clientes com inteligência artificial e design de alta performance.</p>
+          <div className="flex flex-col md:flex-row gap-4 justify-center">
+            <button onClick={() => navigateTo('chatbot')} className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium tracking-wide transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] flex items-center justify-center gap-2">Conhecer Soluções <ArrowRight size={18} /></button>
+            <button className="px-8 py-3 bg-transparent border border-white/20 hover:bg-white/5 text-white rounded-full font-medium tracking-wide transition-all backdrop-blur-sm">Falar com Consultor</button>
+          </div>
+        </div>
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-950 to-transparent z-20"></div>
+      </header>
+      <section className="py-24 bg-slate-950 relative">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16"><h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-2">Nossos Serviços</h2><div className="h-1 w-20 bg-blue-600 mx-auto rounded-full"></div></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <ServiceCard icon={<MessageSquare size={32} className="text-blue-400" />} title="Comércio" desc="Atendimento automatizado para Delivery e Serviços gerais." active={true} onClick={() => navigateTo('chatbot')} delay="0" />
+            <ServiceCard icon={<Globe size={32} className="text-purple-400" />} title="Websites" desc="Landing pages de alta conversão e design futurista." active={true} onClick={() => navigateTo('websites')} tag="Disponível" delay="100" />
+            <ServiceCard icon={<Cpu size={32} className="text-amber-400" />} title="Automações" desc="Integrações que eliminam tarefas repetitivas do seu negócio." active={true} onClick={() => navigateTo('automations')} tag="Disponível" delay="200" />
+            <ServiceCard icon={<LineChart size={32} className="text-emerald-400" />} title="Consultoria" desc="Análise de dados e estratégias digitais para escalar." active={true} onClick={() => navigateTo('consultoria')} tag="Novo" delay="300" />
+          </div>
+        </div>
+      </section>
+      <section id="contact" className="py-24 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-900/5 blur-[100px] rounded-full pointer-events-none"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto bg-white/5 border border-white/10 backdrop-blur-lg rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+            <div className="w-full md:w-1/2 p-10 bg-gradient-to-br from-blue-900/40 to-slate-900/40 flex flex-col justify-between">
+              <div>
+                <h3 className="text-2xl font-bold uppercase tracking-wider mb-6">Vamos Conversar?</h3>
+                <p className="text-gray-300 mb-8 font-light">Seu negócio está pronto para o próximo nível? Preencha o formulário e a equipe Zytech entrará em contato.</p>
+                <div className="space-y-4">
+                  <a href="mailto:contato.zytech@gmail.com" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><Mail size={16} /></div>contato.zytech@gmail.com</a>
+                  <a href="https://wa.me/553186550113?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20conhecer%20as%20soluções%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-green-500 group-hover:text-white transition-all"><Phone size={16} /></div>+55 (31) 86550113</a>
+                </div>
+              </div>
+              <div className="mt-12"><p className="text-xs text-gray-500 uppercase tracking-widest">Localização</p><p className="text-white">Belo Horizonte, MG</p></div>
+            </div>
+            <div className="w-full md:w-1/2 p-10 bg-slate-950/50">
+              <form onSubmit={handleContactSubmit} className="space-y-6">
+                <div>
+                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Nome</label>
+                    <input 
+                        type="text" 
+                        required
+                        className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                        placeholder="Seu nome"
+                        value={contactForm.name}
+                        onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Email</label>
+                    <input 
+                        type="email" 
+                        required
+                        className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
+                        placeholder="seu@email.com" 
+                        value={contactForm.email}
+                        onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
+                    />
+                </div>
+                <div>
+                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Mensagem</label>
+                    <textarea 
+                        rows="4" 
+                        required
+                        className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors resize-none" 
+                        placeholder="Como podemos ajudar?"
+                        value={contactForm.message}
+                        onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
+                    ></textarea>
+                </div>
+                <button type="submit" className="w-full py-3 bg-white text-slate-900 font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 group">Enviar <Send size={16} className="group-hover:translate-x-1 transition-transform" /></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
