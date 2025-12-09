@@ -3,7 +3,7 @@ import {
   MessageSquare, Globe, Cpu, LineChart, ChevronRight, Menu, X, Rocket, Send, 
   ArrowRight, Check, Zap, Crown, Shield, Star, Phone, Mail, Users, Target, 
   Eye, Award, Code, Layout, Workflow, ShoppingCart, Server, ExternalLink, Database, Settings, Play,
-  TrendingUp, PieChart, Activity, Store, Bike, Calendar, Bell
+  TrendingUp, PieChart, Activity, Store, Bike, Calendar, Bell, LayoutTemplate
 } from 'lucide-react';
 
 import logoZytech from './assets/logo.png';
@@ -109,26 +109,49 @@ export default function App() {
 function ChatbotPage({ navigateTo }) {
   const [step, setStep] = useState(1);
   const [selectedIndustry, setSelectedIndustry] = useState(null);
+  const [subCategory, setSubCategory] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [billingCycle, setBillingCycle] = useState('monthly'); 
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const deliveryPlans = [
-    { name: 'Básico', price: '197,00', color: 'blue', icon: <Shield size={32} />, desc: 'Atendimento inicial para delivery.', features: ['Cardápio Digital', 'Pedidos no WhatsApp', 'Sem Taxas por pedido'] },
-    { name: 'Smart', price: '499,90', color: 'amber', icon: <Zap size={32} />, desc: 'IA que vende por você.', features: ['IA de Vendas', 'Sugestão de adicionais', 'Integração iFood', 'Relatórios'] },
-    { name: 'Premium', price: '1099,90', color: 'purple', icon: <Crown size={32} />, desc: 'Gestão completa de franquias.', features: ['Múltiplos Atendentes', 'API Oficial', 'CRM de Clientes', 'Dashboard Avançado'] },
-  ];
+  const getPrice = (basePrice) => {
+    if (billingCycle === 'semiannual') return Math.floor(basePrice * 0.9);
+    if (billingCycle === 'annual') return Math.floor(basePrice * 0.75); 
+    return basePrice;
+  };
 
-  const otherPlans = [
-    { name: 'Gestão Control', price: '299,90', color: 'cyan', icon: <Database size={32} />, desc: 'Organização sem Inteligência Artificial.', features: ['Dashboard de Pedidos', 'CRM Básico', 'Link de Pagamento', 'Sem IA (Menu Fixo)'] },
-    { name: 'IA Agendamento', price: '599,90', color: 'emerald', icon: <Calendar size={32} />, desc: 'Automatize sua agenda com IA.', features: ['IA Tira Dúvidas', 'Agendamento Automático', 'Sincronização Google Calendar', 'Triagem de Clientes'] },
-    { name: 'Full Manager', price: '899,90', color: 'rose', icon: <Bell size={32} />, desc: 'A solução definitiva para serviços.', features: ['Tudo do Plano Agendamento', 'Lembretes Automáticos (No-Show)', 'Campanhas de Retorno', 'Gestão Financeira'] },
-  ];
+  const deliveryPlans = {
+    simple: [
+      { name: 'ZyStart', price: 147, color: 'blue', icon: <Shield size={32} />, desc: 'Atendimento essencial sem IA.', features: ['Cardápio Digital Simples', 'Pedidos no WhatsApp', 'Painel de Pedidos'] }
+    ],
+    advanced: [
+      { name: 'ZyControl', price: 397, color: 'cyan', icon: <Database size={32} />, desc: 'Controle total com automação básica.', features: ['IA de Triagem', 'Gestão de Entregadores', 'Relatórios Básicos'] },
+      { name: 'ZyBotAI', price: 697, color: 'amber', icon: <Zap size={32} />, desc: 'IA Avançada de Vendas.', features: ['IA ChatGPT-4', 'Sugestão de Adicionais', 'Recuperação de Carrinho'] },
+      { name: 'ZyCore', price: 1297, color: 'purple', icon: <Crown size={32} />, desc: 'O núcleo completo da sua operação.', features: ['Múltiplos Atendentes', 'API iFood', 'CRM Fidelidade', 'App do Entregador'] }
+    ]
+  };
+
+  const commercePlans = {
+    simple: [
+      { name: 'ZyStart', price: 147, color: 'blue', icon: <Calendar size={32} />, desc: 'Agendamento simplificado sem site.', features: ['Link de Agenda', 'Lembretes WhatsApp', 'Gestão de Clientes'] }
+    ],
+    advanced: [
+      { name: 'ZyControl', price: 397, color: 'cyan', icon: <LayoutTemplate size={32} />, desc: 'Agendamento integrado ao seu site.', features: ['Site One-Page Incluso', 'Agendamento Online', 'Pagamento Antecipado'] },
+      { name: 'ZyBotAI', price: 697, color: 'emerald', icon: <MessageSquare size={32} />, desc: 'Atendente Virtual Inteligente.', features: ['IA Tira Dúvidas 24h', 'Reagendamento Automático', 'Triagem de Leads'] },
+      { name: 'ZyCore', price: 1297, color: 'rose', icon: <Bell size={32} />, desc: 'Ecossistema completo de serviços.', features: ['Campanhas de Marketing', 'Clube de Assinatura', 'Gestão Financeira', 'Dashboard BI'] }
+    ]
+  };
 
   const handleIndustrySelect = (type) => {
     setSelectedIndustry(type);
     setStep(2);
+  };
+
+  const handleSubCategorySelect = (type) => {
+    setSubCategory(type);
+    setStep(3);
   };
 
   const openContactModal = (plan) => {
@@ -136,11 +159,14 @@ function ChatbotPage({ navigateTo }) {
     setModalOpen(true);
   };
 
+  const activePlans = selectedIndustry === 'delivery' 
+    ? deliveryPlans[subCategory] 
+    : commercePlans[subCategory];
+
   return (
     <div className="relative min-h-screen pt-24 pb-24 overflow-hidden">
-       <div className="absolute inset-0 z-0">
-            <img src={bgWeb} alt="Background" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-slate-950/90 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(2,6,23,0.8)_100%)]"></div>
+       <div className="absolute inset-0 z-0 bg-cover bg-center bg-fixed" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=2070&auto=format&fit=crop")' }}>
+         <div className="absolute inset-0 bg-slate-950/90 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(2,6,23,0.8)_100%)]"></div>
        </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -150,42 +176,31 @@ function ChatbotPage({ navigateTo }) {
 
         <div className="text-center mb-10 animate-fade-in-up">
            <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-wide mb-6 drop-shadow-2xl">
-               {step === 1 ? 'Qual o seu ' : 'Planos para '} 
+               {step === 1 ? 'Qual o seu ' : step === 2 ? 'Qual sua ' : 'Planos '} 
                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                   {step === 1 ? 'Negócio?' : selectedIndustry === 'delivery' ? 'Delivery' : 'Serviços'}
+                   {step === 1 ? 'Negócio?' : step === 2 ? 'Necessidade?' : selectedIndustry === 'delivery' ? 'Delivery' : 'Comércio'}
                </span>
            </h1>
            <p className="text-gray-300 max-w-2xl mx-auto text-lg font-light">
-               {step === 1 
-                ? 'Selecione o segmento para visualizarmos as melhores soluções de automação.' 
-                : 'Tecnologia de ponta adaptada para a realidade da sua empresa.'}
+               Soluções modulares para escalar sua operação.
            </p>
         </div>
 
         {step === 1 && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto animate-fade-in-up">
-                <div 
-                    onClick={() => handleIndustrySelect('delivery')}
-                    className="group bg-slate-900/60 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800/80 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center"
-                >
+                <div onClick={() => handleIndustrySelect('delivery')} className="group bg-slate-900/60 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800/80 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center">
                     <div className="w-24 h-24 bg-amber-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-amber-500/30 transition-colors">
                         <Bike size={48} className="text-amber-400" />
                     </div>
                     <h3 className="text-3xl font-bold text-white mb-2">Delivery</h3>
-                    <p className="text-gray-400">Pizzarias, Hamburguerias, Sushi e Restaurantes.</p>
-                    <div className="mt-6 px-6 py-2 rounded-full border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest group-hover:bg-amber-500 group-hover:text-black transition-all">Ver Planos</div>
+                    <p className="text-gray-400">Pizzarias, Hamburguerias, Sushi.</p>
                 </div>
-
-                <div 
-                    onClick={() => handleIndustrySelect('other')}
-                    className="group bg-slate-900/60 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800/80 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center"
-                >
+                <div onClick={() => handleIndustrySelect('other')} className="group bg-slate-900/60 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800/80 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center">
                     <div className="w-24 h-24 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-emerald-500/30 transition-colors">
                         <Store size={48} className="text-emerald-400" />
                     </div>
                     <h3 className="text-3xl font-bold text-white mb-2">Outros Comércios</h3>
-                    <p className="text-gray-400">Clínicas, Barbearias, Escritórios e Varejo.</p>
-                    <div className="mt-6 px-6 py-2 rounded-full border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-widest group-hover:bg-emerald-500 group-hover:text-black transition-all">Ver Planos</div>
+                    <p className="text-gray-400">Clínicas, Escritórios, Varejo.</p>
                 </div>
             </div>
         )}
@@ -193,26 +208,58 @@ function ChatbotPage({ navigateTo }) {
         {step === 2 && (
             <div className="animate-fade-in">
                 <div className="flex justify-center mb-12">
-                    <button onClick={() => setStep(1)} className="text-sm text-gray-400 hover:text-white flex items-center gap-2 border-b border-transparent hover:border-white transition-all pb-1">
-                        <ArrowRight className="rotate-180" size={14} /> Alterar Segmento
+                    <button onClick={() => setStep(1)} className="text-sm text-gray-400 hover:text-white flex items-center gap-2 border-b border-transparent hover:border-white transition-all pb-1"><ArrowRight className="rotate-180" size={14} /> Voltar</button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div onClick={() => handleSubCategorySelect('simple')} className="group bg-slate-900/60 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800/80 hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center">
+                        <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-blue-500/30 transition-colors">
+                            <Shield size={40} className="text-blue-400" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-2">{selectedIndustry === 'delivery' ? 'Sem Inteligência Artificial' : 'Agendamento sem Site'}</h3>
+                        <p className="text-gray-400">Soluções diretas e funcionais para começar.</p>
+                    </div>
+                    <div onClick={() => handleSubCategorySelect('advanced')} className="group bg-slate-900/60 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800/80 hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center">
+                        <div className="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-500/30 transition-colors">
+                            <Cpu size={40} className="text-purple-400" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-2">{selectedIndustry === 'delivery' ? 'Com Inteligência Artificial' : 'Agendamento por Site'}</h3>
+                        <p className="text-gray-400">Automação avançada e presença digital.</p>
+                    </div>
+                </div>
+            </div>
+        )}
+
+        {step === 3 && activePlans && (
+            <div className="animate-fade-in">
+                <div className="flex justify-center mb-8 gap-8">
+                    <button onClick={() => setStep(2)} className="text-sm text-gray-400 hover:text-white flex items-center gap-2 border-b border-transparent hover:border-white transition-all pb-1">
+                        <ArrowRight className="rotate-180" size={14} /> Voltar
                     </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                    {(selectedIndustry === 'delivery' ? deliveryPlans : otherPlans).map((plan, idx) => (
-                        <div key={idx} className="relative group/glow">
-                            {idx === 1 && <div className={`absolute -inset-1 bg-gradient-to-r from-${plan.color}-500 to-${plan.color}-700 rounded-[2rem] blur-xl opacity-40 group-hover/glow:opacity-70 transition duration-1000 animate-pulse`}></div>}
+                <div className="flex justify-center mb-16">
+                  <div className="bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-full flex flex-wrap justify-center gap-1 sm:gap-0 relative">
+                    <button onClick={() => setBillingCycle('monthly')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'monthly' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Mensal</button>
+                    <button onClick={() => setBillingCycle('semiannual')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'semiannual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Semestral <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-10%</span></button>
+                    <button onClick={() => setBillingCycle('annual')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'annual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Anual <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-25%</span></button>
+                  </div>
+                </div>
+
+                <div className={`grid gap-8 items-start justify-center ${activePlans.length === 1 ? 'grid-cols-1 max-w-md mx-auto' : 'grid-cols-1 md:grid-cols-3'}`}>
+                    {activePlans.map((plan, idx) => (
+                        <div key={idx} className="relative group/glow h-full">
+                            {activePlans.length === 3 && idx === 1 && <div className={`absolute -inset-1 bg-gradient-to-r from-${plan.color}-500 to-${plan.color}-700 rounded-[2rem] blur-xl opacity-40 group-hover/glow:opacity-70 transition duration-1000 animate-pulse`}></div>}
                             
                             <PricingCard 
-                                title={`Modelo ${plan.name}`} 
+                                title={plan.name} 
                                 icon={plan.icon} 
-                                iconBg={idx === 1 ? `bg-gradient-to-br from-${plan.color}-400 to-${plan.color}-600 text-white border-none shadow-lg` : null}
+                                iconBg={(activePlans.length === 3 && idx === 1) ? `bg-gradient-to-br from-${plan.color}-400 to-${plan.color}-600 text-white border-none shadow-lg` : null}
                                 description={plan.desc} 
                                 delay={idx * 100} 
-                                featured={idx === 1} 
+                                featured={activePlans.length === 3 && idx === 1} 
                                 color={plan.color} 
-                                price={plan.price} 
-                                subPrice="/mês" 
+                                price={getPrice(plan.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} 
+                                subPrice={`/${billingCycle === 'monthly' ? 'mês' : billingCycle === 'semiannual' ? 'mês (ciclo 6m)' : 'mês (ciclo 12m)'}`} 
                                 onHire={() => openContactModal(plan.name)}
                             >
                                 <ul className="space-y-4 text-sm text-gray-300 mb-8">
@@ -223,10 +270,6 @@ function ChatbotPage({ navigateTo }) {
                                         </li>
                                     ))}
                                 </ul>
-                                <div className="mt-4 border-t border-white/10 pt-4 text-xs text-gray-400">
-                                    <p className={`mb-2 font-bold text-${plan.color}-300`}>Ideal para:</p>
-                                    <p>{selectedIndustry === 'delivery' ? 'Operações de delivery.' : 'Gestão de agenda e clientes.'}</p>
-                                </div>
                             </PricingCard>
                         </div>
                     ))}
@@ -325,19 +368,26 @@ function ServiceCard({ icon, title, desc, active, onClick, tag, delay }) {
   );
 }
 
+
 function WebsitesPage({ navigateTo }) {
   const [step, setStep] = useState(1); 
   const [selectedTier, setSelectedTier] = useState(null);
   const [addons, setAddons] = useState({});
   const [orderData, setOrderData] = useState(null);
+  const [billingCycle, setBillingCycle] = useState('monthly');
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
+  const getPrice = (basePrice) => {
+    if (billingCycle === 'semiannual') return Math.floor(basePrice * 0.9);
+    if (billingCycle === 'annual') return Math.floor(basePrice * 0.75);
+    return basePrice;
+  };
+
   const tiers = [
-    { id: 'basic', name: 'Básico', price: 500, color: 'blue', desc: 'Landing Page única, ideal para lançamentos.', features: ['Design Responsivo', 'Hospedagem Inclusa', '1 Página'] },
-    { id: 'inter', name: 'Standard', price: 2000, color: 'purple', desc: 'Site institucional com até 5 páginas e blog.', features: ['Design Premium', 'SEO Básico', '5 Páginas', 'Blog'] },
-    { id: 'adv', name: 'Business', price: 5000, color: 'pink', desc: 'Portal completo com CMS e área de membros.', features: ['Painel Admin', 'SEO Avançado', '10+ Páginas', 'Login de Usuário'] },
-    { id: 'pro', name: 'Enterprise', price: 8000, color: 'amber', desc: 'Ecommerce ou aplicação web complexa.', features: ['Banco de Dados', 'API Própria', 'Pagamentos Online', 'App PWA'] },
+    { id: 'start', name: 'Website Start', price: 900, color: 'blue', desc: 'Landing Page única de alta conversão.', features: ['Design Responsivo', 'Hospedagem Inclusa', '1 Página'] },
+    { id: 'control', name: 'Website Control', price: 2500, color: 'purple', desc: 'Site institucional completo com blog.', features: ['Design Premium', 'SEO Básico', '5 Páginas', 'Blog'] },
+    { id: 'core', name: 'Website Core', price: 5000, color: 'pink', desc: 'Portal robusto ou E-commerce.', features: ['Painel Admin', 'SEO Avançado', 'Loja Virtual', 'Login de Usuário'] },
   ];
 
   const availableAddons = [
@@ -358,14 +408,15 @@ function WebsitesPage({ navigateTo }) {
 
   const finishOrder = () => {
     const orderId = 'ZY-WEB-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-    let total = selectedTier.price;
+    let total = getPrice(selectedTier.price);
     availableAddons.forEach(a => { if(addons[a.id]) total += a.price; });
 
     const finalJson = {
         orderId,
         service: 'Website Development',
         tier: selectedTier.name,
-        basePrice: selectedTier.price,
+        billingCycle,
+        basePrice: getPrice(selectedTier.price),
         addons: availableAddons.filter(a => addons[a.id]).map(a => a.name),
         totalPrice: total,
         timestamp: new Date().toISOString()
@@ -422,40 +473,50 @@ function WebsitesPage({ navigateTo }) {
         </div>
 
         {step === 1 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up">
-                {tiers.map((tier, idx) => (
-                    <div 
-                        key={tier.id} 
-                        onClick={() => handleTierSelect(tier)} 
-                        className={`
-                            group relative bg-slate-900/60 border border-white/10 rounded-3xl p-8 cursor-pointer 
-                            hover:-translate-y-3 transition-all duration-300 flex flex-col h-full backdrop-blur-md
-                            hover:bg-slate-800/80 shadow-2xl ${getShadow(tier.color)}
-                        `}
-                    >
-                        <div className={`absolute -inset-[1px] bg-gradient-to-r ${getGradient(tier.color)} rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10`}></div>
-                        
-                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getGradient(tier.color)} flex items-center justify-center mb-6 shadow-lg text-white`}>
-                            {idx === 0 ? <Layout size={24}/> : idx === 1 ? <Globe size={24}/> : idx === 2 ? <Database size={24}/> : <ShoppingCart size={24}/>}
-                        </div>
+            <div className="animate-fade-in-up">
+                <div className="flex justify-center mb-16">
+                  <div className="bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-full flex flex-wrap justify-center gap-1 sm:gap-0 relative">
+                    <button onClick={() => setBillingCycle('monthly')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'monthly' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Mensal</button>
+                    <button onClick={() => setBillingCycle('semiannual')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'semiannual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Semestral <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-10%</span></button>
+                    <button onClick={() => setBillingCycle('annual')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'annual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Anual <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-25%</span></button>
+                  </div>
+                </div>
 
-                        <h3 className="text-2xl font-bold uppercase mb-2 tracking-wide">{tier.name}</h3>
-                        <p className="text-gray-400 text-sm mb-6 flex-grow leading-relaxed">{tier.desc}</p>
-                        
-                        <div className="mb-6">
-                            <span className="text-xs text-gray-500 font-normal block mb-1">A partir de:</span>
-                            <div className="text-3xl font-bold text-white tracking-tight">R$ {tier.price}</div>
-                        </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {tiers.map((tier, idx) => (
+                        <div 
+                            key={tier.id} 
+                            onClick={() => handleTierSelect(tier)} 
+                            className={`
+                                group relative bg-slate-900/60 border border-white/10 rounded-3xl p-8 cursor-pointer 
+                                hover:-translate-y-3 transition-all duration-300 flex flex-col h-full backdrop-blur-md
+                                hover:bg-slate-800/80 shadow-2xl ${getShadow(tier.color)}
+                            `}
+                        >
+                            <div className={`absolute -inset-[1px] bg-gradient-to-r ${getGradient(tier.color)} rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10`}></div>
+                            
+                            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getGradient(tier.color)} flex items-center justify-center mb-6 shadow-lg text-white`}>
+                                {idx === 0 ? <Layout size={24}/> : idx === 1 ? <Globe size={24}/> : <ShoppingCart size={24}/>}
+                            </div>
 
-                        <ul className="text-sm text-gray-300 space-y-3 mb-8 border-t border-white/10 pt-6">
-                            {tier.features.map(f => <li key={f} className="flex gap-3 items-center"><div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${getGradient(tier.color)}`}></div> {f}</li>)}
-                        </ul>
-                        
-                        <button className={`w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-white/5 border border-white/10 hover:bg-white hover:text-slate-900 group-hover:border-transparent`}>
-                            Configurar
-                        </button>
-                    </div>
-                ))}
+                            <h3 className="text-2xl font-bold uppercase mb-2 tracking-wide">{tier.name}</h3>
+                            <p className="text-gray-400 text-sm mb-6 flex-grow leading-relaxed">{tier.desc}</p>
+                            
+                            <div className="mb-6">
+                                <span className="text-xs text-gray-500 font-normal block mb-1">A partir de:</span>
+                                <div className="text-3xl font-bold text-white tracking-tight">R$ {getPrice(tier.price)}</div>
+                            </div>
+
+                            <ul className="text-sm text-gray-300 space-y-3 mb-8 border-t border-white/10 pt-6">
+                                {tier.features.map(f => <li key={f} className="flex gap-3 items-center"><div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${getGradient(tier.color)}`}></div> {f}</li>)}
+                            </ul>
+                            
+                            <button className={`w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-white/5 border border-white/10 hover:bg-white hover:text-slate-900 group-hover:border-transparent`}>
+                                Configurar
+                            </button>
+                        </div>
+                    ))}
+                </div>
             </div>
         )}
 
@@ -510,7 +571,7 @@ function WebsitesPage({ navigateTo }) {
                             <h3 className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-6">Resumo do Pedido</h3>
                             <div className="flex justify-between text-sm mb-2 text-gray-300">
                                 <span>{selectedTier.name} (Base)</span>
-                                <span>R$ {selectedTier.price}</span>
+                                <span>R$ {getPrice(selectedTier.price)}</span>
                             </div>
                             {availableAddons.filter(a => addons[a.id]).map(a => (
                                 <div key={a.id} className="flex justify-between text-xs mb-2 text-gray-400">
@@ -521,7 +582,7 @@ function WebsitesPage({ navigateTo }) {
                             <div className="h-px bg-white/10 my-4"></div>
                             <div className="flex justify-between items-end mb-8">
                                 <span className="text-sm font-bold text-gray-300">Total Estimado</span>
-                                <span className="text-2xl font-bold text-white">R$ {selectedTier.price + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0)}</span>
+                                <span className="text-2xl font-bold text-white">R$ {getPrice(selectedTier.price) + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0)}</span>
                             </div>
                             <button onClick={finishOrder} className={`w-full py-4 bg-gradient-to-r ${getGradient(selectedTier.color)} text-white rounded-xl font-bold uppercase tracking-wider flex justify-center items-center gap-2 shadow-lg hover:scale-105 transition-transform`}>
                                 Gerar Pedido <ArrowRight size={18}/>
@@ -563,19 +624,14 @@ function WebsitesPage({ navigateTo }) {
 
 function AutomationsPage({ navigateTo }) {
     const [modalOpen, setModalOpen] = useState(false);
-    const [selectedAutoTier, setSelectedAutoTier] = useState(null);
+    const [billingCycle, setBillingCycle] = useState('monthly');
 
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
-    const tiers = [
-        { name: 'Básico', price: '600', color: 'cyan', icon: <Zap size={24}/>, desc: 'Automação de e-mails, planilhas e tarefas simples.', features: ['Automação única', 'Integração com APIs', 'Alertas por Email'] },
-        { name: 'Intermediário', price: '1.499', color: 'purple', icon: <Workflow size={24}/>, desc: 'Integração CRM, WhatsApp API e Dashboards BI.', features: ['Mais de uma Automação', 'Automações Modernas', 'Disparos Sociais', 'Suporte Prioritário'] },
-        { name: 'Avançado', price: '2.999', color: 'emerald', icon: <Server size={24}/>, desc: 'IA Agents, Web Scraping e Sistemas Complexos.', features: ['Fluxos Ilimitados', 'IA Personalizada', 'Servidor Dedicado', 'Suporte Premium'] },
-    ];
-
-    const openAutoModal = (tier) => {
-        setSelectedAutoTier(tier);
-        setModalOpen(true);
+    const getPrice = (basePrice) => {
+        if (billingCycle === 'semiannual') return Math.floor(basePrice * 0.9); 
+        if (billingCycle === 'annual') return Math.floor(basePrice * 0.75);
+        return basePrice;
     };
 
     return (
@@ -603,56 +659,68 @@ function AutomationsPage({ navigateTo }) {
                     <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light">Elimine o trabalho manual. Conectamos seus softwares para trabalharem sozinhos em uma sinfonia digital.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {tiers.map((tier, idx) => (
-                        <div key={idx} className="relative group">
-                            <div className={`absolute -inset-0.5 bg-gradient-to-b from-${tier.color}-500 to-${tier.color}-900 rounded-[2rem] blur opacity-40 group-hover:opacity-100 transition duration-700`}></div>
-                            
-                            <div className="relative bg-slate-900/90 border border-white/10 rounded-[2rem] p-8 h-full flex flex-col hover:bg-slate-800/90 transition-colors backdrop-blur-xl">
-                                <div className="flex justify-between items-start mb-8">
-                                    <div className={`w-14 h-14 rounded-2xl bg-${tier.color}-500/10 border border-${tier.color}-500/30 flex items-center justify-center text-${tier.color}-400 shadow-[0_0_20px_rgba(0,0,0,0.3)]`}>
-                                        {tier.icon}
-                                    </div>
-                                    <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-${tier.color}-500/30 text-${tier.color}-400 bg-${tier.color}-500/5`}>
-                                        Tier {idx + 1}
-                                    </div>
-                                </div>
-                                
-                                <h3 className="text-3xl font-bold uppercase tracking-wide mb-2 text-white">{tier.name}</h3>
-                                <div className="flex flex-col mb-6">
-                                    <span className="text-xs text-gray-500 font-normal block mb-1">A partir de:</span>
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-2xl font-bold text-gray-400">R$</span>
-                                        <span className={`text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-${tier.color}-400`}>{tier.price}</span>
-                                        <span className="text-sm font-normal text-gray-500">/setup</span>
-                                    </div>
-                                </div>
-                                
-                                <p className="text-gray-400 text-sm mb-8 flex-grow leading-relaxed border-b border-white/5 pb-8">{tier.desc}</p>
-                                
-                                <ul className="space-y-4 mb-8">
-                                    {tier.features.map(f => (
-                                        <li key={f} className="flex items-center gap-3 text-sm text-gray-300">
-                                            <div className={`w-1.5 h-1.5 rounded-full bg-${tier.color}-400 shadow-[0_0_5px_currentColor] text-${tier.color}-400`}></div>
-                                            {f}
-                                        </li>
-                                    ))}
-                                </ul>
+                <div className="flex justify-center mb-16 animate-fade-in-up animation-delay-500">
+                  <div className="bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-full flex flex-wrap justify-center gap-1 sm:gap-0 relative">
+                    <button onClick={() => setBillingCycle('monthly')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'monthly' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Mensal</button>
+                    <button onClick={() => setBillingCycle('semiannual')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'semiannual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Semestral <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-10%</span></button>
+                    <button onClick={() => setBillingCycle('annual')} className={`px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'annual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Anual <span className="ml-1 text-[10px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-25%</span></button>
+                  </div>
+                </div>
 
-                                <button 
-                                    onClick={() => openAutoModal(tier)}
-                                    className={`w-full py-4 rounded-xl border border-${tier.color}-500/50 text-${tier.color}-300 font-bold uppercase tracking-widest hover:bg-${tier.color}-500 hover:text-slate-900 hover:border-transparent transition-all shadow-[0_0_20px_rgba(0,0,0,0)] hover:shadow-[0_0_30px_rgba(var(--color-${tier.color}-500),0.4)] group-hover:scale-[1.02] active:scale-95`}
-                                >
-                                    Iniciar Projeto
-                                </button>
+                <div className="max-w-md mx-auto relative group">
+                    <div className={`absolute -inset-0.5 bg-gradient-to-b from-cyan-500 to-purple-900 rounded-[2rem] blur opacity-40 group-hover:opacity-100 transition duration-700`}></div>
+                    
+                    <div className="relative bg-slate-900/90 border border-white/10 rounded-[2rem] p-8 h-full flex flex-col hover:bg-slate-800/90 transition-colors backdrop-blur-xl">
+                        <div className="flex justify-between items-start mb-8">
+                            <div className={`w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-[0_0_20px_rgba(0,0,0,0.3)]`}>
+                                <Workflow size={32}/>
+                            </div>
+                            <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-cyan-500/30 text-cyan-400 bg-cyan-500/5`}>
+                                Personalizado
                             </div>
                         </div>
-                    ))}
+                        
+                        <h3 className="text-3xl font-bold uppercase tracking-wide mb-2 text-white">ZyAuto Start</h3>
+                        <div className="mb-6">
+                            <span className="text-xs text-gray-500 font-normal block mb-1">A partir de:</span>
+                            <div className="flex items-baseline gap-1">
+                                <span className="text-2xl font-bold text-gray-400">R$</span>
+                                <span className={`text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-cyan-400`}>{getPrice(197)}</span>
+                                <span className="text-sm font-normal text-gray-500">/setup</span>
+                            </div>
+                        </div>
+                        
+                        <p className="text-gray-400 text-sm mb-8 flex-grow leading-relaxed border-b border-white/5 pb-8">
+                            Solução sob medida para o seu negócio. Integramos CRMs, Planilhas, E-mails e muito mais.
+                        </p>
+                        
+                        <ul className="space-y-4 mb-8">
+                            <li className="flex items-center gap-3 text-sm text-gray-300">
+                                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_5px_currentColor]"></div>
+                                Automação de Tarefas Repetitivas
+                            </li>
+                            <li className="flex items-center gap-3 text-sm text-gray-300">
+                                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_5px_currentColor]"></div>
+                                Integração entre Softwares
+                            </li>
+                            <li className="flex items-center gap-3 text-sm text-gray-300">
+                                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_5px_currentColor]"></div>
+                                Disparos e Alertas Inteligentes
+                            </li>
+                        </ul>
+
+                        <button 
+                            onClick={() => setModalOpen(true)}
+                            className={`w-full py-4 rounded-xl border border-cyan-500/50 text-cyan-300 font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-slate-900 hover:border-transparent transition-all shadow-[0_0_20px_rgba(0,0,0,0)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] group-hover:scale-[1.02] active:scale-95`}
+                        >
+                            Iniciar Projeto
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            {modalOpen && selectedAutoTier && (
-                <AutomationContactModal tier={selectedAutoTier} onClose={() => setModalOpen(false)} />
+            {modalOpen && (
+                <AutomationContactModal tier={{name: 'ZyAuto Personalizado', price: getPrice(197), color: 'cyan'}} onClose={() => setModalOpen(false)} />
             )}
         </div>
     );
@@ -679,7 +747,7 @@ function AutomationContactModal({ tier, onClose }) {
 
                 <div className="bg-white/5 rounded-xl p-6 mb-8 border border-white/5">
                     <div className="flex justify-between items-center mb-4 pb-4 border-b border-white/5">
-                        <span className="text-gray-400 text-sm">Setup Inicial</span>
+                        <span className="text-gray-400 text-sm">Setup Inicial (Estimado)</span>
                         <span className="text-white font-bold text-lg">R$ {tier.price}</span>
                     </div>
                     <p className="text-xs text-gray-500 leading-relaxed text-center">
@@ -703,6 +771,98 @@ function AutomationContactModal({ tier, onClose }) {
     );
 }
 
+function ConsultoriaPage({ navigateTo }) {
+    useEffect(() => { window.scrollTo(0, 0); }, []);
+
+    return (
+        <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-black flex flex-col justify-center">
+
+            <div className="absolute inset-0 z-0">
+                 <img src={bgConsultoria} alt="Consultoria BG" className="w-full h-full object-cover opacity-40 mix-blend-screen" />
+
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+            </div>
+
+            <div className="container mx-auto px-6 relative z-10 w-full">
+                <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-colors mb-8 text-sm uppercase tracking-wider group">
+                    <ArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={16} /> Voltar para Home
+                </button>
+
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    <div className="animate-fade-in-up space-y-8">
+                        <div>
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono mb-4 animate-pulse">
+                                <Zap size={12} /> SYSTEM_READY // V.2.04
+                            </div>
+                            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white leading-[0.9]">
+                                Dominância <br/>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 filter drop-shadow-[0_0_10px_rgba(236,72,153,0.5)]">
+                                    Digital
+                                </span>
+                            </h1>
+                        </div>
+                        
+                        <p className="text-gray-300 text-lg font-light leading-relaxed border-l-2 border-pink-500/50 pl-6 max-w-lg">
+                            Transformamos dados caóticos em estratégias letais. Nossa consultoria não sugere, ela <strong className="text-white">implementa</strong> o futuro da sua operação com arquitetura de software escalável e inteligência de mercado.
+                        </p>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="bg-slate-900/50 border border-white/10 p-4 rounded-xl backdrop-blur-sm hover:border-cyan-500/50 transition-all group cursor-default">
+                                <div className="w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-cyan-500/20 transition-colors">
+                                    <TrendingUp className="text-cyan-400" size={20} />
+                                </div>
+                                <h3 className="font-bold text-white uppercase text-xs tracking-wider mb-1">Growth Hacking</h3>
+                                <p className="text-[10px] text-gray-500">Escala baseada em experimentação rápida.</p>
+                            </div>
+                             <div className="bg-slate-900/50 border border-white/10 p-4 rounded-xl backdrop-blur-sm hover:border-pink-500/50 transition-all group cursor-default">
+                                <div className="w-10 h-10 bg-pink-500/10 rounded-lg flex items-center justify-center mb-3 group-hover:bg-pink-500/20 transition-colors">
+                                    <Database className="text-pink-400" size={20} />
+                                </div>
+                                <h3 className="font-bold text-white uppercase text-xs tracking-wider mb-1">Data Architecture</h3>
+                                <p className="text-[10px] text-gray-500">Estruturação de dados para IA.</p>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                            <a 
+                                href="https://wa.me/553186550113?text=Olá,%20gostaria%20de%20agendar%20um%20diagnóstico%20de%20consultoria%20estratégica." 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex justify-center items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold uppercase tracking-widest rounded-lg transition-all shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] group transform hover:-translate-y-1"
+                            >
+                                Iniciar Protocolo <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform"/>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="w-full h-full flex items-center justify-center animate-fade-in-up animation-delay-500">
+                        <CyberpunkChart />
+                    </div>
+                </div>
+                <div className="mt-20 pt-10 border-t border-white/5 grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-fade-in opacity-50 hover:opacity-100 transition-opacity">
+                    <div>
+                        <div className="text-3xl font-black text-white mb-1">R$ 15M+</div>
+                        <div className="text-[10px] uppercase tracking-widest text-gray-500">Receita Gerada</div>
+                    </div>
+                     <div>
+                        <div className="text-3xl font-black text-white mb-1">+400%</div>
+                        <div className="text-[10px] uppercase tracking-widest text-gray-500">ROI Médio</div>
+                    </div>
+                     <div>
+                        <div className="text-3xl font-black text-white mb-1">85</div>
+                        <div className="text-[10px] uppercase tracking-widest text-gray-500">Projetos Entregues</div>
+                    </div>
+                     <div>
+                        <div className="text-3xl font-black text-white mb-1">24/7</div>
+                        <div className="text-[10px] uppercase tracking-widest text-gray-500">Monitoramento</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 const CyberpunkChart = () => {
     const pointsPink = "0,60 16.6,50 33.3,50 50,30 66.6,10 83.3,20 100,40";
     const pointsCyan = "0,90 16.6,70 33.3,10 50,50 66.6,80 83.3,90 100,90";
@@ -712,6 +872,7 @@ const CyberpunkChart = () => {
 
     return (
         <div className="relative w-full aspect-[16/10] bg-slate-900/80 border border-slate-700 rounded-xl p-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
+
              <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
              
              <div className="absolute top-4 left-6 z-20">
@@ -803,165 +964,3 @@ const CyberpunkChart = () => {
         </div>
     );
 };
-
-const SearchIcon = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>;
-const PenToolIcon = (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>;
-
-function AboutPage({ navigateTo }) {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-  return (
-    <div className="min-h-screen bg-slate-950">
-      <header className="relative h-[60vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <video autoPlay loop muted playsInline className="w-full h-full object-cover grayscale opacity-60">
-            <source src={bgVideo2} type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
-          <div className="absolute inset-0 bg-slate-950/30 backdrop-blur-[2px]"></div>
-        </div>
-        <div className="container mx-auto px-6 relative z-10 mt-20">
-          <span className="inline-block py-1 px-3 border border-blue-500/50 rounded-full text-blue-400 text-xs font-bold uppercase tracking-[0.2em] mb-4 bg-blue-500/10 backdrop-blur-md">QUEM SOMOS</span>
-          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-tight max-w-4xl">Nós construímos a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">inteligência</span> por trás do seu negócio.</h1>
-        </div>
-      </header>
-      <section className="py-20 relative">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6 auto-rows-[minmax(180px,auto)]">
-            <div className="col-span-1 md:col-span-6 lg:col-span-7 row-span-2 bg-white/5 border border-white/10 rounded-[2rem] p-10 flex flex-col justify-between hover:border-blue-500/30 transition-colors group relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-blue-600/30 transition-all"></div>
-               <div>
-                 <Rocket size={40} className="text-blue-500 mb-6" />
-                 <h2 className="text-3xl font-bold uppercase tracking-wide mb-6">A Revolução Zytech</h2>
-                 <p className="text-gray-300 text-lg leading-relaxed max-w-2xl">Nascemos com um propósito claro: democratizar o acesso à inteligência artificial de alta performance.</p>
-               </div>
-            </div>
-            <div className="col-span-1 md:col-span-6 lg:col-span-5 row-span-1 bg-gradient-to-br from-blue-900 to-slate-900 border border-white/10 rounded-[2rem] p-8 flex items-center relative overflow-hidden">
-               <Target className="absolute right-4 top-4 text-white/5 w-32 h-32 rotate-12" />
-               <div className="relative z-10"><h3 className="text-xl font-bold uppercase tracking-widest text-blue-300 mb-2 flex items-center gap-2"><Target size={18}/> Missão</h3><p className="text-white/90 font-light">Eliminar a ineficiência. Transformar cada interação digital em uma oportunidade.</p></div>
-            </div>
-            <div className="col-span-1 md:col-span-3 lg:col-span-3 row-span-1 bg-white/5 border border-white/10 rounded-[2rem] p-6 flex flex-col justify-center items-center text-center hover:bg-white/10 transition-colors">
-               <span className="text-4xl font-bold text-emerald-400 mb-1">98%</span><span className="text-xs text-gray-400 uppercase tracking-widest">Satisfação (CSAT)</span>
-            </div>
-             <div className="col-span-1 md:col-span-3 lg:col-span-2 row-span-1 bg-white/5 border border-white/10 rounded-[2rem] p-6 flex flex-col justify-center items-center text-center hover:bg-white/10 transition-colors">
-               <span className="text-4xl font-bold text-purple-400 mb-1">24/7</span><span className="text-xs text-gray-400 uppercase tracking-widest">Suporte Ativo</span>
-            </div>
-            <div className="col-span-1 md:col-span-6 lg:col-span-5 row-span-1 backdrop-blur-lg bg-white/5 border border-white/10 rounded-[2rem] p-8 flex items-center relative overflow-hidden group">
-               <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-               <div className="relative z-10"><h3 className="text-xl font-bold uppercase tracking-widest text-purple-300 mb-2 flex items-center gap-2"><Eye size={18}/> Visão</h3><p className="text-gray-300 font-light">Ser a espinha dorsal tecnológica das empresas que liderarão o mercado.</p></div>
-            </div>
-            <div className="col-span-1 md:col-span-6 lg:col-span-7 row-span-1 bg-slate-900 border border-white/10 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-4 min-w-fit"><div className="p-3 bg-amber-500/10 rounded-xl text-amber-500"><Award size={24} /></div><span className="font-bold uppercase tracking-wider text-sm">Nossos Valores</span></div>
-                <div className="h-px w-full bg-white/10 md:hidden"></div>
-                <div className="flex flex-wrap justify-center md:justify-end gap-3">{['Inovação', 'Transparência', 'Agilidade', 'Resultado'].map((val) => (<span key={val} className="px-4 py-2 rounded-full border border-white/10 text-xs uppercase tracking-wide text-gray-400 hover:text-white hover:border-blue-500 transition-colors cursor-default">{val}</span>))}</div>
-            </div>
-             <div className="col-span-1 md:col-span-12 lg:col-span-5 row-span-1 bg-white/[0.02] border border-white/10 rounded-[2rem] p-8 overflow-hidden relative">
-                <div className="absolute top-0 right-0 p-4 opacity-20"><Code size={64}/></div><h3 className="text-lg font-bold uppercase tracking-widest text-gray-500 mb-4">Tech DNA</h3>
-                <div className="flex gap-4 text-gray-300 font-mono text-sm"><span className="text-blue-400">React</span><span>•</span><span className="text-yellow-400">Python</span><span>•</span><span className="text-green-400">Node.js</span><span>•</span><span className="text-cyan-400">Tailwind</span></div>
-             </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-function LandingPage({ navigateTo }) {
-  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
-
-  const handleContactSubmit = (e) => {
-    e.preventDefault();
-    const text = `*NOVO CONTATO VIA SITE*\n\n*Nome:* ${contactForm.name}\n*Email:* ${contactForm.email}\n*Mensagem:* ${contactForm.message}`;
-    const url = `https://wa.me/553186550113?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
-  };
-
-  return (
-    <>
-      <header className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <video autoPlay loop muted playsInline className="w-full h-full object-cover">
-            <source src={bgVideo} type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-slate-950/70 bg-gradient-to-b from-slate-950/40 via-slate-950/60 to-slate-950"></div>
-        </div>
-        <div className="relative z-10 container mx-auto px-6 text-center mt-16">
-          <p className="text-blue-400 tracking-[0.3em] text-sm uppercase mb-4 animate-fade-in-up">Tecnologia de Ponta</p>
-          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500 drop-shadow-lg">O Futuro do <br/> Atendimento</h1>
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">Automatize, venda e cresça. A Zytech transforma visitantes em clientes com inteligência artificial e design de alta performance.</p>
-          <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <button onClick={() => navigateTo('chatbot')} className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium tracking-wide transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] flex items-center justify-center gap-2">Conhecer Soluções <ArrowRight size={18} /></button>
-            <button className="px-8 py-3 bg-transparent border border-white/20 hover:bg-white/5 text-white rounded-full font-medium tracking-wide transition-all backdrop-blur-sm">Falar com Consultor</button>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-950 to-transparent z-20"></div>
-      </header>
-      <section className="py-24 bg-slate-950 relative">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16"><h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-2">Nossos Serviços</h2><div className="h-1 w-20 bg-blue-600 mx-auto rounded-full"></div></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <ServiceCard icon={<MessageSquare size={32} className="text-blue-400" />} title="Comércio" desc="Atendimento automatizado para Delivery e Serviços gerais." active={true} onClick={() => navigateTo('chatbot')} delay="0" />
-            <ServiceCard icon={<Globe size={32} className="text-purple-400" />} title="Websites" desc="Landing pages de alta conversão e design futurista." active={true} onClick={() => navigateTo('websites')} tag="Disponível" delay="100" />
-            <ServiceCard icon={<Cpu size={32} className="text-amber-400" />} title="Automações" desc="Integrações que eliminam tarefas repetitivas do seu negócio." active={true} onClick={() => navigateTo('automations')} tag="Disponível" delay="200" />
-            <ServiceCard icon={<LineChart size={32} className="text-emerald-400" />} title="Consultoria" desc="Análise de dados e estratégias digitais para escalar." active={true} onClick={() => navigateTo('consultoria')} tag="Novo" delay="300" />
-          </div>
-        </div>
-      </section>
-      <section id="contact" className="py-24 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-900/5 blur-[100px] rounded-full pointer-events-none"></div>
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto bg-white/5 border border-white/10 backdrop-blur-lg rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
-            <div className="w-full md:w-1/2 p-10 bg-gradient-to-br from-blue-900/40 to-slate-900/40 flex flex-col justify-between">
-              <div>
-                <h3 className="text-2xl font-bold uppercase tracking-wider mb-6">Vamos Conversar?</h3>
-                <p className="text-gray-300 mb-8 font-light">Seu negócio está pronto para o próximo nível? Preencha o formulário e a equipe Zytech entrará em contato.</p>
-                <div className="space-y-4">
-                  <a href="mailto:contato.zytech@gmail.com" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><Mail size={16} /></div>contato.zytech@gmail.com</a>
-                  <a href="https://wa.me/553186550113?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20conhecer%20as%20soluções%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-green-500 group-hover:text-white transition-all"><Phone size={16} /></div>+55 (31) 86550113</a>
-                </div>
-              </div>
-              <div className="mt-12"><p className="text-xs text-gray-500 uppercase tracking-widest">Localização</p><p className="text-white">Belo Horizonte, MG</p></div>
-            </div>
-            <div className="w-full md:w-1/2 p-10 bg-slate-950/50">
-              <form onSubmit={handleContactSubmit} className="space-y-6">
-                <div>
-                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Nome</label>
-                    <input 
-                        type="text" 
-                        required
-                        className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
-                        placeholder="Seu nome"
-                        value={contactForm.name}
-                        onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                    />
-                </div>
-                <div>
-                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Email</label>
-                    <input 
-                        type="email" 
-                        required
-                        className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors" 
-                        placeholder="seu@email.com" 
-                        value={contactForm.email}
-                        onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                    />
-                </div>
-                <div>
-                    <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">Mensagem</label>
-                    <textarea 
-                        rows="4" 
-                        required
-                        className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors resize-none" 
-                        placeholder="Como podemos ajudar?"
-                        value={contactForm.message}
-                        onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
-                    ></textarea>
-                </div>
-                <button type="submit" className="w-full py-3 bg-white text-slate-900 font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 group">Enviar <Send size={16} className="group-hover:translate-x-1 transition-transform" /></button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
