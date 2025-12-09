@@ -170,7 +170,7 @@ function ChatbotPage({ navigateTo }) {
        </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-12 text-sm uppercase tracking-wider">
+        <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8 text-sm uppercase tracking-wider">
             <ArrowRight className="rotate-180" size={16} /> Voltar para Home
         </button>
 
@@ -228,6 +228,7 @@ function ChatbotPage({ navigateTo }) {
                 </div>
             </div>
         )}
+
         {step === 3 && activePlans && (
             <div className="animate-fade-in">
                 <div className="flex justify-center mb-8 gap-8">
@@ -541,7 +542,7 @@ function AutomationsPage({ navigateTo }) {
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
     const getPrice = (basePrice) => {
-        if (billingCycle === 'semiannual') return Math.floor(basePrice * 0.9); 
+        if (billingCycle === 'semiannual') return Math.floor(basePrice * 0.9);
         if (billingCycle === 'annual') return Math.floor(basePrice * 0.75);
         return basePrice;
     };
@@ -688,10 +689,8 @@ function ConsultoriaPage({ navigateTo }) {
 
     return (
         <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-black flex flex-col justify-center">
-
             <div className="absolute inset-0 z-0">
                  <img src={bgConsultoria} alt="Consultoria BG" className="w-full h-full object-cover opacity-40 mix-blend-screen" />
-
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] animate-pulse"></div>
                 <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
             </div>
@@ -702,7 +701,6 @@ function ConsultoriaPage({ navigateTo }) {
                 </button>
 
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
                     <div className="animate-fade-in-up space-y-8">
                         <div>
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-cyan-500/30 bg-cyan-950/30 text-cyan-400 text-xs font-mono mb-4 animate-pulse">
@@ -748,6 +746,7 @@ function ConsultoriaPage({ navigateTo }) {
                             </a>
                         </div>
                     </div>
+
                     <div className="w-full h-full flex items-center justify-center animate-fade-in-up animation-delay-500">
                         <CyberpunkChart />
                     </div>
@@ -785,7 +784,6 @@ const CyberpunkChart = () => {
 
     return (
         <div className="relative w-full aspect-[16/10] bg-slate-900/80 border border-slate-700 rounded-xl p-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
-
              <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
              
              <div className="absolute top-4 left-6 z-20">
@@ -1037,5 +1035,67 @@ function LandingPage({ navigateTo }) {
         </div>
       </section>
     </>
+  );
+}
+
+function PricingCard({ title, icon, description, children, delay, featured, color, price, subPrice, iconBg, onHire }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const borderColors = { 
+      blue: 'hover:border-blue-500/50', 
+      amber: 'border-amber-500/50', 
+      purple: 'hover:border-purple-500/50',
+      cyan: 'hover:border-cyan-500/50',
+      emerald: 'hover:border-emerald-500/50',
+      rose: 'hover:border-rose-500/50'
+  };
+  const btnColors = { 
+      blue: 'bg-blue-600 hover:bg-blue-500 shadow-blue-900/20', 
+      amber: 'bg-gradient-to-r from-amber-500 to-orange-600 hover:brightness-110 shadow-amber-900/30 text-white', 
+      purple: 'bg-purple-600 hover:bg-purple-500 shadow-purple-900/20',
+      cyan: 'bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/20',
+      emerald: 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/20',
+      rose: 'bg-rose-600 hover:bg-rose-500 shadow-rose-900/20'
+  };
+
+  const safeBorder = borderColors[color] || borderColors.blue;
+  const safeBtn = btnColors[color] || btnColors.blue;
+
+  return (
+    <div className={`relative p-8 rounded-[2rem] border transition-all duration-500 ease-out flex flex-col backdrop-blur-xl ${featured ? 'bg-slate-900/80 border-amber-500/30 z-10 scale-100 md:scale-110 shadow-2xl' : 'bg-white/[0.03] border-white/5 hover:bg-slate-900/60 hover:-translate-y-2'} ${safeBorder}`} style={{ animationDelay: `${delay}ms` }}>
+      {featured && <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-[0_5px_15px_rgba(245,158,11,0.4)] flex items-center gap-2"><Star size={12} className="fill-white" /> Escolha Popular</div>}
+      <div className={`mb-6 p-4 w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-500 hover:scale-110 ${iconBg || 'bg-white/5 border border-white/10'}`}>{icon}</div>
+      <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-2">{title}</h3>
+      <div className="mb-4">
+          <span className="text-xs text-gray-500 font-normal block -mb-1">A partir de:</span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-3xl lg:text-4xl font-bold text-white tracking-tight">{price}</span>
+            <span className="text-sm text-gray-500 font-normal">{subPrice}</span>
+          </div>
+      </div>
+      <p className="text-gray-400 text-sm leading-relaxed mb-8 border-b border-white/5 pb-8 min-h-[100px]">{description}</p>
+      <button onClick={onHire} className={`relative overflow-hidden w-full py-4 rounded-xl font-bold uppercase tracking-wider text-xs mb-6 transition-all shadow-lg group ${safeBtn}`}>
+        <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine" />
+        <span className="relative z-10">Contratar Plano</span>
+      </button>
+      <div onClick={() => setIsExpanded(!isExpanded)} className="cursor-pointer group/toggle flex items-center justify-between py-2 border-t border-white/5">
+        <span className="text-xs uppercase tracking-widest text-gray-500 group-hover/toggle:text-white transition-colors">{isExpanded ? 'Ocultar Detalhes' : 'Ver todos recursos'}</span>
+        <div className={`p-1 rounded-full bg-white/5 transition-transform duration-300 ${isExpanded ? 'rotate-180 bg-white/20' : ''}`}><ChevronRight size={14} className="text-gray-400" /></div>
+      </div>
+      <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isExpanded ? 'max-h-[500px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>{children}</div>
+    </div>
+  );
+}
+
+function ServiceCard({ icon, title, desc, active, onClick, tag, delay }) {
+  return (
+    <div onClick={active ? onClick : undefined} className={`group relative p-8 rounded-2xl border border-white/5 backdrop-blur-md bg-white/[0.02] transition-all duration-500 ease-out overflow-hidden ${active ? 'cursor-pointer hover:bg-white/[0.05] hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] hover:-translate-y-2' : 'opacity-70 grayscale hover:grayscale-0 hover:opacity-100'}`} style={{ animationDelay: `${delay}ms` }}>
+      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-lg transition duration-500"></div>
+      <div className="relative z-10 flex flex-col h-full">
+        <div className="mb-6 p-3 bg-white/5 w-fit rounded-xl border border-white/10 group-hover:scale-110 transition-transform duration-300">{icon}</div>
+        <div className="flex justify-between items-start"><h3 className="text-xl font-bold uppercase tracking-wider mb-3 group-hover:text-blue-400 transition-colors">{title}</h3>{tag && <span className="text-[10px] uppercase bg-white/10 px-2 py-1 rounded text-gray-400">{tag}</span>}</div>
+        <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">{desc}</p>
+        {active && <div className="flex items-center gap-2 text-sm font-bold text-blue-500 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">SAIBA MAIS <ChevronRight size={16} /></div>}
+      </div>
+    </div>
   );
 }
