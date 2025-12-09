@@ -361,7 +361,7 @@ function WebsitesPage({ navigateTo }) {
   const getWhatsAppLink = () => {
     if (!orderData) return "#";
     const message = `*NOVO PEDIDO DE WEBSITE*\n\nEsse é meu Pedido de Website com o seguinte JSON:\n\n\`\`\`json\n${JSON.stringify(orderData, null, 2)}\n\`\`\``;
-    return `https://wa.me/553186550113?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/553180209584?text=${encodeURIComponent(message)}`;
   };
 
   return (
@@ -669,7 +669,7 @@ function AutomationContactModal({ tier, onClose }) {
                 </div>
 
                 <a 
-                    href={`https://wa.me/553186550113?text=Olá,%20tenho%20interesse%20no%20plano%20de%20Automação%20${tier.name}.`} 
+                    href={`https://wa.me/553180209584?text=Olá,%20tenho%20interesse%20no%20plano%20de%20Automação%20${tier.name}.`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className={`flex items-center justify-center gap-3 w-full py-4 bg-${tier.color}-600 hover:bg-${tier.color}-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-${tier.color}-500/30 group uppercase tracking-wider text-sm`}
@@ -737,7 +737,7 @@ function ConsultoriaPage({ navigateTo }) {
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <a 
-                                href="https://wa.me/553186550113?text=Olá,%20gostaria%20de%20agendar%20um%20diagnóstico%20de%20consultoria%20estratégica." 
+                                href="https://wa.me/553180209584?text=Olá,%20gostaria%20de%20agendar%20um%20diagnóstico%20de%20consultoria%20estratégica." 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                                 className="inline-flex justify-center items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold uppercase tracking-widest rounded-lg transition-all shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] group transform hover:-translate-y-1"
@@ -943,7 +943,7 @@ function LandingPage({ navigateTo }) {
   const handleContactSubmit = (e) => {
     e.preventDefault();
     const text = `*NOVO CONTATO VIA SITE*\n\n*Nome:* ${contactForm.name}\n*Email:* ${contactForm.email}\n*Mensagem:* ${contactForm.message}`;
-    const url = `https://wa.me/553186550113?text=${encodeURIComponent(text)}`;
+    const url = `https://wa.me/553180209584?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
 
@@ -988,7 +988,7 @@ function LandingPage({ navigateTo }) {
                 <p className="text-gray-300 mb-8 font-light">Seu negócio está pronto para o próximo nível? Preencha o formulário e a equipe Zytech entrará em contato.</p>
                 <div className="space-y-4">
                   <a href="mailto:contato.zytech@gmail.com" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><Mail size={16} /></div>contato.zytech@gmail.com</a>
-                  <a href="https://wa.me/553186550113?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20conhecer%20as%20soluções%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-green-500 group-hover:text-white transition-all"><Phone size={16} /></div>+55 (31) 86550113</a>
+                  <a href="https://wa.me/553180209584?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20conhecer%20as%20soluções%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-green-500 group-hover:text-white transition-all"><Phone size={16} /></div>+55 (31) 8020-9584</a>
                 </div>
               </div>
               <div className="mt-12"><p className="text-xs text-gray-500 uppercase tracking-widest">Localização</p><p className="text-white">Belo Horizonte, MG</p></div>
