@@ -282,92 +282,6 @@ function ChatbotPage({ navigateTo }) {
   );
 }
 
-function ContactModal({ plan, onClose }) {
-  const handleBackdropClick = (e) => { if (e.target === e.currentTarget) onClose(); };
-  return (
-    <div onClick={handleBackdropClick} className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm animate-fade-in p-4">
-      <div className="bg-slate-900 border border-white/10 rounded-3xl p-8 max-w-md w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-fade-in-up overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-amber-500"></div>
-        <div className="absolute top-[-50px] left-[-50px] w-32 h-32 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"><X size={24} /></button>
-        <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg"><MessageSquare size={32} className="text-white" /></div>
-          <h2 className="text-2xl font-bold text-white mb-2">Ótima Escolha!</h2>
-          <p className="text-gray-400 text-sm">Você selecionou o <span className="text-blue-400 font-bold">{plan}</span>.</p>
-        </div>
-        <p className="text-gray-300 text-center mb-8 leading-relaxed">Para garantir o melhor atendimento e personalização, a contratação é feita diretamente com nossos consultores especialistas.</p>
-        <div className="space-y-3">
-          <a href={`https://wa.me/553186550113?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20plano%20${plan}%20da%20Zytech`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-green-900/20 group"><MessageSquare size={20} /> Chamar no WhatsApp <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></a>
-          <p className="flex items-center justify-center gap-3 w-full py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl border border-white/10 transition-colors"><Mail size={20} />contato.zytech@gmail.com</p>
-        </div>
-        <div className="mt-6 text-center"><p className="text-xs text-gray-500">Tempo médio de resposta: <span className="text-green-400">5 minutos</span></p></div>
-      </div>
-    </div>
-  );
-}
-
-function PricingCard({ title, icon, description, children, delay, featured, color, price, subPrice, iconBg, onHire }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const borderColors = { 
-      blue: 'hover:border-blue-500/50', 
-      amber: 'border-amber-500/50', 
-      purple: 'hover:border-purple-500/50',
-      cyan: 'hover:border-cyan-500/50',
-      emerald: 'hover:border-emerald-500/50',
-      rose: 'hover:border-rose-500/50'
-  };
-  const btnColors = { 
-      blue: 'bg-blue-600 hover:bg-blue-500 shadow-blue-900/20', 
-      amber: 'bg-gradient-to-r from-amber-500 to-orange-600 hover:brightness-110 shadow-amber-900/30 text-white', 
-      purple: 'bg-purple-600 hover:bg-purple-500 shadow-purple-900/20',
-      cyan: 'bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/20',
-      emerald: 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/20',
-      rose: 'bg-rose-600 hover:bg-rose-500 shadow-rose-900/20'
-  };
-
-  const safeBorder = borderColors[color] || borderColors.blue;
-  const safeBtn = btnColors[color] || btnColors.blue;
-
-  return (
-    <div className={`relative p-8 rounded-[2rem] border transition-all duration-500 ease-out flex flex-col backdrop-blur-xl ${featured ? 'bg-slate-900/80 border-amber-500/30 z-10 scale-100 md:scale-110 shadow-2xl' : 'bg-white/[0.03] border-white/5 hover:bg-slate-900/60 hover:-translate-y-2'} ${safeBorder}`} style={{ animationDelay: `${delay}ms` }}>
-      {featured && <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-[0_5px_15px_rgba(245,158,11,0.4)] flex items-center gap-2"><Star size={12} className="fill-white" /> Escolha Popular</div>}
-      <div className={`mb-6 p-4 w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-500 hover:scale-110 ${iconBg || 'bg-white/5 border border-white/10'}`}>{icon}</div>
-      <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-2">{title}</h3>
-      <div className="mb-4">
-          <span className="text-xs text-gray-500 font-normal block -mb-1">A partir de:</span>
-          <div className="flex items-baseline gap-1">
-            <span className="text-3xl lg:text-4xl font-bold text-white tracking-tight">{price}</span>
-            <span className="text-sm text-gray-500 font-normal">{subPrice}</span>
-          </div>
-      </div>
-      <p className="text-gray-400 text-sm leading-relaxed mb-8 border-b border-white/5 pb-8 min-h-[100px]">{description}</p>
-      <button onClick={onHire} className={`relative overflow-hidden w-full py-4 rounded-xl font-bold uppercase tracking-wider text-xs mb-6 transition-all shadow-lg group ${safeBtn}`}>
-        <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-20 group-hover:animate-shine" />
-        <span className="relative z-10">Contratar Plano</span>
-      </button>
-      <div onClick={() => setIsExpanded(!isExpanded)} className="cursor-pointer group/toggle flex items-center justify-between py-2 border-t border-white/5">
-        <span className="text-xs uppercase tracking-widest text-gray-500 group-hover/toggle:text-white transition-colors">{isExpanded ? 'Ocultar Detalhes' : 'Ver todos recursos'}</span>
-        <div className={`p-1 rounded-full bg-white/5 transition-transform duration-300 ${isExpanded ? 'rotate-180 bg-white/20' : ''}`}><ChevronRight size={14} className="text-gray-400" /></div>
-      </div>
-      <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isExpanded ? 'max-h-[500px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>{children}</div>
-    </div>
-  );
-}
-
-function ServiceCard({ icon, title, desc, active, onClick, tag, delay }) {
-  return (
-    <div onClick={active ? onClick : undefined} className={`group relative p-8 rounded-2xl border border-white/5 backdrop-blur-md bg-white/[0.02] transition-all duration-500 ease-out overflow-hidden ${active ? 'cursor-pointer hover:bg-white/[0.05] hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(37,99,235,0.2)] hover:-translate-y-2' : 'opacity-70 grayscale hover:grayscale-0 hover:opacity-100'}`} style={{ animationDelay: `${delay}ms` }}>
-      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-20 blur-lg transition duration-500"></div>
-      <div className="relative z-10 flex flex-col h-full">
-        <div className="mb-6 p-3 bg-white/5 w-fit rounded-xl border border-white/10 group-hover:scale-110 transition-transform duration-300">{icon}</div>
-        <div className="flex justify-between items-start"><h3 className="text-xl font-bold uppercase tracking-wider mb-3 group-hover:text-blue-400 transition-colors">{title}</h3>{tag && <span className="text-[10px] uppercase bg-white/10 px-2 py-1 rounded text-gray-400">{tag}</span>}</div>
-        <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">{desc}</p>
-        {active && <div className="flex items-center gap-2 text-sm font-bold text-blue-500 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">SAIBA MAIS <ChevronRight size={16} /></div>}
-      </div>
-    </div>
-  );
-}
-
 function WebsitesPage({ navigateTo }) {
   const [step, setStep] = useState(1); 
   const [selectedTier, setSelectedTier] = useState(null);
@@ -447,7 +361,7 @@ function WebsitesPage({ navigateTo }) {
   const getWhatsAppLink = () => {
     if (!orderData) return "#";
     const message = `*NOVO PEDIDO DE WEBSITE*\n\nEsse é meu Pedido de Website com o seguinte JSON:\n\n\`\`\`json\n${JSON.stringify(orderData, null, 2)}\n\`\`\``;
-    return `https://wa.me/553186550113?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/553180209584?text=${encodeURIComponent(message)}`;
   };
 
   return (
@@ -755,7 +669,7 @@ function AutomationContactModal({ tier, onClose }) {
                 </div>
 
                 <a 
-                    href={`https://wa.me/553186550113?text=Olá,%20tenho%20interesse%20no%20plano%20de%20Automação%20${tier.name}.`} 
+                    href={`https://wa.me/553180209584?text=Olá,%20tenho%20interesse%20no%20plano%20de%20Automação%20${tier.name}.`} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className={`flex items-center justify-center gap-3 w-full py-4 bg-${tier.color}-600 hover:bg-${tier.color}-500 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-${tier.color}-500/30 group uppercase tracking-wider text-sm`}
@@ -823,7 +737,7 @@ function ConsultoriaPage({ navigateTo }) {
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <a 
-                                href="https://wa.me/553186550113?text=Olá,%20gostaria%20de%20agendar%20um%20diagnóstico%20de%20consultoria%20estratégica." 
+                                href="https://wa.me/553180209584?text=Olá,%20gostaria%20de%20agendar%20um%20diagnóstico%20de%20consultoria%20estratégica." 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                                 className="inline-flex justify-center items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold uppercase tracking-widest rounded-lg transition-all shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-[0_0_30px_rgba(8,145,178,0.6)] group transform hover:-translate-y-1"
@@ -1029,7 +943,7 @@ function LandingPage({ navigateTo }) {
   const handleContactSubmit = (e) => {
     e.preventDefault();
     const text = `*NOVO CONTATO VIA SITE*\n\n*Nome:* ${contactForm.name}\n*Email:* ${contactForm.email}\n*Mensagem:* ${contactForm.message}`;
-    const url = `https://wa.me/553186550113?text=${encodeURIComponent(text)}`;
+    const url = `https://wa.me/553180209584?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
 
@@ -1074,7 +988,7 @@ function LandingPage({ navigateTo }) {
                 <p className="text-gray-300 mb-8 font-light">Seu negócio está pronto para o próximo nível? Preencha o formulário e a equipe Zytech entrará em contato.</p>
                 <div className="space-y-4">
                   <a href="mailto:contato.zytech@gmail.com" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all"><Mail size={16} /></div>contato.zytech@gmail.com</a>
-                  <a href="https://wa.me/553186550113?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20conhecer%20as%20soluções%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-green-500 group-hover:text-white transition-all"><Phone size={16} /></div>+55 (31) 86550113</a>
+                  <a href="https://wa.me/553180209584?text=Olá,%20vim%20pelo%20site%20e%20gostaria%20de%20conhecer%20as%20soluções%20Zytech" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition-colors group"><div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-blue-400 group-hover:bg-green-500 group-hover:text-white transition-all"><Phone size={16} /></div>+55 (31) 8020-9584</a>
                 </div>
               </div>
               <div className="mt-12"><p className="text-xs text-gray-500 uppercase tracking-widest">Localização</p><p className="text-white">Belo Horizonte, MG</p></div>
