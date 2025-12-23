@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ArrowRight, Check, Zap, Crown, Shield, Bike, Store, MessageSquare, Database, Clock, TrendingUp
+  ArrowRight, Check, Zap, Crown, Shield, Bike, Store, MessageSquare, Bell, 
+  LayoutTemplate, Database, Clock, TrendingUp, ChevronDown, Star
 } from 'lucide-react';
-import { ContactModal } from './SharedComponents';
-import bgVideo from './assets/background.mp4'; 
+import { ContactModal } from './SharedComponents.jsx';
+import bgCommerce from './assets/commerce.jpg';
 
 export default function CommercePage({ navigateTo }) {
-  const [activeTab, setActiveTab] = useState('delivery'); 
+  const [activeTab, setActiveTab] = useState('delivery');
   const [billingCycle, setBillingCycle] = useState('semiannual'); 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -25,18 +26,18 @@ export default function CommercePage({ navigateTo }) {
       tag: 'Essencial',
       price: 147,
       color: 'blue',
-      icon: <Shield className="text-blue-400" size={24} />,
-      desc: 'Ideal para quem está começando e precisa organizar pedidos.',
-      features: ['Cardápio Digital Simples', 'Pedidos no WhatsApp', 'Painel de Gestão', 'Impressão de Pedidos', 'Link Personalizado']
+      icon: <Shield size={24} />,
+      desc: 'Organize seus pedidos e saia do papel.',
+      features: ['Cardápio Digital Rápido', 'Recebimento no WhatsApp', 'Painel de Pedidos', 'Link Personalizado']
     },
     {
       name: 'ZyControl',
       tag: 'Gestão',
       price: 397,
       color: 'cyan',
-      icon: <Database className="text-cyan-400" size={24} />,
-      desc: 'Para operações que precisam de controle total e agilidade.',
-      features: ['Tudo do Start +', 'Gestão de Entregadores', 'Relatórios Financeiros', 'Controle de Estoque', 'Cupons de Desconto']
+      icon: <Database size={24} />,
+      desc: 'Controle total da operação e logística.',
+      features: ['Tudo do Start +', 'Gestão de Motoboys', 'Impressão Automática', 'Relatórios Financeiros', 'Controle de Estoque']
     },
     {
       name: 'ZyBotAI',
@@ -44,18 +45,18 @@ export default function CommercePage({ navigateTo }) {
       price: 697,
       color: 'amber',
       popular: true,
-      icon: <Zap className="text-amber-400" size={24} />,
-      desc: 'IA que vende por você. Aumente seu ticket médio.',
-      features: ['Tudo do Control +', 'IA Vendedora (ChatGPT)', 'Sugestão de Adicionais', 'Recuperação de Carrinho', 'Disparos em Massa']
+      icon: <Zap size={24} />,
+      desc: 'Vendedor virtual que trabalha 24h por dia.',
+      features: ['Tudo do Control +', 'IA Vendedora (ChatGPT)', 'Sugestão de Adicionais', 'Recuperação de Carrinho']
     },
     {
       name: 'ZyCore',
       tag: 'Franquia',
       price: 1297,
       color: 'purple',
-      icon: <Crown className="text-purple-400" size={24} />,
-      desc: 'Ecossistema completo para grandes volumes.',
-      features: ['Tudo do BotAI +', 'Múltiplos Atendentes', 'API Oficial WhatsApp', 'App do Entregador', 'Suporte Prioritário 24/7']
+      icon: <Crown size={24} />,
+      desc: 'Potência máxima para grandes volumes.',
+      features: ['Tudo do BotAI +', 'Múltiplos Atendentes', 'API Oficial WhatsApp', 'Programa de Fidelidade', 'Gerente de Contas']
     }
   ];
 
@@ -65,8 +66,8 @@ export default function CommercePage({ navigateTo }) {
       tag: 'Básico',
       price: 147,
       color: 'blue',
-      icon: <Store className="text-blue-400" size={24} />,
-      desc: 'Acabe com o papel e caneta. Agenda digital simples.',
+      icon: <Store size={24} />,
+      desc: 'Agenda digital simples e eficiente.',
       features: ['Link de Agendamento', 'Lembretes WhatsApp', 'Gestão de Clientes', 'Histórico de Visitas']
     },
     {
@@ -74,9 +75,9 @@ export default function CommercePage({ navigateTo }) {
       tag: 'Profissional',
       price: 397,
       color: 'cyan',
-      icon: <LayoutTemplate className="text-cyan-400" size={24} />,
-      desc: 'Site profissional com pagamento antecipado.',
-      features: ['Tudo do Start +', 'Site One-Page Incluso', 'Pagamento Online (Pix/Card)', 'Bloqueio de Agenda', 'Galeria de Fotos']
+      icon: <LayoutTemplate size={24} />,
+      desc: 'Profissionalize seu negócio com site incluso.',
+      features: ['Tudo do Start +', 'Site One-Page Incluso', 'Pagamento Online', 'Bloqueio de Agenda', 'Galeria de Fotos']
     },
     {
       name: 'Secretária AI',
@@ -84,8 +85,8 @@ export default function CommercePage({ navigateTo }) {
       price: 697,
       color: 'emerald',
       popular: true,
-      icon: <MessageSquare className="text-emerald-400" size={24} />,
-      desc: 'Atendimento 24h que tira dúvidas e agenda sozinho.',
+      icon: <MessageSquare size={24} />,
+      desc: 'Atendimento humanizado sem intervenção humana.',
       features: ['Tudo do Pro +', 'IA Humanizada', 'Responde Dúvidas', 'Reagendamento Auto', 'Triagem de Leads']
     },
     {
@@ -93,134 +94,184 @@ export default function CommercePage({ navigateTo }) {
       tag: 'Enterprise',
       price: 1297,
       color: 'rose',
-      icon: <TrendingUp className="text-rose-400" size={24} />,
-      desc: 'Escale seu negócio com marketing e dados.',
-      features: ['Tudo da AI +', 'Automação de Marketing', 'Clube de Assinatura', 'Gestão Financeira', 'Dashboard BI Completo']
+      icon: <TrendingUp size={24} />,
+      desc: 'Gestão completa para escalar seu serviço.',
+      features: ['Tudo da AI +', 'Automação de Marketing', 'Clube de Assinatura', 'Gestão Financeira', 'Dashboard BI']
     }
   ];
 
   const currentPlans = activeTab === 'delivery' ? deliveryPlans : servicePlans;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white font-sans relative overflow-x-hidden pb-32">
-       
-       <div className="fixed inset-0 z-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[120px] mix-blend-screen"></div>
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px] mix-blend-screen"></div>
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-       </div>
+    <div className="relative min-h-screen bg-slate-950 text-white font-sans overflow-x-hidden selection:bg-indigo-500/30">
+      
+      <div className="fixed inset-0 z-0">
+        <img src={bgCommerce} alt="Background" className="w-full h-full object-cover opacity-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/95 to-slate-900"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.15),transparent_70%)]"></div>
+      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32">
+      <div className="relative z-10 pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
         
-        <div className="text-center mb-20">
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-                Transforme seu <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Atendimento em Vendas</span>
+        <button 
+            onClick={() => navigateTo('landing')} 
+            className="mb-12 flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-white transition-colors uppercase tracking-widest group"
+        >
+            <ArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={14} /> 
+            Voltar ao Hub
+        </button>
+
+        <div className="text-center mb-16 animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-6">
+                <Store size={12} /> Soluções Comerciais v2.0
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-tight">
+                O Sistema Operacional <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+                    Do Seu Negócio
+                </span>
             </h1>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                Pare de perder tempo respondendo "qual o preço?" e "tem horário?". <br/>
-                Nossa tecnologia organiza, atende e vende por você.
+            <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
+                Centralize pedidos, agendamentos e atendimento em uma única plataforma inteligente. 
+                Escolha seu segmento e veja a mágica acontecer.
             </p>
         </div>
 
-        <div className="flex justify-center mb-16">
-            <div className="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-1.5 rounded-2xl inline-flex gap-2 relative">
+        <div className="flex justify-center mb-20">
+            <div className="bg-slate-900/80 backdrop-blur-md border border-white/10 p-2 rounded-2xl inline-flex gap-2 shadow-2xl relative z-20">
                 <button 
                     onClick={() => setActiveTab('delivery')}
-                    className={`flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all duration-300 ${activeTab === 'delivery' ? 'bg-amber-500 text-black shadow-lg shadow-amber-900/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+                    className={`flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all duration-300 w-40 md:w-52 justify-center ${activeTab === 'delivery' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/50' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                 >
-                    <Bike size={20} /> Para Delivery
+                    <Bike size={20} /> Delivery
                 </button>
                 <button 
                     onClick={() => setActiveTab('services')}
-                    className={`flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all duration-300 ${activeTab === 'services' ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-900/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+                    className={`flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all duration-300 w-40 md:w-52 justify-center ${activeTab === 'services' ? 'bg-pink-600 text-white shadow-lg shadow-pink-900/50' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                 >
-                    <Store size={20} /> Para Serviços
+                    <Store size={20} /> Serviços
                 </button>
             </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-24">
-            <div className="bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-white/5 shadow-xl hover:border-white/10 transition-all">
-                <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6"><Clock /></div>
-                <h3 className="text-lg font-bold text-white mb-2">Atendimento Imediato</h3>
-                <p className="text-gray-400 text-sm">Seu cliente é atendido em menos de 3 segundos, 24 horas por dia. Nunca mais perca uma venda por demora.</p>
-            </div>
-            <div className="bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-white/5 shadow-xl hover:border-white/10 transition-all">
-                <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 mb-6"><Database /></div>
-                <h3 className="text-lg font-bold text-white mb-2">Organização Automática</h3>
-                <p className="text-gray-400 text-sm">{activeTab === 'delivery' ? 'Pedidos organizados, impressos e enviados para a cozinha.' : 'Agenda organizada, lembretes enviados e pagamentos confirmados.'}</p>
-            </div>
-            <div className="bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-white/5 shadow-xl hover:border-white/10 transition-all">
-                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-6"><TrendingUp /></div>
-                <h3 className="text-lg font-bold text-white mb-2">Aumento de Receita</h3>
-                <p className="text-gray-400 text-sm">{activeTab === 'delivery' ? 'A IA oferece bebidas e sobremesas, aumentando o ticket médio.' : 'Redução drástica de No-Show com lembretes automáticos.'}</p>
-            </div>
+        <div className="grid md:grid-cols-3 gap-6 mb-24 max-w-5xl mx-auto">
+            <FeatureHighlight 
+                icon={<Clock />} 
+                title="Resposta Instantânea" 
+                desc="Atendimento em < 3 segundos. Cliente respondido é cliente comprado." 
+                color={activeTab === 'delivery' ? 'indigo' : 'pink'}
+            />
+            <FeatureHighlight 
+                icon={<Database />} 
+                title="CRM Automático" 
+                desc="Salve dados, preferências e histórico de cada cliente automaticamente." 
+                color={activeTab === 'delivery' ? 'indigo' : 'pink'}
+            />
+            <FeatureHighlight 
+                icon={<TrendingUp />} 
+                title="Escala de Vendas" 
+                desc="Aumente seu ticket médio com sugestões inteligentes e upsell." 
+                color={activeTab === 'delivery' ? 'indigo' : 'pink'}
+            />
         </div>
 
-        <div className="mb-8 flex justify-center">
-            <div className="inline-flex bg-slate-900/80 border border-white/10 rounded-full p-1">
-                {['monthly', 'semiannual', 'annual'].map((cycle) => (
-                    <button 
-                        key={cycle}
-                        onClick={() => setBillingCycle(cycle)}
-                        className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${billingCycle === cycle ? 'bg-white text-black' : 'text-gray-500 hover:text-white'}`}
+        <div id="plans-container" className="scroll-mt-32">
+            <div className="flex justify-center mb-12">
+                <div className="inline-flex bg-slate-900 border border-white/10 rounded-full p-1.5 gap-1">
+                    {['monthly', 'semiannual', 'annual'].map((cycle) => (
+                        <button 
+                            key={cycle}
+                            onClick={() => setBillingCycle(cycle)}
+                            className={`px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${billingCycle === cycle ? 'bg-white text-slate-900' : 'text-slate-500 hover:text-white'}`}
+                        >
+                            {cycle === 'monthly' ? 'Mensal' : cycle === 'semiannual' ? 'Semestral (-10%)' : 'Anual (-25%)'}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {currentPlans.map((plan, idx) => (
+                    <div 
+                        key={idx} 
+                        className={`relative flex flex-col p-1 rounded-[2rem] transition-all duration-300 group hover:-translate-y-2 ${plan.popular ? 'bg-gradient-to-b from-amber-500/50 to-slate-900/50 shadow-2xl z-10' : 'bg-slate-800/30 hover:bg-slate-800/50'}`}
                     >
-                        {cycle === 'monthly' ? 'Mensal' : cycle === 'semiannual' ? 'Semestral (-10%)' : 'Anual (-25%)'}
-                    </button>
+                        {plan.popular && (
+                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-500 text-black text-[10px] font-black uppercase px-4 py-1.5 rounded-full tracking-widest shadow-lg flex items-center gap-1">
+                                <Star size={10} fill="black" /> Recomendado
+                            </div>
+                        )}
+                        
+                        <div className="bg-slate-900/90 rounded-[1.8rem] p-6 h-full flex flex-col backdrop-blur-xl border border-white/5">
+                            <div className="mb-6">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className={`p-3 rounded-2xl bg-${plan.color}-500/10 text-${plan.color}-400 ring-1 ring-${plan.color}-500/20`}>{plan.icon}</div>
+                                </div>
+                                <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                                <p className="text-slate-400 text-xs h-8 leading-relaxed line-clamp-2">{plan.desc}</p>
+                            </div>
+
+                            <div className="mb-6 pt-4 border-t border-white/5">
+                                <div className="text-[10px] text-slate-500 uppercase font-bold mb-1">Investimento</div>
+                                <div className="flex items-baseline gap-1">
+                                    <span className="text-slate-500 text-sm">R$</span>
+                                    <span className={`text-3xl font-bold text-${plan.color}-400`}>{getPrice(plan.price)}</span>
+                                    <span className="text-slate-600 text-xs">/mês</span>
+                                </div>
+                            </div>
+
+                            <ul className="space-y-3 mb-8 flex-grow">
+                                {plan.features.map((feature, i) => (
+                                    <li key={i} className="flex items-start gap-3 text-xs text-slate-300">
+                                        <div className={`mt-0.5 min-w-[14px] min-h-[14px] rounded-full bg-${plan.color}-500/20 flex items-center justify-center`}>
+                                            <Check size={8} className={`text-${plan.color}-400`} strokeWidth={4} />
+                                        </div>
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <button 
+                                onClick={() => { setSelectedPlan(plan.name); setModalOpen(true); }}
+                                className={`w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg bg-white/5 hover:bg-${plan.color}-600 text-white border border-white/10 hover:border-transparent group-hover:scale-[1.02] active:scale-95`}
+                            >
+                                Selecionar
+                            </button>
+                        </div>
+                    </div>
                 ))}
             </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {currentPlans.map((plan, idx) => (
-                <div key={idx} className={`relative flex flex-col p-6 rounded-3xl border transition-all duration-300 ${plan.popular ? 'bg-slate-800/60 border-amber-500/30 shadow-2xl scale-105 z-10' : 'bg-slate-900/40 border-white/5 hover:bg-slate-900/80 hover:border-white/10'}`}>
-                    {plan.popular && (
-                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-black text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-widest shadow-lg">
-                            Mais Escolhido
-                        </div>
-                    )}
-                    
-                    <div className="mb-6">
-                        <div className="flex justify-between items-start mb-4">
-                            <div className={`p-3 rounded-xl bg-${plan.color}-500/10 text-${plan.color}-400`}>{plan.icon}</div>
-                            <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded bg-${plan.color}-500/10 text-${plan.color}-400 border border-${plan.color}-500/20`}>{plan.tag}</span>
-                        </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                        <p className="text-gray-400 text-xs h-10 leading-relaxed">{plan.desc}</p>
-                    </div>
-
-                    <div className="mb-6 p-4 rounded-xl bg-slate-950 border border-white/5">
-                        <div className="text-[10px] text-gray-500 uppercase font-bold mb-1">A partir de:</div>
-                        <div className="flex items-baseline gap-1">
-                            <span className="text-gray-500">R$</span>
-                            <span className={`text-3xl font-bold text-${plan.color}-400`}>{getPrice(plan.price)}</span>
-                            <span className="text-gray-600 text-xs">/mês</span>
-                        </div>
-                    </div>
-
-                    <ul className="space-y-3 mb-8 flex-grow">
-                        {plan.features.map((feature, i) => (
-                            <li key={i} className="flex items-start gap-3 text-xs text-gray-300">
-                                <Check size={14} className={`text-${plan.color}-500 flex-shrink-0 mt-0.5`} />
-                                {feature}
-                            </li>
-                        ))}
-                    </ul>
-
-                    <button 
-                        onClick={() => { setSelectedPlan(plan.name); setModalOpen(true); }}
-                        className={`w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg bg-${plan.color}-600 hover:bg-${plan.color}-500 text-white`}
-                    >
-                        Escolher Plano
-                    </button>
-                </div>
-            ))}
         </div>
 
       </div>
 
       {modalOpen && <ContactModal plan={selectedPlan} onClose={() => setModalOpen(false)} />}
+      
+      <style>{`
+        .text-indigo-400 { color: #818cf8; }
+        .text-pink-400 { color: #f472b6; }
+        .text-cyan-400 { color: #22d3ee; }
+        .text-amber-400 { color: #fbbf24; }
+        .text-purple-400 { color: #c084fc; }
+        .text-emerald-400 { color: #34d399; }
+        .text-rose-400 { color: #fb7185; }
+        .bg-indigo-500\\/10 { background-color: rgba(99, 102, 241, 0.1); }
+        .bg-cyan-500\\/10 { background-color: rgba(34, 211, 238, 0.1); }
+        .bg-amber-500\\/10 { background-color: rgba(251, 191, 36, 0.1); }
+        .bg-purple-500\\/10 { background-color: rgba(192, 132, 252, 0.1); }
+        .bg-emerald-500\\/10 { background-color: rgba(52, 211, 153, 0.1); }
+        .bg-rose-500\\/10 { background-color: rgba(251, 113, 133, 0.1); }
+      `}</style>
     </div>
   );
 }
+
+const FeatureHighlight = ({ icon, title, desc, color }) => (
+    <div className={`bg-slate-900/40 p-6 rounded-2xl border border-white/5 hover:border-${color}-500/30 transition-all group`}>
+        <div className={`w-10 h-10 rounded-lg bg-${color}-500/10 flex items-center justify-center text-${color}-400 mb-4 group-hover:scale-110 transition-transform`}>
+            {React.cloneElement(icon, { size: 20 })}
+        </div>
+        <h3 className="text-base font-bold text-white mb-2">{title}</h3>
+        <p className="text-slate-400 text-xs leading-relaxed">{desc}</p>
+    </div>
+);
