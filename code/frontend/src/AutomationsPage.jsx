@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Cpu, Workflow, Layers, RefreshCw, Zap, Bot, Share2 } from 'lucide-react';
 import bgAuto from './assets/automation.jpg';
-import { AutomationContactModal } from './SharedComponents';
+import { AutomationContactModal } from './SharedComponents.jsx';
 
 export default function AutomationsPage({ navigateTo }) {
     const [modalOpen, setModalOpen] = useState(false);
@@ -79,11 +79,11 @@ export default function AutomationsPage({ navigateTo }) {
                         </div>
 
                         <div className="w-full max-w-md bg-black border border-emerald-500/30 rounded-xl p-1 relative group">
-                          
+                            
                             <div className="absolute -inset-1 bg-gradient-to-b from-emerald-500 to-transparent opacity-20 blur-lg group-hover:opacity-40 transition-opacity duration-700"></div>
                             
                             <div className="relative bg-black rounded-lg p-8 h-full flex flex-col items-center text-center overflow-hidden">
-                                
+                               
                                 <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none"></div>
 
                                 <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 mb-6 shadow-[0_0_30px_rgba(16,185,129,0.2)] animate-pulse-slow">
