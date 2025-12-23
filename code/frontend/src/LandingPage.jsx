@@ -65,8 +65,8 @@ export default function LandingPage({ navigateTo }) {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <ServiceCard icon={<MessageSquare size={32} className="text-blue-400" />} title="Comércio" desc="Atendimento automatizado para Delivery e Serviços gerais." active={true} onClick={() => navigateTo('chatbot')} delay="0" />
-            <ServiceCard icon={<Globe size={32} className="text-purple-400" />} title="Websites" desc="Landing pages de alta conversão e design futurista." active={true} onClick={() => navigateTo('websites')} tag="Disponível" delay="100" />
+            <ServiceCard icon={<MessageSquare size={32} className="text-blue-400" />} title="Chatbots" desc="Atendimento automatizado para o seu público." active={true} onClick={() => navigateTo('chatbot')} delay="0" />
+            <ServiceCard icon={<Globe size={32} className="text-purple-400" />} title="Websites" desc="Sites completos e detalhados com designs de alto padrão." active={true} onClick={() => navigateTo('websites')} tag="Disponível" delay="100" />
             <ServiceCard icon={<Cpu size={32} className="text-amber-400" />} title="Automações" desc="Integrações que eliminam tarefas repetitivas do seu negócio." active={true} onClick={() => navigateTo('automations')} tag="Disponível" delay="200" />
             <ServiceCard icon={<LineChart size={32} className="text-emerald-400" />} title="Consultoria" desc="Análise de dados e estratégias digitais para escalar." active={true} onClick={() => navigateTo('consultoria')} tag="Novo" delay="300" />
           </div>

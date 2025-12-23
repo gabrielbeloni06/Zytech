@@ -24,80 +24,80 @@ export default function CommercePage({ navigateTo }) {
   const deliveryPlans = [
     {
       name: 'ZyStart Delivery',
-      tag: 'Essencial',
+      tag: 'Básico',
       price: 147,
       color: 'red',
       icon: <Shield className="text-red-500" size={24} />,
       desc: 'Atendimento inicial ágil para pequenos deliveries.',
-      features: ['Cardápio Digital Simples', 'Pedidos via WhatsApp', 'Painel de Pedidos Básico', 'Link Personalizado']
+      features: ['Cardápio Digital Simples', 'Pedidos via WhatsApp', 'Painel Básico', 'Mensagens de sua escolha']
     },
     {
-      name: 'ZyControl',
+      name: 'ZyControl Delivery',
       tag: 'Gestão',
       price: 397,
       color: 'orange',
       icon: <Database className="text-orange-500" size={24} />,
       desc: 'Controle total com automação para crescer.',
-      features: ['Tudo do Start +', 'Gestão de Entregadores', 'Relatórios Financeiros', 'Impressão Automática', 'Controle de Estoque']
+      features: ['Tudo do Start +', 'Dashboard', 'Relatórios Financeiros', 'Controle de Pedidos', 'Controle de Estoque']
     },
     {
-      name: 'ZyBotAI',
+      name: 'ZyBotAI Delivery',
       tag: 'Inteligência',
       price: 697,
       color: 'amber',
       popular: true,
       icon: <Zap className="text-amber-500" size={24} />,
       desc: 'Vendedor virtual 24h que aumenta o ticket médio.',
-      features: ['Tudo do Control +', 'IA Vendedora (ChatGPT)', 'Sugestão de Adicionais', 'Recuperação de Carrinho', 'Disparos em Massa']
+      features: ['Tudo do Control +', 'IA Vendedora', 'Sugestão', 'Dashboard', 'Controle de Pedidos Avançado']
     },
     {
-      name: 'ZyCore',
-      tag: 'Franquia',
-      price: 1297,
+      name: 'ZyCore Delivery',
+      tag: 'Grandioso',
+      price: 997,
       color: 'purple',
       icon: <Crown className="text-purple-500" size={24} />,
       desc: 'Potência máxima para grandes volumes e redes.',
-      features: ['Tudo do BotAI +', 'Múltiplos Atendentes', 'API Oficial WhatsApp', 'Programa de Fidelidade', 'Gerente de Contas']
+      features: ['Tudo do BotAI +', 'Dashboard', 'API Oficial WhatsApp', 'Persona da AI', 'Escolha o seu modelo de atendimento']
     }
   ];
 
   const businessPlans = [
     {
-      name: 'Agenda Start',
+      name: 'ZyStart Empresas',
       tag: 'Básico',
       price: 147,
       color: 'red',
       icon: <Store className="text-red-500" size={24} />,
       desc: 'Digitalize seus agendamentos e organize a casa.',
-      features: ['Link de Agendamento', 'Lembretes WhatsApp', 'Gestão de Clientes', 'Histórico de Visitas']
+      features: ['Básico', 'Dashboard', 'Agendamento automático', 'Opção de horário']
     },
     {
-      name: 'Agenda Pro',
+      name: 'ZyControl Empresas',
       tag: 'Profissional',
-      price: 397,
+      price: 247,
       color: 'orange',
       icon: <Store className="text-orange-500" size={24} />,
       desc: 'Profissionalize com site e pagamentos online.',
-      features: ['Tudo do Start +', 'Site One-Page Incluso', 'Pagamento Online (Pix/Card)', 'Bloqueio de Agenda', 'Galeria de Fotos']
+      features: ['Tudo do Start +', 'Site de agendamentos', 'Agendamentos Automáticos', 'Bloqueio de Agenda', 'Personalize seu calendário']
     },
     {
-      name: 'Secretária AI',
+      name: 'ZyBotAI Empresas',
       tag: 'Automação',
-      price: 697,
+      price: 397,
       color: 'amber',
       popular: true,
       icon: <MessageSquare className="text-amber-500" size={24} />,
       desc: 'Atendimento humanizado sem intervenção humana.',
-      features: ['Tudo do Pro +', 'IA Humanizada', 'Responde Dúvidas', 'Reagendamento Auto', 'Triagem de Leads']
+      features: ['Tudo do Control +', 'IA Humanizada', 'Responde Dúvidas', 'Agendamento Personalizado', 'Dashboard']
     },
     {
-      name: 'ZyBusiness',
+      name: 'ZyCore Empresas',
       tag: 'Enterprise',
-      price: 1297,
+      price: 697,
       color: 'purple',
       icon: <TrendingUp className="text-purple-500" size={24} />,
       desc: 'Gestão completa para escalar seu serviço.',
-      features: ['Tudo da AI +', 'Automação de Marketing', 'Clube de Assinatura', 'Gestão Financeira', 'Dashboard BI']
+      features: ['Tudo do BotAI +', 'Automação de Atendimento', 'Persona da AI', 'Deixe no seu estilo', 'Dashboard']
     }
   ];
 
