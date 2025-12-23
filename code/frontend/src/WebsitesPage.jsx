@@ -3,7 +3,7 @@ import {
   ArrowRight, Check, Layout, Globe, ShoppingCart, Search, PenTool, Star, LineChart, Settings, Monitor, Smartphone, Zap
 } from 'lucide-react';
 import bgWeb from './assets/website.jpg';
-import { PricingCard, ContactModal } from './SharedComponents';
+import { ContactModal } from './SharedComponents';
 
 const SearchIcon = (props) => <Search {...props} />;
 const PenToolIcon = (props) => <PenTool {...props} />;
@@ -12,6 +12,7 @@ export default function WebsitesPage({ navigateTo }) {
   const [step, setStep] = useState(1); 
   const [selectedTier, setSelectedTier] = useState(null);
   const [addons, setAddons] = useState({});
+  const [modalOpen, setModalOpen] = useState(false);
   const [orderData, setOrderData] = useState(null);
   const [billingCycle, setBillingCycle] = useState('semiannual');
 
@@ -24,22 +25,21 @@ export default function WebsitesPage({ navigateTo }) {
   };
 
   const tiers = [
-    { id: 'start', name: 'Website Start', price: 900, color: 'blue', desc: 'Landing Page única de alta conversão.', features: ['Design Responsivo', 'Hospedagem Inclusa', '1 Página'] },
-    { id: 'control', name: 'Website Control', price: 2500, color: 'purple', desc: 'Site institucional completo com blog.', features: ['Design Premium', 'SEO Básico', '5 Páginas', 'Blog'] },
-    { id: 'core', name: 'Website Core', price: 5000, color: 'pink', desc: 'Portal robusto ou E-commerce.', features: ['Painel Admin', 'SEO Avançado', 'Loja Virtual', 'Login de Usuário'] },
+    { id: 'start', name: 'Website Start', price: 900, color: 'blue', icon: <Layout size={32}/>, desc: 'Landing Page única de alta conversão. Perfeita para campanhas e lançamentos.', features: ['Design Responsivo (Mobile First)', 'Hospedagem de Alta Performance', '1 Página Longa (Landing Page)', 'Botão WhatsApp Flutuante', 'Certificado SSL (Segurança)'] },
+    { id: 'control', name: 'Website Control', price: 2500, color: 'purple', icon: <Globe size={32}/>, desc: 'Site institucional completo. Ideal para empresas que precisam apresentar serviços.', features: ['Até 5 Páginas Internas', 'Blog / Área de Notícias', 'Formulários de Contato Avançados', 'SEO Técnico Otimizado', 'Painel para Editar Conteúdo'] },
+    { id: 'core', name: 'Website Core', price: 5000, color: 'pink', icon: <ShoppingCart size={32}/>, desc: 'Portal robusto ou E-commerce. Para quem vai vender online.', features: ['Loja Virtual Completa', 'Área de Membros / Login', 'Integração com Pagamentos', 'Sistema de Filtros Avançado', 'Gestão de Estoque'] },
   ];
 
   const availableAddons = [
-    { id: 'seo_plus', name: 'SEO Ultra Otimizado', price: 500 },
-    { id: 'copy', name: 'Copywriting Profissional', price: 800 },
-    { id: 'logo', name: 'Criação de Identidade Visual', price: 1200 },
-    { id: 'analytics', name: 'Dashboard de Analytics Custom', price: 600 },
+    { id: 'seo_plus', name: 'SEO Ultra Otimizado', price: 500, icon: <SearchIcon size={18}/> },
+    { id: 'copy', name: 'Copywriting Profissional', price: 800, icon: <PenToolIcon size={18}/> },
+    { id: 'logo', name: 'Identidade Visual (Logo)', price: 1200, icon: <Star size={18}/> },
+    { id: 'analytics', name: 'Dashboard Analytics', price: 600, icon: <LineChart size={18}/> },
   ];
 
   const handleTierSelect = (tier) => {
     setSelectedTier(tier);
     setStep(2);
-    setTimeout(() => document.getElementById('configurator').scrollIntoView({behavior: 'smooth'}), 100);
   };
 
   const toggleAddon = (addonId) => {
@@ -47,220 +47,186 @@ export default function WebsitesPage({ navigateTo }) {
   };
 
   const finishOrder = () => {
-    const orderId = 'ZY-WEB-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-    let total = getPrice(selectedTier.price);
-    availableAddons.forEach(a => { if(addons[a.id]) total += a.price; });
-
-    const finalJson = {
-        orderId,
-        service: 'Website Development',
+    const total = getPrice(selectedTier.price) + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0);
+    const data = {
         tier: selectedTier.name,
         billingCycle,
-        basePrice: getPrice(selectedTier.price),
         addons: availableAddons.filter(a => addons[a.id]).map(a => a.name),
-        totalPrice: total,
-        timestamp: new Date().toISOString()
+        totalPrice: total
     };
-    setOrderData(finalJson);
-    setStep(3);
-  };
-
-  const getWhatsAppLink = () => {
-    if (!orderData) return "#";
-    const message = `*NOVO PEDIDO DE WEBSITE*\n\nEsse é meu Pedido de Website com o seguinte JSON:\n\n\`\`\`json\n${JSON.stringify(orderData, null, 2)}\n\`\`\``;
-    return `https://wa.me/553180209584?text=${encodeURIComponent(message)}`;
+    setOrderData(data);
+    setModalOpen(true);
   };
 
   return (
-    <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-slate-950">
+    <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-slate-950 text-white font-sans">
         <div className="absolute inset-0 z-0">
-            <img src={bgWeb} alt="Background" className="w-full h-full object-cover opacity-20" />
-            <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-[2px]"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+            <img src={bgWeb} alt="Background" className="w-full h-full object-cover opacity-10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/90 to-slate-950"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1),transparent_70%)]"></div>
         </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-12 text-sm uppercase tracking-wider">
-          <ArrowRight className="rotate-180" size={16} /> Voltar para Home
+        <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors mb-12 text-sm uppercase tracking-wider group">
+          <ArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={16} /> Voltar para Home
         </button>
 
-        <div className="text-center mb-20 animate-fade-in-up">
-            <span className="inline-block py-1 px-3 rounded-full bg-white/10 border border-white/20 text-xs font-bold uppercase tracking-widest text-blue-300 mb-4 backdrop-blur-md shadow-lg">Zytech Web Studio</span>
-            <h1 className="text-5xl md:text-7xl font-bold uppercase mb-6">
-                Sua Vitrine <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400">
-                    Digital
+        <div className="text-center mb-16 animate-fade-in-up">
+            <h1 className="text-5xl md:text-7xl font-bold uppercase mb-6 tracking-tight">
+                Websites que <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500">
+                    Convertem
                 </span>
             </h1>
-            <p className="text-gray-300 max-w-2xl mx-auto text-xl font-light">
-                Um site lento custa clientes. Nós construímos experiências digitais ultrarrápidas, otimizadas para SEO e desenhadas para converter visitantes em compradores.
+            <p className="text-gray-400 max-w-2xl mx-auto text-xl font-light">
+                Não construímos apenas sites bonitos. Construímos máquinas de vendas digitais otimizadas para performance e SEO.
             </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-32">
-            <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/5 hover:border-blue-500/30 transition-all">
-                <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4 text-blue-400">
-                    <Zap size={24} />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">Performance Extrema</h3>
-                <p className="text-gray-400 text-sm">Carregamento instantâneo. O Google ama sites rápidos, e seus clientes também.</p>
-            </div>
-            <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/5 hover:border-purple-500/30 transition-all">
-                <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4 text-purple-400">
-                    <Smartphone size={24} />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">Mobile First</h3>
-                <p className="text-gray-400 text-sm">Design responsivo que funciona perfeitamente em qualquer dispositivo, do celular ao desktop.</p>
-            </div>
-            <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/5 hover:border-pink-500/30 transition-all">
-                <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center mb-4 text-pink-400">
-                    <Monitor size={24} />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">Design Persuasivo</h3>
-                <p className="text-gray-400 text-sm">Layouts estudados para guiar o olhar do usuário até o botão de compra ou contato.</p>
-            </div>
-        </div>
-
-        <div id="configurator" className="bg-slate-900/80 border border-white/10 rounded-[3rem] p-8 md:p-16 backdrop-blur-xl shadow-2xl">
-            {step === 1 && (
-                <div className="animate-fade-in-up">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold text-white mb-4">Escolha a Estrutura</h2>
-                        <div className="flex justify-center">
-                        <div className="bg-slate-950 border border-white/10 p-1.5 rounded-full flex flex-wrap justify-center gap-1 sm:gap-0 relative">
-                            <button onClick={() => setBillingCycle('monthly')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'monthly' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Mensal</button>
-                            <button onClick={() => setBillingCycle('semiannual')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'semiannual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Semestral</button>
-                            <button onClick={() => setBillingCycle('annual')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'annual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Anual</button>
-                        </div>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {tiers.map((tier, idx) => (
-                            <div key={tier.id} className="h-full">
-                                <PricingCard 
-                                    title={tier.name} 
-                                    icon={idx === 0 ? <Layout size={24}/> : idx === 1 ? <Globe size={24}/> : <ShoppingCart size={24}/>}
-                                    iconBg={null}
-                                    description={tier.desc} 
-                                    delay={idx * 100} 
-                                    featured={idx === 1} 
-                                    color={tier.color} 
-                                    price={getPrice(tier.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} 
-                                    subPrice={`/${billingCycle === 'monthly' ? 'mês' : billingCycle === 'semiannual' ? 'mês (6x)' : 'mês (12x)'}`} 
-                                    onHire={() => handleTierSelect(tier)}
+        <div className="max-w-6xl mx-auto bg-slate-900 border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]">
+            
+            <div className="w-full md:w-2/3 p-8 md:p-12">
+                {step === 1 && (
+                    <div className="animate-fade-in">
+                        <h2 className="text-2xl font-bold text-white mb-2">1. Escolha a Estrutura</h2>
+                        <p className="text-gray-400 mb-8 text-sm">Qual o tamanho do seu projeto digital?</p>
+                        
+                        <div className="grid gap-6">
+                            {tiers.map((tier) => (
+                                <div 
+                                    key={tier.id}
+                                    onClick={() => handleTierSelect(tier)}
+                                    className="group relative p-6 rounded-2xl bg-slate-950 border border-white/10 hover:border-blue-500/50 cursor-pointer transition-all hover:bg-slate-800 flex items-center justify-between gap-6"
                                 >
-                                    <ul className="space-y-4 text-sm text-gray-300 mb-8">
-                                        {tier.features.map((feat, i) => (
-                                            <li key={i} className="flex gap-3 items-center">
-                                                <Check size={16} className={`text-${tier.color}-500`} /> 
-                                                {feat}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </PricingCard>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            {step === 2 && selectedTier && (
-                <div className="max-w-4xl mx-auto animate-fade-in relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-[3rem] blur-3xl -z-10"></div>
-                    
-                    <button onClick={() => setStep(1)} className="text-gray-400 hover:text-white flex gap-2 items-center text-xs uppercase font-bold tracking-widest mb-8 transition-colors"><ArrowRight className="rotate-180" size={14}/> Alterar Plano</button>
-                    
-                    <div className="flex flex-col md:flex-row gap-12">
-                        <div className="flex-1">
-                            <h2 className="text-3xl font-bold uppercase mb-2">Personalize seu <span className={`text-transparent bg-clip-text bg-gradient-to-r ${getGradient(selectedTier.color)}`}>{selectedTier.name}</span></h2>
-                            <p className="text-gray-400 mb-8">Adicione superpoderes ao seu projeto. Selecione os itens desejados.</p>
-
-                            <div className="space-y-4">
-                                {availableAddons.map(addon => (
-                                    <div 
-                                        key={addon.id} 
-                                        onClick={() => toggleAddon(addon.id)}
-                                        className={`
-                                            group p-5 rounded-2xl border cursor-pointer flex justify-between items-center transition-all duration-300
-                                            ${addons[addon.id] 
-                                                ? `bg-${selectedTier.color === 'amber' ? 'orange' : selectedTier.color}-500/20 border-${selectedTier.color === 'amber' ? 'orange' : selectedTier.color}-500 shadow-[0_0_15px_rgba(0,0,0,0.2)]` 
-                                                : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}
-                                        `}
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${addons[addon.id] ? 'bg-white text-slate-900' : 'bg-white/5 text-gray-400'}`}>
-                                                {addon.id === 'seo_plus' && <SearchIcon size={20}/>}
-                                                {addon.id === 'copy' && <PenToolIcon size={20}/>}
-                                                {addon.id === 'logo' && <Star size={20}/>}
-                                                {addon.id === 'analytics' && <LineChart size={20}/>}
-                                                {!['seo_plus','copy','logo','analytics'].includes(addon.id) && <Settings size={20}/>}
-                                            </div>
-                                            <div>
-                                                <div className={`font-bold text-sm ${addons[addon.id] ? 'text-white' : 'text-gray-300'}`}>{addon.name}</div>
-                                                <div className={`text-xs ${addons[addon.id] ? 'text-white/70' : 'text-gray-500'}`}>+ R$ {addon.price}</div>
-                                            </div>
-                                        </div>
-                                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${addons[addon.id] ? `bg-white border-white` : 'border-gray-600 group-hover:border-gray-400'}`}>
-                                            {addons[addon.id] && <Check size={14} className="text-slate-900 stroke-[3]"/>}
+                                    <div className={`p-4 rounded-xl bg-${tier.color}-500/10 text-${tier.color}-400 group-hover:bg-${tier.color}-500 group-hover:text-white transition-colors`}>
+                                        {tier.icon}
+                                    </div>
+                                    <div className="flex-grow">
+                                        <h3 className="font-bold text-lg text-white mb-1">{tier.name}</h3>
+                                        <p className="text-gray-400 text-xs">{tier.desc}</p>
+                                        <div className="mt-3 flex flex-wrap gap-2">
+                                            {tier.features.slice(0,3).map((f, i) => (
+                                                <span key={i} className="text-[10px] bg-white/5 px-2 py-1 rounded text-gray-500">{f}</span>
+                                            ))}
+                                            <span className="text-[10px] bg-white/5 px-2 py-1 rounded text-gray-500">+</span>
                                         </div>
                                     </div>
+                                    <div className="text-right min-w-fit">
+                                        <div className="text-xs text-gray-500 mb-1">A partir de</div>
+                                        <div className={`text-2xl font-bold text-${tier.color}-400`}>R$ {getPrice(tier.price)}</div>
+                                        <div className="text-[10px] text-gray-600">Taxa única</div>
+                                    </div>
+                                    <ArrowRight className="text-gray-600 group-hover:text-white transition-colors" />
+                                </div>
+                            ))}
+                        </div>
+                        
+                        <div className="mt-8 flex justify-center">
+                            <div className="inline-flex bg-slate-950 border border-white/10 rounded-lg p-1">
+                                {['monthly', 'semiannual', 'annual'].map((cycle) => (
+                                    <button 
+                                        key={cycle} 
+                                        onClick={() => setBillingCycle(cycle)}
+                                        className={`px-4 py-2 rounded-md text-xs font-bold uppercase transition-all ${billingCycle === cycle ? 'bg-white text-black' : 'text-gray-500 hover:text-white'}`}
+                                    >
+                                        {cycle === 'monthly' ? 'Mensal' : cycle === 'semiannual' ? 'Semestral' : 'Anual'}
+                                    </button>
                                 ))}
                             </div>
                         </div>
+                        <p className="text-center text-[10px] text-gray-600 mt-2">*Ciclo referente à manutenção (se aplicável).</p>
+                    </div>
+                )}
 
-                        <div className="w-full md:w-80 bg-slate-950/80 rounded-2xl p-6 h-fit border border-white/20 shadow-xl">
-                            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-6">Resumo do Pedido</h3>
-                            <div className="flex justify-between text-sm mb-2 text-gray-300">
-                                <span>{selectedTier.name} (Base)</span>
-                                <span>R$ {getPrice(selectedTier.price)}</span>
-                            </div>
-                            {availableAddons.filter(a => addons[a.id]).map(a => (
-                                <div key={a.id} className="flex justify-between text-xs mb-2 text-gray-400">
-                                    <span>+ {a.name}</span>
-                                    <span>R$ {a.price}</span>
+                {step === 2 && selectedTier && (
+                    <div className="animate-fade-in h-full flex flex-col">
+                        <button onClick={() => setStep(1)} className="text-sm text-gray-500 hover:text-white flex items-center gap-2 mb-6"><ArrowRight className="rotate-180" size={14}/> Voltar</button>
+                        <h2 className="text-2xl font-bold text-white mb-2">2. Turbine seu Projeto</h2>
+                        <p className="text-gray-400 mb-8 text-sm">Adicione serviços profissionais para acelerar seus resultados.</p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                            {availableAddons.map((addon) => (
+                                <div 
+                                    key={addon.id}
+                                    onClick={() => toggleAddon(addon.id)}
+                                    className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center gap-4 ${addons[addon.id] ? `bg-blue-500/10 border-blue-500 text-white` : 'bg-slate-950 border-white/10 text-gray-400 hover:border-white/30'}`}
+                                >
+                                    <div className={`p-2 rounded-lg ${addons[addon.id] ? 'bg-blue-500 text-white' : 'bg-white/5 text-gray-500'}`}>
+                                        {addon.icon}
+                                    </div>
+                                    <div className="flex-grow">
+                                        <div className="font-bold text-sm">{addon.name}</div>
+                                        <div className="text-xs opacity-70">+ R$ {addon.price}</div>
+                                    </div>
+                                    {addons[addon.id] && <Check size={16} className="text-blue-400" />}
                                 </div>
                             ))}
-                            <div className="h-px bg-white/10 my-4"></div>
-                            <div className="flex justify-between items-end mb-8">
-                                <span className="text-sm font-bold text-gray-300">Total Estimado</span>
-                                <span className="text-2xl font-bold text-white">R$ {getPrice(selectedTier.price) + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0)}</span>
+                        </div>
+
+                        <div className="mt-auto pt-8 border-t border-white/10 flex justify-between items-center">
+                            <div>
+                                <div className="text-xs text-gray-500 uppercase tracking-widest">Total do Projeto</div>
+                                <div className="text-3xl font-bold text-white">
+                                    R$ {getPrice(selectedTier.price) + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0)}
+                                </div>
                             </div>
-                            <button onClick={finishOrder} className={`w-full py-4 bg-gradient-to-r ${getGradient(selectedTier.color)} text-white rounded-xl font-bold uppercase tracking-wider flex justify-center items-center gap-2 shadow-lg hover:scale-105 transition-transform`}>
-                                Gerar Pedido <ArrowRight size={18}/>
+                            <button onClick={finishOrder} className="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-xl shadow-lg hover:shadow-cyan-500/25 transition-all flex items-center gap-2">
+                                Gerar Proposta <ArrowRight size={18} />
                             </button>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
 
-            {step === 3 && orderData && (
-                <div className="max-w-2xl mx-auto text-center animate-fade-in-up pt-12">
-                    <div className="relative inline-block mb-8">
-                        <div className="absolute -inset-4 bg-green-500/30 rounded-full blur-xl animate-pulse"></div>
-                        <div className="relative w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center shadow-2xl">
-                            <Check size={48} className="text-white" />
-                        </div>
-                    </div>
-                    <h2 className="text-4xl font-bold uppercase mb-4 tracking-tight">Pedido Confirmado!</h2>
-                    <p className="text-gray-300 mb-10 text-lg">Seu projeto foi inicializado no sistema. O comprovante JSON foi gerado.</p>
+            <div className="w-full md:w-1/3 bg-slate-950 border-l border-white/10 p-8 md:p-12 flex flex-col relative overflow-hidden">
+                <div className="absolute inset-0 bg-blue-600/5 z-0"></div>
+                <div className="relative z-10">
+                    <h3 className="text-xs font-bold uppercase tracking-widest text-blue-400 mb-6">Resumo</h3>
                     
-                    <div className="bg-slate-900 border border-white/10 rounded-2xl p-8 text-left font-mono text-xs text-green-400 overflow-x-auto shadow-2xl relative mb-8">
-                        <div className="absolute top-0 right-0 px-4 py-2 bg-white/10 text-white rounded-bl-xl uppercase font-bold tracking-widest text-[10px]">System Output</div>
-                        <pre>{JSON.stringify(orderData, null, 2)}</pre>
-                    </div>
+                    {selectedTier ? (
+                        <div className="space-y-6">
+                            <div>
+                                <div className="text-xs text-gray-500 mb-1">Plano Base</div>
+                                <div className="text-xl font-bold text-white">{selectedTier.name}</div>
+                                <div className="text-sm text-blue-400">R$ {getPrice(selectedTier.price)}</div>
+                            </div>
+                            
+                            {Object.keys(addons).some(k => addons[k]) && (
+                                <div>
+                                    <div className="text-xs text-gray-500 mb-2">Adicionais</div>
+                                    <ul className="space-y-2">
+                                        {availableAddons.filter(a => addons[a.id]).map(addon => (
+                                            <li key={addon.id} className="text-sm text-gray-300 flex justify-between">
+                                                <span>{addon.name}</span>
+                                                <span className="text-gray-500">R$ {addon.price}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
 
-                    <div className="flex justify-center gap-4">
-                        <button onClick={() => navigateTo('landing')} className="px-8 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-colors uppercase text-xs font-bold tracking-widest">Voltar para Home</button>
-                        <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer" className="px-8 py-3 rounded-full bg-green-600 hover:bg-green-500 transition-colors uppercase text-xs font-bold tracking-widest text-white shadow-lg flex items-center gap-2">
-                            Falar com Engenheiro <MessageSquare size={16}/>
-                        </a>
-                    </div>
+                            <div className="p-4 bg-blue-900/20 rounded-xl border border-blue-500/20">
+                                <div className="flex gap-3 mb-2">
+                                    <Zap className="text-blue-400" size={16} />
+                                    <span className="text-xs font-bold text-blue-300 uppercase">Garantia ZyTech</span>
+                                </div>
+                                <p className="text-xs text-gray-400 leading-relaxed">
+                                    Todos os sites incluem hospedagem de alta performance, SSL gratuito e suporte técnico especializado.
+                                </p>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="h-full flex flex-col justify-center items-center text-center opacity-50">
+                            <Layout size={48} className="text-gray-600 mb-4" />
+                            <p className="text-sm text-gray-500">Selecione uma estrutura para começar a configurar seu projeto.</p>
+                        </div>
+                    )}
                 </div>
-            )}
+            </div>
         </div>
-
       </div>
+
+      {modalOpen && <ContactModal data={orderData} onClose={() => setModalOpen(false)} />}
     </div>
   );
 }

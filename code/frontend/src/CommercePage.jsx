@@ -1,230 +1,225 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ArrowRight, Check, Zap, Crown, Shield, Bike, Store, MessageSquare, Bell, LayoutTemplate, Database, Clock, Calendar, Cpu
+  ArrowRight, Check, Zap, Crown, Shield, Bike, Store, MessageSquare, Database, Clock, TrendingUp
 } from 'lucide-react';
-import { PricingCard, ContactModal } from './SharedComponents';
-
-import bgWeb from './assets/website.jpg';
+import { ContactModal } from './SharedComponents';
+import bgVideo from './assets/background.mp4'; 
 
 export default function CommercePage({ navigateTo }) {
-  const [step, setStep] = useState(1);
-  const [selectedIndustry, setSelectedIndustry] = useState(null); 
-  const [subCategory, setSubCategory] = useState(null); 
+  const [activeTab, setActiveTab] = useState('delivery'); 
+  const [billingCycle, setBillingCycle] = useState('semiannual'); 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const [billingCycle, setBillingCycle] = useState('semiannual'); 
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const calculatePrice = (basePrice) => {
+  const getPrice = (basePrice) => {
     if (billingCycle === 'semiannual') return Math.floor(basePrice * 0.9); 
     if (billingCycle === 'annual') return Math.floor(basePrice * 0.75); 
     return basePrice;
   };
 
-  const deliveryPlans = {
-    simple: [
-      { name: 'ZyStart Delivery', price: 147, color: 'blue', icon: <Shield size={32} />, desc: 'O essencial para organizar seus pedidos sem complexidade.', features: ['Cardápio Digital Rápido', 'Recebimento no WhatsApp', 'Painel de Pedidos', 'Link Personalizado', 'QR Code de Mesa'] }
-    ],
-    advanced: [
-      { name: 'ZyControl', price: 397, color: 'cyan', icon: <Database size={32} />, desc: 'Automação de processos e gestão de logística.', features: ['Triagem Automática', 'Gestão de Motoboys', 'Impressão Automática', 'Relatórios Financeiros'] },
-      { name: 'ZyBotAI', price: 697, color: 'amber', icon: <Zap size={32} />, desc: 'Vendedor virtual que aumenta seu ticket médio.', features: ['IA ChatGPT-4 Vendedora', 'Oferta de Adicionais', 'Recuperação de Carrinho', 'Atendimento 24h'] },
-      { name: 'ZyCore', price: 1297, color: 'purple', icon: <Crown size={32} />, desc: 'Sistema operacional completo para franquias.', features: ['Múltiplos Atendentes', 'API Oficial WhatsApp', 'Integração iFood', 'Programa de Fidelidade'] }
-    ]
-  };
+  const deliveryPlans = [
+    {
+      name: 'ZyStart',
+      tag: 'Essencial',
+      price: 147,
+      color: 'blue',
+      icon: <Shield className="text-blue-400" size={24} />,
+      desc: 'Ideal para quem está começando e precisa organizar pedidos.',
+      features: ['Cardápio Digital Simples', 'Pedidos no WhatsApp', 'Painel de Gestão', 'Impressão de Pedidos', 'Link Personalizado']
+    },
+    {
+      name: 'ZyControl',
+      tag: 'Gestão',
+      price: 397,
+      color: 'cyan',
+      icon: <Database className="text-cyan-400" size={24} />,
+      desc: 'Para operações que precisam de controle total e agilidade.',
+      features: ['Tudo do Start +', 'Gestão de Entregadores', 'Relatórios Financeiros', 'Controle de Estoque', 'Cupons de Desconto']
+    },
+    {
+      name: 'ZyBotAI',
+      tag: 'Inteligência',
+      price: 697,
+      color: 'amber',
+      popular: true,
+      icon: <Zap className="text-amber-400" size={24} />,
+      desc: 'IA que vende por você. Aumente seu ticket médio.',
+      features: ['Tudo do Control +', 'IA Vendedora (ChatGPT)', 'Sugestão de Adicionais', 'Recuperação de Carrinho', 'Disparos em Massa']
+    },
+    {
+      name: 'ZyCore',
+      tag: 'Franquia',
+      price: 1297,
+      color: 'purple',
+      icon: <Crown className="text-purple-400" size={24} />,
+      desc: 'Ecossistema completo para grandes volumes.',
+      features: ['Tudo do BotAI +', 'Múltiplos Atendentes', 'API Oficial WhatsApp', 'App do Entregador', 'Suporte Prioritário 24/7']
+    }
+  ];
 
-  const commercePlans = {
-    simple: [
-      { name: 'ZyStart Agenda', price: 147, color: 'blue', icon: <Calendar size={32} />, desc: 'Organize sua agenda e acabe com os furos.', features: ['Link de Agendamento', 'Lembretes via WhatsApp', 'Gestão de Clientes', 'Página de Perfil'] }
-    ],
-    advanced: [
-      { name: 'ZyControl', price: 397, color: 'cyan', icon: <LayoutTemplate size={32} />, desc: 'Site profissional com agendamento integrado.', features: ['Site One-Page Incluso', 'Pagamento Antecipado', 'Bloqueio de Agenda', 'Galeria de Fotos'] },
-      { name: 'ZyBotAI', price: 697, color: 'emerald', icon: <MessageSquare size={32} />, desc: 'Secretária virtual que tira dúvidas e agenda.', features: ['IA Humanizada', 'Responde Dúvidas Frequentes', 'Reagendamento Automático', 'Triagem de Leads'] },
-      { name: 'ZyCore', price: 1297, color: 'rose', icon: <Bell size={32} />, desc: 'Marketing e gestão para escalar seu serviço.', features: ['Automação de Marketing', 'Clube de Assinatura', 'Gestão Financeira', 'Dashboard BI Completo'] }
-    ]
-  };
+  const servicePlans = [
+    {
+      name: 'Agenda Start',
+      tag: 'Básico',
+      price: 147,
+      color: 'blue',
+      icon: <Store className="text-blue-400" size={24} />,
+      desc: 'Acabe com o papel e caneta. Agenda digital simples.',
+      features: ['Link de Agendamento', 'Lembretes WhatsApp', 'Gestão de Clientes', 'Histórico de Visitas']
+    },
+    {
+      name: 'Agenda Pro',
+      tag: 'Profissional',
+      price: 397,
+      color: 'cyan',
+      icon: <LayoutTemplate className="text-cyan-400" size={24} />,
+      desc: 'Site profissional com pagamento antecipado.',
+      features: ['Tudo do Start +', 'Site One-Page Incluso', 'Pagamento Online (Pix/Card)', 'Bloqueio de Agenda', 'Galeria de Fotos']
+    },
+    {
+      name: 'Secretária AI',
+      tag: 'Automação',
+      price: 697,
+      color: 'emerald',
+      popular: true,
+      icon: <MessageSquare className="text-emerald-400" size={24} />,
+      desc: 'Atendimento 24h que tira dúvidas e agenda sozinho.',
+      features: ['Tudo do Pro +', 'IA Humanizada', 'Responde Dúvidas', 'Reagendamento Auto', 'Triagem de Leads']
+    },
+    {
+      name: 'ZyBusiness',
+      tag: 'Enterprise',
+      price: 1297,
+      color: 'rose',
+      icon: <TrendingUp className="text-rose-400" size={24} />,
+      desc: 'Escale seu negócio com marketing e dados.',
+      features: ['Tudo da AI +', 'Automação de Marketing', 'Clube de Assinatura', 'Gestão Financeira', 'Dashboard BI Completo']
+    }
+  ];
 
-  const handleIndustrySelect = (type) => {
-    setSelectedIndustry(type);
-    setStep(2);
-    setTimeout(() => {
-        const el = document.getElementById('step-container');
-        if(el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
-
-  const handleSubCategorySelect = (type) => {
-    setSubCategory(type);
-    setStep(3);
-    setTimeout(() => {
-        const el = document.getElementById('plans-container');
-        if(el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
-
-  const openModal = (planName) => {
-    setSelectedPlan(planName);
-    setModalOpen(true);
-  };
-
-  const activePlans = (selectedIndustry && subCategory) 
-    ? (selectedIndustry === 'delivery' ? deliveryPlans[subCategory] : commercePlans[subCategory])
-    : null;
+  const currentPlans = activeTab === 'delivery' ? deliveryPlans : servicePlans;
 
   return (
-    <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-slate-950">
-       <div className="absolute inset-0 z-0">
-            <img src={bgWeb} alt="Background" className="w-full h-full object-cover opacity-20" />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/90 to-slate-950"></div>
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+    <div className="min-h-screen bg-slate-950 text-white font-sans relative overflow-x-hidden pb-32">
+       
+       <div className="fixed inset-0 z-0 pointer-events-none">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[120px] mix-blend-screen"></div>
+          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[100px] mix-blend-screen"></div>
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
        </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <button onClick={() => navigateTo('landing')} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-12 text-sm uppercase tracking-wider group">
-            <ArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={16} /> Voltar para Home
-        </button>
-
-        <div className="text-center mb-24 animate-fade-in-up">
-           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-6">
-                <Store size={14} /> Soluções para Comércio
-           </div>
-           <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-8 text-white">
-               Venda Mais.<br/>
-               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
-                   Atenda Melhor.
-               </span>
-           </h1>
-           <p className="text-gray-400 max-w-2xl mx-auto text-xl font-light leading-relaxed">
-               De delivery a clínicas, nossa tecnologia organiza seus pedidos, agenda seus clientes e elimina o caos do WhatsApp.
-           </p>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32">
+        
+        <div className="text-center mb-20">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+                Transforme seu <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Atendimento em Vendas</span>
+            </h1>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Pare de perder tempo respondendo "qual o preço?" e "tem horário?". <br/>
+                Nossa tecnologia organiza, atende e vende por você.
+            </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-32 border-b border-white/5 pb-20">
-             <div className="bg-slate-900/50 p-8 rounded-3xl border border-white/5 hover:border-blue-500/30 transition-all">
-                <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6 text-blue-400">
-                    <Clock size={24} />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">Sem Fila de Espera</h3>
-                <p className="text-gray-400 text-sm">Seu cliente não quer esperar. Atendimento imediato 24/7 aumenta a conversão em até 40%.</p>
-             </div>
-             <div className="bg-slate-900/50 p-8 rounded-3xl border border-white/5 hover:border-purple-500/30 transition-all">
-                <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-6 text-purple-400">
-                    <Database size={24} />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">Dados Centralizados</h3>
-                <p className="text-gray-400 text-sm">Histórico de pedidos, preferências e dados do cliente salvos automaticamente.</p>
-             </div>
-             <div className="bg-slate-900/50 p-8 rounded-3xl border border-white/5 hover:border-amber-500/30 transition-all">
-                <div className="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center mb-6 text-amber-400">
-                    <Zap size={24} />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">Venda Sugestiva</h3>
-                <p className="text-gray-400 text-sm">Nossa IA sugere acompanhamentos e adicionais na hora certa, aumentando seu ticket médio.</p>
-             </div>
-        </div>
-
-        <div id="step-container" className="bg-slate-900/80 border border-white/10 rounded-[3rem] p-8 md:p-16 backdrop-blur-xl shadow-2xl mb-20">
-            <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-white mb-2">Selecione seu Ramo</h2>
-                <p className="text-gray-400">Para personalizarmos a oferta ideal.</p>
+        <div className="flex justify-center mb-16">
+            <div className="bg-slate-900/50 backdrop-blur-xl border border-white/10 p-1.5 rounded-2xl inline-flex gap-2 relative">
+                <button 
+                    onClick={() => setActiveTab('delivery')}
+                    className={`flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all duration-300 ${activeTab === 'delivery' ? 'bg-amber-500 text-black shadow-lg shadow-amber-900/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+                >
+                    <Bike size={20} /> Para Delivery
+                </button>
+                <button 
+                    onClick={() => setActiveTab('services')}
+                    className={`flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all duration-300 ${activeTab === 'services' ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-900/20' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+                >
+                    <Store size={20} /> Para Serviços
+                </button>
             </div>
-
-            {step === 1 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto animate-fade-in-up">
-                    <div onClick={() => handleIndustrySelect('delivery')} className="group bg-slate-800/50 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center">
-                        <div className="w-24 h-24 bg-amber-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-amber-500/30 transition-colors">
-                            <Bike size={48} className="text-amber-400" />
-                        </div>
-                        <h3 className="text-3xl font-bold text-white mb-2">Delivery</h3>
-                        <p className="text-gray-400 mb-8">Pizzarias, Hamburguerias, Sushi.</p>
-                        <div className="px-8 py-3 rounded-full border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest group-hover:bg-amber-500 group-hover:text-black transition-all">Ver Soluções</div>
-                    </div>
-                    <div onClick={() => handleIndustrySelect('other')} className="group bg-slate-800/50 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800 hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center">
-                        <div className="w-24 h-24 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-emerald-500/30 transition-colors">
-                            <Store size={48} className="text-emerald-400" />
-                        </div>
-                        <h3 className="text-3xl font-bold text-white mb-2">Outros Comércios</h3>
-                        <p className="text-gray-400 mb-8">Clínicas, Escritórios, Varejo.</p>
-                        <div className="px-8 py-3 rounded-full border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-widest group-hover:bg-emerald-500 group-hover:text-black transition-all">Ver Soluções</div>
-                    </div>
-                </div>
-            )}
-
-            {step === 2 && (
-                <div className="animate-fade-in">
-                    <div className="flex justify-center mb-12">
-                        <button onClick={() => setStep(1)} className="text-sm text-gray-400 hover:text-white flex items-center gap-2 border-b border-transparent hover:border-white transition-all pb-1"><ArrowRight className="rotate-180" size={14} /> Voltar para Ramos</button>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                        <div onClick={() => handleSubCategorySelect('simple')} className="group bg-slate-800/50 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800 hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center">
-                            <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-blue-500/30 transition-colors">
-                                <Shield size={40} className="text-blue-400" />
-                            </div>
-                            <h3 className="text-2xl font-bold text-white mb-2">{selectedIndustry === 'delivery' ? 'Essencial (Sem IA)' : 'Agendamento Direto'}</h3>
-                            <p className="text-gray-400 mb-6">Soluções diretas e funcionais para quem está começando.</p>
-                            <div className="px-6 py-2 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest">Selecionar</div>
-                        </div>
-                        <div onClick={() => handleSubCategorySelect('advanced')} className="group bg-slate-800/50 border border-white/10 rounded-3xl p-10 cursor-pointer hover:bg-slate-800 hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center">
-                            <div className="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-500/30 transition-colors">
-                                <Cpu size={40} className="text-purple-400" />
-                            </div>
-                            <h3 className="text-2xl font-bold text-white mb-2">{selectedIndustry === 'delivery' ? 'Power AI (Com IA)' : 'Gestão Inteligente'}</h3>
-                            <p className="text-gray-400 mb-6">Automação avançada, site incluso e inteligência artificial.</p>
-                             <div className="px-6 py-2 rounded-full bg-purple-500/10 text-purple-400 text-xs font-bold uppercase tracking-widest">Selecionar</div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {step === 3 && activePlans && (
-                <div id="plans-container" className="animate-fade-in">
-                    <div className="flex justify-center mb-8 gap-8">
-                        <button onClick={() => setStep(2)} className="text-sm text-gray-400 hover:text-white flex items-center gap-2 border-b border-transparent hover:border-white transition-all pb-1">
-                            <ArrowRight className="rotate-180" size={14} /> Voltar para Tipos
-                        </button>
-                    </div>
-
-                    <div className="flex justify-center mb-16">
-                    <div className="bg-slate-950 border border-white/10 p-1.5 rounded-full flex flex-wrap justify-center gap-1 sm:gap-0 relative">
-                        <button onClick={() => setBillingCycle('monthly')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'monthly' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Mensal</button>
-                        <button onClick={() => setBillingCycle('semiannual')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'semiannual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Semestral <span className="ml-1 text-[9px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-10%</span></button>
-                        <button onClick={() => setBillingCycle('annual')} className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${billingCycle === 'annual' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}>Anual <span className="ml-1 text-[9px] text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded border border-green-500/30">-25%</span></button>
-                    </div>
-                    </div>
-
-                    <div className={`grid gap-8 items-start justify-center ${activePlans.length === 1 ? 'grid-cols-1 max-w-md mx-auto' : 'grid-cols-1 md:grid-cols-3'}`}>
-                        {activePlans.map((plan, idx) => (
-                            <div key={idx} className="h-full">
-                                <PricingCard 
-                                    title={plan.name} 
-                                    icon={plan.icon} 
-                                    iconBg={(activePlans.length === 3 && idx === 1) ? `bg-gradient-to-br from-${plan.color}-400 to-${plan.color}-600 text-white border-none shadow-lg` : null}
-                                    description={plan.desc} 
-                                    delay={idx * 100} 
-                                    featured={activePlans.length === 3 && idx === 1} 
-                                    color={plan.color} 
-                                    price={calculatePrice(plan.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} 
-                                    subPrice={`/${billingCycle === 'monthly' ? 'mês' : billingCycle === 'semiannual' ? 'mês (6x)' : 'mês (12x)'}`} 
-                                    onHire={() => openContactModal(plan.name)}
-                                >
-                                    <ul className="space-y-4 text-sm text-gray-300 mb-8">
-                                        {plan.features.map((feature, i) => (
-                                            <li key={i} className="flex gap-3 items-center">
-                                                <div className={`w-5 h-5 rounded-full bg-${plan.color}-500/20 flex items-center justify-center text-${plan.color}-500`}>
-                                                    <Check size={12} strokeWidth={3} />
-                                                </div>
-                                                {feature}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </PricingCard>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
         </div>
+
+        <div className="grid md:grid-cols-3 gap-6 mb-24">
+            <div className="bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-white/5 shadow-xl hover:border-white/10 transition-all">
+                <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-6"><Clock /></div>
+                <h3 className="text-lg font-bold text-white mb-2">Atendimento Imediato</h3>
+                <p className="text-gray-400 text-sm">Seu cliente é atendido em menos de 3 segundos, 24 horas por dia. Nunca mais perca uma venda por demora.</p>
+            </div>
+            <div className="bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-white/5 shadow-xl hover:border-white/10 transition-all">
+                <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 mb-6"><Database /></div>
+                <h3 className="text-lg font-bold text-white mb-2">Organização Automática</h3>
+                <p className="text-gray-400 text-sm">{activeTab === 'delivery' ? 'Pedidos organizados, impressos e enviados para a cozinha.' : 'Agenda organizada, lembretes enviados e pagamentos confirmados.'}</p>
+            </div>
+            <div className="bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-white/5 shadow-xl hover:border-white/10 transition-all">
+                <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-6"><TrendingUp /></div>
+                <h3 className="text-lg font-bold text-white mb-2">Aumento de Receita</h3>
+                <p className="text-gray-400 text-sm">{activeTab === 'delivery' ? 'A IA oferece bebidas e sobremesas, aumentando o ticket médio.' : 'Redução drástica de No-Show com lembretes automáticos.'}</p>
+            </div>
+        </div>
+
+        <div className="mb-8 flex justify-center">
+            <div className="inline-flex bg-slate-900/80 border border-white/10 rounded-full p-1">
+                {['monthly', 'semiannual', 'annual'].map((cycle) => (
+                    <button 
+                        key={cycle}
+                        onClick={() => setBillingCycle(cycle)}
+                        className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${billingCycle === cycle ? 'bg-white text-black' : 'text-gray-500 hover:text-white'}`}
+                    >
+                        {cycle === 'monthly' ? 'Mensal' : cycle === 'semiannual' ? 'Semestral (-10%)' : 'Anual (-25%)'}
+                    </button>
+                ))}
+            </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {currentPlans.map((plan, idx) => (
+                <div key={idx} className={`relative flex flex-col p-6 rounded-3xl border transition-all duration-300 ${plan.popular ? 'bg-slate-800/60 border-amber-500/30 shadow-2xl scale-105 z-10' : 'bg-slate-900/40 border-white/5 hover:bg-slate-900/80 hover:border-white/10'}`}>
+                    {plan.popular && (
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-black text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-widest shadow-lg">
+                            Mais Escolhido
+                        </div>
+                    )}
+                    
+                    <div className="mb-6">
+                        <div className="flex justify-between items-start mb-4">
+                            <div className={`p-3 rounded-xl bg-${plan.color}-500/10 text-${plan.color}-400`}>{plan.icon}</div>
+                            <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded bg-${plan.color}-500/10 text-${plan.color}-400 border border-${plan.color}-500/20`}>{plan.tag}</span>
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                        <p className="text-gray-400 text-xs h-10 leading-relaxed">{plan.desc}</p>
+                    </div>
+
+                    <div className="mb-6 p-4 rounded-xl bg-slate-950 border border-white/5">
+                        <div className="text-[10px] text-gray-500 uppercase font-bold mb-1">A partir de:</div>
+                        <div className="flex items-baseline gap-1">
+                            <span className="text-gray-500">R$</span>
+                            <span className={`text-3xl font-bold text-${plan.color}-400`}>{getPrice(plan.price)}</span>
+                            <span className="text-gray-600 text-xs">/mês</span>
+                        </div>
+                    </div>
+
+                    <ul className="space-y-3 mb-8 flex-grow">
+                        {plan.features.map((feature, i) => (
+                            <li key={i} className="flex items-start gap-3 text-xs text-gray-300">
+                                <Check size={14} className={`text-${plan.color}-500 flex-shrink-0 mt-0.5`} />
+                                {feature}
+                            </li>
+                        ))}
+                    </ul>
+
+                    <button 
+                        onClick={() => { setSelectedPlan(plan.name); setModalOpen(true); }}
+                        className={`w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg bg-${plan.color}-600 hover:bg-${plan.color}-500 text-white`}
+                    >
+                        Escolher Plano
+                    </button>
+                </div>
+            ))}
+        </div>
+
       </div>
+
       {modalOpen && <ContactModal plan={selectedPlan} onClose={() => setModalOpen(false)} />}
     </div>
   );
