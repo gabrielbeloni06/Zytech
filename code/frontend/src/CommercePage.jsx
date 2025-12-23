@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ArrowRight, Check, Zap, Crown, Shield, Bike, Store, MessageSquare, Bell, LayoutTemplate, Database, Clock, Calendar
+  ArrowRight, Check, Zap, Crown, Shield, Bike, Store, MessageSquare, Bell, LayoutTemplate, Database, Clock, Calendar, Cpu
 } from 'lucide-react';
 import { PricingCard, ContactModal } from './SharedComponents';
 
