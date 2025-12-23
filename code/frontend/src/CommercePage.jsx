@@ -76,7 +76,6 @@ export default function CommercePage({ navigateTo }) {
             <ArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={16} /> Voltar para Home
         </button>
 
-        {/* HERO SECTION WITH PERSUASION */}
         <div className="text-center mb-24 animate-fade-in-up">
            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-6">
                 <Store size={14} /> Soluções para Comércio
@@ -92,7 +91,6 @@ export default function CommercePage({ navigateTo }) {
            </p>
         </div>
 
-        {/* PERSUASION GRID */}
         <div className="grid md:grid-cols-3 gap-8 mb-32 border-b border-white/5 pb-20">
              <div className="bg-slate-900/50 p-8 rounded-3xl border border-white/5 hover:border-blue-500/30 transition-all">
                 <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6 text-blue-400">
@@ -117,7 +115,6 @@ export default function CommercePage({ navigateTo }) {
              </div>
         </div>
 
-        {/* STEP 1: INDUSTRY SELECTION */}
         <div id="step-container" className="bg-slate-900/80 border border-white/10 rounded-[3rem] p-8 md:p-16 backdrop-blur-xl shadow-2xl mb-20">
             <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-white mb-2">Selecione seu Ramo</h2>
@@ -145,7 +142,6 @@ export default function CommercePage({ navigateTo }) {
                 </div>
             )}
 
-            {/* STEP 2: SUB-CATEGORY SELECTION */}
             {step === 2 && (
                 <div className="animate-fade-in">
                     <div className="flex justify-center mb-12">
@@ -172,7 +168,6 @@ export default function CommercePage({ navigateTo }) {
                 </div>
             )}
 
-            {/* STEP 3: PLANS DISPLAY */}
             {step === 3 && activePlans && (
                 <div id="plans-container" className="animate-fade-in">
                     <div className="flex justify-center mb-8 gap-8">

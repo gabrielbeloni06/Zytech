@@ -3,15 +3,13 @@ import {
   MessageSquare, Globe, Workflow, LineChart, ChevronRight, Menu, Store, Cpu, X
 } from 'lucide-react';
 
-// Importação das Páginas (que serão criadas nos próximos blocos)
 import LandingPage from './LandingPage';
 import AboutPage from './AboutPage';
-import CommercePage from './CommercePage'; // Antigo ChatbotPage
+import CommercePage from './CommercePage';
 import WebsitesPage from './WebsitesPage';
 import AutomationsPage from './AutomationsPage';
 import ConsultoriaPage from './ConsultoriaPage';
 
-// Imports locais
 import logoZytech from './assets/logo.png';
 
 export default function App() {
@@ -48,7 +46,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-blue-500 selection:text-white overflow-x-hidden">
-      {/* Navigation */}
+      
       <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-slate-950/90 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => navigateTo('landing')}>
@@ -58,7 +56,6 @@ export default function App() {
             <span className="text-xl font-bold tracking-widest uppercase font-mono">Zy<span className="text-blue-500">tech</span></span>
           </div>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-1 p-1 bg-white/5 rounded-full border border-white/5 backdrop-blur-md">
             <NavButton active={currentPage === 'landing'} onClick={() => navigateTo('landing')}>Home</NavButton>
             <NavButton active={currentPage === 'about'} onClick={() => navigateTo('about')}>Sobre</NavButton>
@@ -77,7 +74,6 @@ export default function App() {
             </button>
           </div>
 
-          {/* Mobile Toggle */}
           <div className="md:hidden text-white">
             <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2">
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -85,7 +81,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-slate-950 border-b border-white/10 p-6 flex flex-col gap-4 animate-fade-in shadow-2xl">
             <button onClick={() => navigateTo('landing')} className="text-left text-lg font-medium hover:text-blue-400">Home</button>
