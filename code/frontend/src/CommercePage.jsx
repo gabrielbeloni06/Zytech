@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ArrowRight, Check, Zap, Crown, Shield, Bike, Store, MessageSquare, Bell, 
-  LayoutTemplate, Database, Clock, TrendingUp, ChevronDown, Star
+  ArrowRight, Zap, Crown, Shield, Bike, Store, MessageSquare, Database, Clock, TrendingUp, Check, Star, Building2, ShoppingBag
 } from 'lucide-react';
-import { ContactModal } from './SharedComponents.jsx';
-import bgCommerce from './assets/commerce.jpg';
+import { ContactModal } from './SharedComponents';
+
+const bgRedTheme = "https://images.unsplash.com/photo-1629737199462-8178129759d6?q=80&w=2070&auto=format&fit=crop";
 
 export default function CommercePage({ navigateTo }) {
-  const [activeTab, setActiveTab] = useState('delivery');
+  const [step, setStep] = useState(1);
+  const [activeTab, setActiveTab] = useState(null); 
   const [billingCycle, setBillingCycle] = useState('semiannual'); 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -22,22 +23,22 @@ export default function CommercePage({ navigateTo }) {
 
   const deliveryPlans = [
     {
-      name: 'ZyStart',
+      name: 'ZyStart Delivery',
       tag: 'Essencial',
       price: 147,
-      color: 'blue',
-      icon: <Shield size={24} />,
-      desc: 'Organize seus pedidos e saia do papel.',
-      features: ['Cardápio Digital Rápido', 'Recebimento no WhatsApp', 'Painel de Pedidos', 'Link Personalizado']
+      color: 'red',
+      icon: <Shield className="text-red-500" size={24} />,
+      desc: 'Atendimento inicial ágil para pequenos deliveries.',
+      features: ['Cardápio Digital Simples', 'Pedidos via WhatsApp', 'Painel de Pedidos Básico', 'Link Personalizado']
     },
     {
       name: 'ZyControl',
       tag: 'Gestão',
       price: 397,
-      color: 'cyan',
-      icon: <Database size={24} />,
-      desc: 'Controle total da operação e logística.',
-      features: ['Tudo do Start +', 'Gestão de Motoboys', 'Impressão Automática', 'Relatórios Financeiros', 'Controle de Estoque']
+      color: 'orange',
+      icon: <Database className="text-orange-500" size={24} />,
+      desc: 'Controle total com automação para crescer.',
+      features: ['Tudo do Start +', 'Gestão de Entregadores', 'Relatórios Financeiros', 'Impressão Automática', 'Controle de Estoque']
     },
     {
       name: 'ZyBotAI',
@@ -45,47 +46,47 @@ export default function CommercePage({ navigateTo }) {
       price: 697,
       color: 'amber',
       popular: true,
-      icon: <Zap size={24} />,
-      desc: 'Vendedor virtual que trabalha 24h por dia.',
-      features: ['Tudo do Control +', 'IA Vendedora (ChatGPT)', 'Sugestão de Adicionais', 'Recuperação de Carrinho']
+      icon: <Zap className="text-amber-500" size={24} />,
+      desc: 'Vendedor virtual 24h que aumenta o ticket médio.',
+      features: ['Tudo do Control +', 'IA Vendedora (ChatGPT)', 'Sugestão de Adicionais', 'Recuperação de Carrinho', 'Disparos em Massa']
     },
     {
       name: 'ZyCore',
       tag: 'Franquia',
       price: 1297,
       color: 'purple',
-      icon: <Crown size={24} />,
-      desc: 'Potência máxima para grandes volumes.',
+      icon: <Crown className="text-purple-500" size={24} />,
+      desc: 'Potência máxima para grandes volumes e redes.',
       features: ['Tudo do BotAI +', 'Múltiplos Atendentes', 'API Oficial WhatsApp', 'Programa de Fidelidade', 'Gerente de Contas']
     }
   ];
 
-  const servicePlans = [
+  const businessPlans = [
     {
       name: 'Agenda Start',
       tag: 'Básico',
       price: 147,
-      color: 'blue',
-      icon: <Store size={24} />,
-      desc: 'Agenda digital simples e eficiente.',
+      color: 'red',
+      icon: <Store className="text-red-500" size={24} />,
+      desc: 'Digitalize seus agendamentos e organize a casa.',
       features: ['Link de Agendamento', 'Lembretes WhatsApp', 'Gestão de Clientes', 'Histórico de Visitas']
     },
     {
       name: 'Agenda Pro',
       tag: 'Profissional',
       price: 397,
-      color: 'cyan',
-      icon: <LayoutTemplate size={24} />,
-      desc: 'Profissionalize seu negócio com site incluso.',
-      features: ['Tudo do Start +', 'Site One-Page Incluso', 'Pagamento Online', 'Bloqueio de Agenda', 'Galeria de Fotos']
+      color: 'orange',
+      icon: <Store className="text-orange-500" size={24} />,
+      desc: 'Profissionalize com site e pagamentos online.',
+      features: ['Tudo do Start +', 'Site One-Page Incluso', 'Pagamento Online (Pix/Card)', 'Bloqueio de Agenda', 'Galeria de Fotos']
     },
     {
       name: 'Secretária AI',
       tag: 'Automação',
       price: 697,
-      color: 'emerald',
+      color: 'amber',
       popular: true,
-      icon: <MessageSquare size={24} />,
+      icon: <MessageSquare className="text-amber-500" size={24} />,
       desc: 'Atendimento humanizado sem intervenção humana.',
       features: ['Tudo do Pro +', 'IA Humanizada', 'Responde Dúvidas', 'Reagendamento Auto', 'Triagem de Leads']
     },
@@ -93,185 +94,196 @@ export default function CommercePage({ navigateTo }) {
       name: 'ZyBusiness',
       tag: 'Enterprise',
       price: 1297,
-      color: 'rose',
-      icon: <TrendingUp size={24} />,
+      color: 'purple',
+      icon: <TrendingUp className="text-purple-500" size={24} />,
       desc: 'Gestão completa para escalar seu serviço.',
       features: ['Tudo da AI +', 'Automação de Marketing', 'Clube de Assinatura', 'Gestão Financeira', 'Dashboard BI']
     }
   ];
 
-  const currentPlans = activeTab === 'delivery' ? deliveryPlans : servicePlans;
+  const currentPlans = activeTab === 'delivery' ? deliveryPlans : businessPlans;
+
+  const handleSelection = (tab) => {
+    setActiveTab(tab);
+    setStep(2);
+    setTimeout(() => {
+      const plansSection = document.getElementById('plans-section');
+      if (plansSection) plansSection.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
 
   return (
-    <div className="relative min-h-screen bg-slate-950 text-white font-sans overflow-x-hidden selection:bg-indigo-500/30">
+    <div className="relative min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-red-500/30">
       
       <div className="fixed inset-0 z-0">
-        <img src={bgCommerce} alt="Background" className="w-full h-full object-cover opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950/95 to-slate-900"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.15),transparent_70%)]"></div>
+        <img src={bgRedTheme} alt="Red Theme Background" className="w-full h-full object-cover opacity-20 mix-blend-hard-light" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-[#1a0505]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(220,38,38,0.15),transparent_70%)]"></div>
       </div>
 
       <div className="relative z-10 pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
         
         <button 
             onClick={() => navigateTo('landing')} 
-            className="mb-12 flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-white transition-colors uppercase tracking-widest group"
+            className="mb-12 flex items-center gap-2 text-xs font-bold text-red-500 hover:text-white transition-colors uppercase tracking-widest group"
         >
             <ArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={14} /> 
             Voltar ao Hub
         </button>
 
         <div className="text-center mb-16 animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-6">
-                <Store size={12} /> Soluções Comerciais v2.0
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 text-[10px] font-bold uppercase tracking-widest mb-6">
+                <MessageSquare size={12} /> Chatbots Inteligentes
             </div>
             <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight leading-tight">
-                O Sistema Operacional <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
-                    Do Seu Negócio
+                O Atendimento do <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-500 to-amber-500">
+                    Futuro é Agora
                 </span>
             </h1>
-            <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
-                Centralize pedidos, agendamentos e atendimento em uma única plataforma inteligente. 
-                Escolha seu segmento e veja a mágica acontecer.
+            <p className="text-zinc-400 max-w-2xl mx-auto text-lg leading-relaxed">
+                Automatize vendas, suporte e agendamentos com a tecnologia de IA mais avançada do mercado.
+                Escolha seu segmento e transforme seu WhatsApp em uma máquina de resultados.
             </p>
         </div>
 
-        <div className="flex justify-center mb-20">
-            <div className="bg-slate-900/80 backdrop-blur-md border border-white/10 p-2 rounded-2xl inline-flex gap-2 shadow-2xl relative z-20">
-                <button 
-                    onClick={() => setActiveTab('delivery')}
-                    className={`flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all duration-300 w-40 md:w-52 justify-center ${activeTab === 'delivery' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/50' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+        {step === 1 && (
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-24 animate-fade-in">
+                <div 
+                    onClick={() => handleSelection('delivery')}
+                    className="group relative bg-zinc-900/50 border border-white/10 hover:border-red-500/50 rounded-[2.5rem] p-10 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_50px_rgba(239,68,68,0.15)] flex flex-col items-center text-center overflow-hidden"
                 >
-                    <Bike size={20} /> Delivery
-                </button>
-                <button 
-                    onClick={() => setActiveTab('services')}
-                    className={`flex items-center gap-3 px-8 py-4 rounded-xl font-bold transition-all duration-300 w-40 md:w-52 justify-center ${activeTab === 'services' ? 'bg-pink-600 text-white shadow-lg shadow-pink-900/50' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    <div className="absolute inset-0 bg-gradient-to-b from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="w-24 h-24 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 mb-6 group-hover:scale-110 transition-transform duration-300 relative z-10">
+                        <Bike size={48} />
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-3 relative z-10">Delivery</h3>
+                    <p className="text-zinc-400 text-sm relative z-10">Para restaurantes, hamburguerias e dark kitchens que querem vender mais.</p>
+                    <div className="mt-8 px-8 py-3 rounded-full bg-red-600 text-white font-bold text-xs uppercase tracking-widest group-hover:bg-red-500 transition-colors relative z-10">
+                        Ver Planos Delivery
+                    </div>
+                </div>
+
+                <div 
+                    onClick={() => handleSelection('business')}
+                    className="group relative bg-zinc-900/50 border border-white/10 hover:border-orange-500/50 rounded-[2.5rem] p-10 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_50px_rgba(249,115,22,0.15)] flex flex-col items-center text-center overflow-hidden"
                 >
-                    <Store size={20} /> Serviços
-                </button>
+                    <div className="absolute inset-0 bg-gradient-to-b from-orange-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="w-24 h-24 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 mb-6 group-hover:scale-110 transition-transform duration-300 relative z-10">
+                        <Building2 size={48} />
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-3 relative z-10">Empresa & Serviços</h3>
+                    <p className="text-zinc-400 text-sm relative z-10">Para clínicas, escritórios, barbearias e varejo que precisam de agendamento e suporte.</p>
+                    <div className="mt-8 px-8 py-3 rounded-full bg-orange-600 text-white font-bold text-xs uppercase tracking-widest group-hover:bg-orange-500 transition-colors relative z-10">
+                        Ver Planos Empresa
+                    </div>
+                </div>
             </div>
-        </div>
+        )}
 
-        <div className="grid md:grid-cols-3 gap-6 mb-24 max-w-5xl mx-auto">
-            <FeatureHighlight 
-                icon={<Clock />} 
-                title="Resposta Instantânea" 
-                desc="Atendimento em < 3 segundos. Cliente respondido é cliente comprado." 
-                color={activeTab === 'delivery' ? 'indigo' : 'pink'}
-            />
-            <FeatureHighlight 
-                icon={<Database />} 
-                title="CRM Automático" 
-                desc="Salve dados, preferências e histórico de cada cliente automaticamente." 
-                color={activeTab === 'delivery' ? 'indigo' : 'pink'}
-            />
-            <FeatureHighlight 
-                icon={<TrendingUp />} 
-                title="Escala de Vendas" 
-                desc="Aumente seu ticket médio com sugestões inteligentes e upsell." 
-                color={activeTab === 'delivery' ? 'indigo' : 'pink'}
-            />
-        </div>
+        {step === 2 && (
+            <div id="plans-section" className="animate-fade-in-up">
+                
+                <div className="flex justify-center mb-12">
+                    <button 
+                        onClick={() => setStep(1)} 
+                        className="flex items-center gap-2 text-sm text-zinc-500 hover:text-white transition-colors border-b border-transparent hover:border-white pb-1"
+                    >
+                        <ArrowRight className="rotate-180" size={14}/> Alterar Segmento ({activeTab === 'delivery' ? 'Delivery' : 'Empresa'})
+                    </button>
+                </div>
 
-        <div id="plans-container" className="scroll-mt-32">
-            <div className="flex justify-center mb-12">
-                <div className="inline-flex bg-slate-900 border border-white/10 rounded-full p-1.5 gap-1">
-                    {['monthly', 'semiannual', 'annual'].map((cycle) => (
-                        <button 
-                            key={cycle}
-                            onClick={() => setBillingCycle(cycle)}
-                            className={`px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${billingCycle === cycle ? 'bg-white text-slate-900' : 'text-slate-500 hover:text-white'}`}
+                <div className="flex justify-center mb-16">
+                    <div className="inline-flex bg-zinc-900 border border-white/10 rounded-full p-1.5 gap-1">
+                        {['monthly', 'semiannual', 'annual'].map((cycle) => (
+                            <button 
+                                key={cycle}
+                                onClick={() => setBillingCycle(cycle)}
+                                className={`px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${billingCycle === cycle ? 'bg-red-600 text-white shadow-lg' : 'text-zinc-500 hover:text-white'}`}
+                            >
+                                {cycle === 'monthly' ? 'Mensal' : cycle === 'semiannual' ? 'Semestral (-10%)' : 'Anual (-25%)'}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {currentPlans.map((plan, idx) => (
+                        <div 
+                            key={idx} 
+                            className={`relative flex flex-col p-1 rounded-[2rem] transition-all duration-300 group hover:-translate-y-2 
+                                ${plan.popular 
+                                    ? 'bg-gradient-to-b from-red-600/20 to-zinc-900/80 shadow-[0_0_30px_rgba(220,38,38,0.15)] z-10 scale-105' 
+                                    : 'bg-zinc-900/40 hover:bg-zinc-900/60'
+                                }`}
                         >
-                            {cycle === 'monthly' ? 'Mensal' : cycle === 'semiannual' ? 'Semestral (-10%)' : 'Anual (-25%)'}
-                        </button>
+                            {plan.popular && (
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-600 to-orange-600 text-white text-[10px] font-black uppercase px-4 py-1.5 rounded-full tracking-widest shadow-lg flex items-center gap-1 border border-red-400/20">
+                                    <Star size={10} fill="currentColor" /> Recomendado
+                                </div>
+                            )}
+                            
+                            <div className="bg-zinc-950/80 rounded-[1.8rem] p-6 h-full flex flex-col backdrop-blur-xl border border-white/5 group-hover:border-white/10 transition-colors">
+                                <div className="mb-6">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className={`p-3 rounded-2xl bg-zinc-900 border border-white/5 ${plan.popular ? 'text-red-500' : 'text-zinc-400'} group-hover:text-white transition-colors`}>
+                                            {plan.icon}
+                                        </div>
+                                        <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded bg-white/5 border border-white/10 text-zinc-400`}>{plan.tag}</span>
+                                    </div>
+                                    <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                                    <p className="text-zinc-400 text-xs h-10 leading-relaxed line-clamp-2">{plan.desc}</p>
+                                </div>
+
+                                <div className="mb-6 p-4 rounded-xl bg-black/40 border border-white/5">
+                                    <div className="text-[10px] text-zinc-500 uppercase font-bold mb-1">Investimento</div>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-zinc-500 text-sm">R$</span>
+                                        <span className={`text-3xl font-bold ${plan.popular ? 'text-red-500' : 'text-white'}`}>{getPrice(plan.price)}</span>
+                                        <span className="text-zinc-600 text-xs">/mês</span>
+                                    </div>
+                                </div>
+
+                                <ul className="space-y-3 mb-8 flex-grow">
+                                    {plan.features.map((feature, i) => (
+                                        <li key={i} className="flex items-start gap-3 text-xs text-zinc-300">
+                                            <div className={`mt-0.5 min-w-[14px] min-h-[14px] rounded-full flex items-center justify-center ${plan.popular ? 'bg-red-500/20 text-red-500' : 'bg-zinc-800 text-zinc-500'}`}>
+                                                <Check size={8} strokeWidth={4} />
+                                            </div>
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <button 
+                                    onClick={() => { setSelectedPlan(plan.name); setModalOpen(true); }}
+                                    className={`w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg 
+                                        ${plan.popular 
+                                            ? 'bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white' 
+                                            : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
+                                        }`}
+                                >
+                                    Selecionar Plano
+                                </button>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {currentPlans.map((plan, idx) => (
-                    <div 
-                        key={idx} 
-                        className={`relative flex flex-col p-1 rounded-[2rem] transition-all duration-300 group hover:-translate-y-2 ${plan.popular ? 'bg-gradient-to-b from-amber-500/50 to-slate-900/50 shadow-2xl z-10' : 'bg-slate-800/30 hover:bg-slate-800/50'}`}
-                    >
-                        {plan.popular && (
-                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-500 text-black text-[10px] font-black uppercase px-4 py-1.5 rounded-full tracking-widest shadow-lg flex items-center gap-1">
-                                <Star size={10} fill="black" /> Recomendado
-                            </div>
-                        )}
-                        
-                        <div className="bg-slate-900/90 rounded-[1.8rem] p-6 h-full flex flex-col backdrop-blur-xl border border-white/5">
-                            <div className="mb-6">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className={`p-3 rounded-2xl bg-${plan.color}-500/10 text-${plan.color}-400 ring-1 ring-${plan.color}-500/20`}>{plan.icon}</div>
-                                </div>
-                                <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-                                <p className="text-slate-400 text-xs h-8 leading-relaxed line-clamp-2">{plan.desc}</p>
-                            </div>
-
-                            <div className="mb-6 pt-4 border-t border-white/5">
-                                <div className="text-[10px] text-slate-500 uppercase font-bold mb-1">Investimento</div>
-                                <div className="flex items-baseline gap-1">
-                                    <span className="text-slate-500 text-sm">R$</span>
-                                    <span className={`text-3xl font-bold text-${plan.color}-400`}>{getPrice(plan.price)}</span>
-                                    <span className="text-slate-600 text-xs">/mês</span>
-                                </div>
-                            </div>
-
-                            <ul className="space-y-3 mb-8 flex-grow">
-                                {plan.features.map((feature, i) => (
-                                    <li key={i} className="flex items-start gap-3 text-xs text-slate-300">
-                                        <div className={`mt-0.5 min-w-[14px] min-h-[14px] rounded-full bg-${plan.color}-500/20 flex items-center justify-center`}>
-                                            <Check size={8} className={`text-${plan.color}-400`} strokeWidth={4} />
-                                        </div>
-                                        {feature}
-                                    </li>
-                                ))}
-                            </ul>
-
-                            <button 
-                                onClick={() => { setSelectedPlan(plan.name); setModalOpen(true); }}
-                                className={`w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg bg-white/5 hover:bg-${plan.color}-600 text-white border border-white/10 hover:border-transparent group-hover:scale-[1.02] active:scale-95`}
-                            >
-                                Selecionar
-                            </button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+        )}
 
       </div>
 
       {modalOpen && <ContactModal plan={selectedPlan} onClose={() => setModalOpen(false)} />}
       
       <style>{`
-        .text-indigo-400 { color: #818cf8; }
-        .text-pink-400 { color: #f472b6; }
-        .text-cyan-400 { color: #22d3ee; }
-        .text-amber-400 { color: #fbbf24; }
-        .text-purple-400 { color: #c084fc; }
-        .text-emerald-400 { color: #34d399; }
-        .text-rose-400 { color: #fb7185; }
-        .bg-indigo-500\\/10 { background-color: rgba(99, 102, 241, 0.1); }
-        .bg-cyan-500\\/10 { background-color: rgba(34, 211, 238, 0.1); }
-        .bg-amber-500\\/10 { background-color: rgba(251, 191, 36, 0.1); }
-        .bg-purple-500\\/10 { background-color: rgba(192, 132, 252, 0.1); }
-        .bg-emerald-500\\/10 { background-color: rgba(52, 211, 153, 0.1); }
-        .bg-rose-500\\/10 { background-color: rgba(251, 113, 133, 0.1); }
+        .text-red-500 { color: #ef4444; }
+        .text-orange-500 { color: #f97316; }
+        .text-amber-500 { color: #f59e0b; }
+        .text-purple-500 { color: #a855f7; }
+        .bg-red-600 { background-color: #dc2626; }
+        .bg-orange-600 { background-color: #ea580c; }
       `}</style>
     </div>
   );
 }
-
-const FeatureHighlight = ({ icon, title, desc, color }) => (
-    <div className={`bg-slate-900/40 p-6 rounded-2xl border border-white/5 hover:border-${color}-500/30 transition-all group`}>
-        <div className={`w-10 h-10 rounded-lg bg-${color}-500/10 flex items-center justify-center text-${color}-400 mb-4 group-hover:scale-110 transition-transform`}>
-            {React.cloneElement(icon, { size: 20 })}
-        </div>
-        <h3 className="text-base font-bold text-white mb-2">{title}</h3>
-        <p className="text-slate-400 text-xs leading-relaxed">{desc}</p>
-    </div>
-);

@@ -5,7 +5,7 @@ import {
 
 import LandingPage from './LandingPage';
 import AboutPage from './AboutPage';
-import CommercePage from './CommercePage';
+import ChatbotPage from './CommercePage'; 
 import WebsitesPage from './WebsitesPage';
 import AutomationsPage from './AutomationsPage';
 import ConsultoriaPage from './ConsultoriaPage';
@@ -34,11 +34,13 @@ export default function App() {
   const handleContactClick = (e) => {
     e.preventDefault();
     if (currentPage === 'landing') {
-      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+      const contactSection = document.getElementById('contact');
+      if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
     } else {
       setCurrentPage('landing');
       setTimeout(() => {
-        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+        const contactSection = document.getElementById('contact');
+        if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     }
     setMobileMenuOpen(false);
@@ -46,7 +48,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-blue-500 selection:text-white overflow-x-hidden">
-      
       <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-slate-950/90 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => navigateTo('landing')}>
@@ -62,7 +63,7 @@ export default function App() {
             
             <div className="h-6 w-px bg-white/10 mx-2"></div>
 
-            <NavButton active={currentPage === 'chatbot'} onClick={() => navigateTo('chatbot')} icon={<Store size={14}/>}>Comércio</NavButton>
+            <NavButton active={currentPage === 'chatbot'} onClick={() => navigateTo('chatbot')} icon={<MessageSquare size={14}/>}>Chatbots</NavButton>
             <NavButton active={currentPage === 'websites'} onClick={() => navigateTo('websites')} icon={<Globe size={14}/>}>Sites</NavButton>
             <NavButton active={currentPage === 'automations'} onClick={() => navigateTo('automations')} icon={<Workflow size={14}/>}>Automação</NavButton>
             <NavButton active={currentPage === 'consultoria'} onClick={() => navigateTo('consultoria')} icon={<LineChart size={14}/>}>Consultoria</NavButton>
@@ -87,7 +88,10 @@ export default function App() {
             <button onClick={() => navigateTo('about')} className="text-left text-lg font-medium hover:text-blue-400">Sobre</button>
             <div className="h-px w-full bg-white/10 my-2"></div>
             <div className="text-xs uppercase tracking-widest text-gray-500 mb-2">Soluções</div>
-            <button onClick={() => navigateTo('chatbot')} className="flex items-center gap-3 text-left text-lg font-medium hover:text-blue-400"><Store size={18} className="text-blue-500"/> Comércio</button>
+            
+            {/* MUDANÇA AQUI TAMBÉM */}
+            <button onClick={() => navigateTo('chatbot')} className="flex items-center gap-3 text-left text-lg font-medium hover:text-blue-400"><MessageSquare size={18} className="text-red-500"/> Chatbots</button>
+            
             <button onClick={() => navigateTo('websites')} className="flex items-center gap-3 text-left text-lg font-medium hover:text-blue-400"><Globe size={18} className="text-purple-500"/> Websites</button>
             <button onClick={() => navigateTo('automations')} className="flex items-center gap-3 text-left text-lg font-medium hover:text-blue-400"><Workflow size={18} className="text-amber-500"/> Automações</button>
             <button onClick={() => navigateTo('consultoria')} className="flex items-center gap-3 text-left text-lg font-medium hover:text-blue-400"><LineChart size={18} className="text-emerald-500"/> Consultoria</button>
@@ -99,7 +103,7 @@ export default function App() {
       <main className="relative z-0">
         {currentPage === 'landing' && <LandingPage navigateTo={navigateTo} />}
         {currentPage === 'about' && <AboutPage navigateTo={navigateTo} />}
-        {currentPage === 'chatbot' && <CommercePage navigateTo={navigateTo} />}
+        {currentPage === 'chatbot' && <ChatbotPage navigateTo={navigateTo} />}
         {currentPage === 'websites' && <WebsitesPage navigateTo={navigateTo} />}
         {currentPage === 'automations' && <AutomationsPage navigateTo={navigateTo} />}
         {currentPage === 'consultoria' && <ConsultoriaPage navigateTo={navigateTo} />}
