@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   ArrowRight, Check, Zap, Crown, Shield, Bike, Store, MessageSquare, Bell, LayoutTemplate, Database, Clock
 } from 'lucide-react';
+import { PricingCard, ContactModal } from './SharedComponents.jsx';
 import bgWeb from './assets/website.jpg';
-import { PricingCard, ContactModal } from './SharedComponents';
 
 export default function CommercePage({ navigateTo }) {
   const [step, setStep] = useState(1);
@@ -46,7 +46,6 @@ export default function CommercePage({ navigateTo }) {
   const handleIndustrySelect = (type) => {
     setSelectedIndustry(type);
     setStep(2);
-    // Smooth scroll to next step if needed
     setTimeout(() => document.getElementById('step-container').scrollIntoView({ behavior: 'smooth' }), 100);
   };
 
