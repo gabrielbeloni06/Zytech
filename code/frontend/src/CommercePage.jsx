@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   ArrowRight, Check, Zap, Crown, Shield, Bike, Store, MessageSquare, Bell, LayoutTemplate, Database, Clock
 } from 'lucide-react';
-import { PricingCard, ContactModal } from './SharedComponents.jsx';
+import { PricingCard, ContactModal } from './SharedComponents';
 import bgWeb from './assets/website.jpg';
 
 export default function CommercePage({ navigateTo }) {
@@ -46,13 +46,19 @@ export default function CommercePage({ navigateTo }) {
   const handleIndustrySelect = (type) => {
     setSelectedIndustry(type);
     setStep(2);
-    setTimeout(() => document.getElementById('step-container').scrollIntoView({ behavior: 'smooth' }), 100);
+    setTimeout(() => {
+        const el = document.getElementById('step-container');
+        if(el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const handleSubCategorySelect = (type) => {
     setSubCategory(type);
     setStep(3);
-    setTimeout(() => document.getElementById('plans-container').scrollIntoView({ behavior: 'smooth' }), 100);
+    setTimeout(() => {
+        const el = document.getElementById('plans-container');
+        if(el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const openContactModal = (plan) => {
@@ -60,7 +66,9 @@ export default function CommercePage({ navigateTo }) {
     setModalOpen(true);
   };
 
-  const activePlans = selectedIndustry && subCategory && (selectedIndustry === 'delivery' ? deliveryPlans[subCategory] : commercePlans[subCategory]);
+  const activePlans = (selectedIndustry && subCategory) 
+    ? (selectedIndustry === 'delivery' ? deliveryPlans[subCategory] : commercePlans[subCategory])
+    : null;
 
   return (
     <div className="relative min-h-screen pt-24 pb-24 overflow-hidden bg-slate-950">

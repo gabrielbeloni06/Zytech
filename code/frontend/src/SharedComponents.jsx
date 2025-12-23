@@ -10,8 +10,7 @@ export const PricingCard = ({ title, icon, description, children, delay, feature
     purple: { border: 'group-hover:border-purple-500/50', btn: 'bg-purple-600 hover:bg-purple-500', text: 'text-purple-400' },
     cyan: { border: 'group-hover:border-cyan-500/50', btn: 'bg-cyan-600 hover:bg-cyan-500', text: 'text-cyan-400' },
     emerald: { border: 'group-hover:border-emerald-500/50', btn: 'bg-emerald-600 hover:bg-emerald-500', text: 'text-emerald-400' },
-    rose: { border: 'group-hover:border-rose-500/50', btn: 'bg-rose-600 hover:bg-rose-500', text: 'text-rose-400' },
-    pink: { border: 'group-hover:border-pink-500/50', btn: 'bg-pink-600 hover:bg-pink-500', text: 'text-pink-400' }
+    rose: { border: 'group-hover:border-rose-500/50', btn: 'bg-rose-600 hover:bg-rose-500', text: 'text-rose-400' }
   };
 
   const theme = colors[color] || colors.blue;
