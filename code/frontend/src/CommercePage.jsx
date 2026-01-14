@@ -302,7 +302,7 @@ export default function CommercePage({ navigateTo }) {
                             <div className="w-24 h-24 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-[0_0_50px_rgba(234,88,12,0.3)]">
                                 <Zap size={48} className="text-white" />
                             </div>
-                            <div className="text-2xl font-black text-white">ZyBot AI</div>
+                            <div className="text-2xl font-black text-white">Zytech AI</div>
                             <div className="text-xs text-orange-400 uppercase tracking-widest mt-1">Neural Processing</div>
                         </div>
                         <div className="absolute w-[140%] h-[140%] border border-white/5 rounded-full animate-[spin_10s_linear_infinite]"></div>
