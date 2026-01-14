@@ -48,27 +48,20 @@ export default function WebsitesPage({ navigateTo }) {
   const [addons, setAddons] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const [orderData, setOrderData] = useState(null);
-  const [billingCycle, setBillingCycle] = useState('semiannual');
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const getPrice = (basePrice) => {
-    if (billingCycle === 'semiannual') return Math.floor(basePrice * 0.9);
-    if (billingCycle === 'annual') return Math.floor(basePrice * 0.75);
-    return basePrice;
-  };
-
   const tiers = [
-    { id: 'start', name: 'Website Start', price: 900, color: 'blue', icon: <Layout size={32}/>, desc: 'Landing Page única de alta conversão. Perfeita para campanhas e lançamentos.', features: ['Design Responsivo (Mobile First)', 'Hospedagem de Alta Performance', '1 Página Longa (Landing Page)', 'Botão WhatsApp Flutuante', 'Certificado SSL (Segurança)'] },
-    { id: 'control', name: 'Website Control', price: 2500, color: 'purple', icon: <Globe size={32}/>, desc: 'Site institucional completo. Ideal para empresas que precisam apresentar serviços.', features: ['Até 5 Páginas Internas', 'Blog / Área de Notícias', 'Formulários de Contato Avançados', 'SEO Técnico Otimizado', 'Painel para Editar Conteúdo'] },
-    { id: 'core', name: 'Website Core', price: 5000, color: 'pink', icon: <ShoppingCart size={32}/>, desc: 'Portal robusto ou E-commerce. Para quem vai vender online.', features: ['Loja Virtual Completa', 'Área de Membros / Login', 'Integração com Pagamentos', 'Sistema de Filtros Avançado', 'Gestão de Estoque'] },
+    { id: 'start', name: 'Website Start', price: 500, color: 'blue', icon: <Layout size={32}/>, desc: 'Landing Page única de alta conversão. Perfeita para campanhas e lançamentos.', features: ['Design Responsivo (Mobile First)', 'Hospedagem de Alta Performance', '1 Página Longa (Landing Page)', 'Botão WhatsApp Flutuante', 'Certificado SSL (Segurança)'] },
+    { id: 'control', name: 'Website Control', price: 800, color: 'purple', icon: <Globe size={32}/>, desc: 'Site institucional completo. Ideal para empresas que precisam apresentar serviços.', features: ['Até 5 Páginas Internas', 'Blog / Área de Notícias', 'Formulários de Contato Avançados', 'SEO Técnico Otimizado', 'Painel para Editar Conteúdo'] },
+    { id: 'core', name: 'Website Core', price: 2500, color: 'pink', icon: <ShoppingCart size={32}/>, desc: 'Portal robusto ou E-commerce. Para quem vai vender online.', features: ['Loja Virtual Completa', 'Área de Membros / Login', 'Integração com Pagamentos', 'Sistema de Filtros Avançado', 'Gestão de Estoque'] },
   ];
 
   const availableAddons = [
-    { id: 'seo_plus', name: 'SEO Ultra Otimizado', price: 500, icon: <SearchIcon size={18}/> },
-    { id: 'copy', name: 'Copywriting Profissional', price: 800, icon: <PenToolIcon size={18}/> },
-    { id: 'logo', name: 'Identidade Visual (Logo)', price: 1200, icon: <Star size={18}/> },
-    { id: 'analytics', name: 'Dashboard Analytics', price: 600, icon: <LineChart size={18}/> },
+    { id: 'seo_plus', name: 'Banco de Dados Dedicado', price: 150, icon: <SearchIcon size={18}/> },
+    { id: 'copy', name: 'Integração com APIs', price: 200, icon: <PenToolIcon size={18}/> },
+    { id: 'logo', name: 'Identidade Visual (Logo)', price: 150, icon: <Star size={18}/> },
+    { id: 'analytics', name: 'Adicionar funcionalidades com AI', price: 300, icon: <LineChart size={18}/> },
   ];
 
   const handleTierSelect = (tier) => {
@@ -85,10 +78,9 @@ export default function WebsitesPage({ navigateTo }) {
   };
 
   const finishOrder = () => {
-    const total = getPrice(selectedTier.price) + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0);
+    const total = selectedTier.price + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0);
     const data = {
         tier: selectedTier.name,
-        billingCycle,
         addons: availableAddons.filter(a => addons[a.id]).map(a => a.name),
         totalPrice: total
     };
@@ -120,6 +112,7 @@ export default function WebsitesPage({ navigateTo }) {
             Voltar ao Hub
         </button>
 
+        {/* --- HERO SECTION --- */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-16 mb-24 animate-fade-in-up">
             
             <div className="lg:w-1/2 space-y-8">
@@ -217,6 +210,7 @@ export default function WebsitesPage({ navigateTo }) {
             </div>
         </div>
 
+         {/* --- PERSUASION ZONE --- */}
          <div className="space-y-24 mb-32 border-t border-white/5 pt-20">
             
             <div className="flex flex-col md:flex-row items-center gap-12">
@@ -360,6 +354,7 @@ export default function WebsitesPage({ navigateTo }) {
             </div>
         </div>
 
+        {/* --- SELECTION SECTION (CALCULATOR) --- */}
         <div id="selection-section" className="scroll-mt-24">
             <div className="text-center mb-16">
                 <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Escolha sua Estrutura</h2>
@@ -368,6 +363,7 @@ export default function WebsitesPage({ navigateTo }) {
 
             <div className="max-w-6xl mx-auto bg-zinc-900 border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px] animate-fade-in">
                 
+                {/* Left Side: Inputs */}
                 <div className="w-full md:w-2/3 p-8 md:p-12 relative">
                     {step === 1 && (
                         <div className="animate-fade-in">
@@ -395,28 +391,13 @@ export default function WebsitesPage({ navigateTo }) {
                                             </div>
                                         </div>
                                         <div className="text-right min-w-fit">
-                                            <div className="text-xs text-zinc-500 mb-1">A partir de</div>
-                                            <div className={`text-2xl font-bold ${colorStyles[tier.color].title}`}>R$ {getPrice(tier.price)}</div>
+                                            <div className="text-xs text-zinc-500 mb-1">Taxa Única</div>
+                                            <div className={`text-2xl font-bold ${colorStyles[tier.color].title}`}>R$ {tier.price}</div>
                                         </div>
                                         <ArrowRight className="text-zinc-600 group-hover:text-white transition-colors" />
                                     </div>
                                 ))}
                             </div>
-                            
-                            <div className="mt-8 flex justify-center">
-                                <div className="inline-flex bg-black/40 border border-white/10 rounded-lg p-1">
-                                    {['monthly', 'semiannual', 'annual'].map((cycle) => (
-                                        <button 
-                                            key={cycle} 
-                                            onClick={() => setBillingCycle(cycle)}
-                                            className={`px-4 py-2 rounded-md text-xs font-bold uppercase transition-all ${billingCycle === cycle ? 'bg-white text-black shadow-lg' : 'text-zinc-500 hover:text-white'}`}
-                                        >
-                                            {cycle === 'monthly' ? 'Mensal' : cycle === 'semiannual' ? 'Semestral' : 'Anual'}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                            <p className="text-center text-[10px] text-zinc-600 mt-2">*Ciclo referente à manutenção (se aplicável).</p>
                         </div>
                     )}
 
@@ -449,7 +430,7 @@ export default function WebsitesPage({ navigateTo }) {
                                 <div>
                                     <div className="text-xs text-zinc-500 uppercase tracking-widest">Investimento Total</div>
                                     <div className="text-3xl font-bold text-white">
-                                        R$ {getPrice(selectedTier.price) + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0)}
+                                        R$ {selectedTier.price + availableAddons.reduce((acc, curr) => acc + (addons[curr.id] ? curr.price : 0), 0)}
                                     </div>
                                 </div>
                                 <button onClick={finishOrder} className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-500 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
@@ -460,6 +441,7 @@ export default function WebsitesPage({ navigateTo }) {
                     )}
                 </div>
 
+                {/* Right Side: Summary */}
                 <div className="w-full md:w-1/3 bg-black/40 border-l border-white/10 p-8 md:p-12 flex flex-col relative overflow-hidden backdrop-blur-sm">
                     <div className="absolute inset-0 bg-blue-600/5 z-0"></div>
                     <div className="relative z-10">
@@ -473,7 +455,7 @@ export default function WebsitesPage({ navigateTo }) {
                                         {selectedTier.name} 
                                         <span className={`text-[10px] px-2 py-0.5 rounded-full border ${colorStyles[selectedTier.color].badgeBg} ${colorStyles[selectedTier.color].badgeText} ${colorStyles[selectedTier.color].badgeBorder}`}>v2.0</span>
                                     </div>
-                                    <div className="text-sm text-zinc-400">R$ {getPrice(selectedTier.price)}</div>
+                                    <div className="text-sm text-zinc-400">R$ {selectedTier.price}</div>
                                 </div>
                                 
                                 {Object.keys(addons).some(k => addons[k]) && (
