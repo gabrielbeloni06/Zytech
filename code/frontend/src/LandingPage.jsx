@@ -82,9 +82,9 @@ export default function LandingPage({ navigateTo }) {
           </div>
           
           <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter mb-8 text-white leading-[0.9] drop-shadow-2xl">
-            Pare de Perder <br/> 
+            O Futuro <br/> 
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600 animate-gradient-x">
-                Vendas Agora.
+                do Atendimento.
             </span>
           </h1>
           
@@ -163,7 +163,7 @@ export default function LandingPage({ navigateTo }) {
                         <Target size={14} /> Ecossistema ZyTech
                   </div>
                   <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter text-white mb-4">
-                      Escolha sua <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Arma.</span>
+                      Escolha sua <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Solução.</span>
                   </h2>
                   <p className="text-gray-400 max-w-md">4 Pilares fundamentais para transformar sua operação digital.</p>
               </div>
