@@ -53,7 +53,7 @@ export default function WebsitesPage({ navigateTo }) {
 
   const tiers = [
     { id: 'start', name: 'Website Start', price: 500, color: 'blue', icon: <Layout size={32}/>, desc: 'Landing Page única de alta conversão. Perfeita para campanhas e lançamentos.', features: ['Design Responsivo (Mobile First)', 'Hospedagem de Alta Performance', '1 Página Longa (Landing Page)', 'Botão WhatsApp Flutuante', 'Certificado SSL (Segurança)'] },
-    { id: 'control', name: 'Website Control', price: 800, color: 'purple', icon: <Globe size={32}/>, desc: 'Site institucional completo. Ideal para empresas que precisam apresentar serviços.', features: ['Até 5 Páginas Internas', 'Blog / Área de Notícias', 'Formulários de Contato Avançados', 'SEO Técnico Otimizado', 'Painel para Editar Conteúdo'] },
+    { id: 'control', name: 'Website Control', price: 700, color: 'purple', icon: <Globe size={32}/>, desc: 'Site institucional completo. Ideal para empresas que precisam apresentar serviços.', features: ['Até 5 Páginas Internas', 'Blog / Área de Notícias', 'Formulários de Contato Avançados', 'SEO Técnico Otimizado', 'Painel para Editar Conteúdo'] },
     { id: 'core', name: 'Website Core', price: 2500, color: 'pink', icon: <ShoppingCart size={32}/>, desc: 'Portal robusto ou E-commerce. Para quem vai vender online.', features: ['Loja Virtual Completa', 'Área de Membros / Login', 'Integração com Pagamentos', 'Sistema de Filtros Avançado', 'Gestão de Estoque'] },
   ];
 
