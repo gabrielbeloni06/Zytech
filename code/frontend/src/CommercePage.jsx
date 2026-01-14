@@ -4,12 +4,11 @@ import {
 } from 'lucide-react';
 import { ContactModal } from './SharedComponents';
 
-// Imagem de fundo em tons avermelhados/escuros para combinar com o tema
 const bgRedTheme = "https://images.unsplash.com/photo-1629737199462-8178129759d6?q=80&w=2070&auto=format&fit=crop";
 
 export default function CommercePage({ navigateTo }) {
-  const [step, setStep] = useState(1); // 1: Seleção de Ramo, 2: Planos
-  const [activeTab, setActiveTab] = useState(null); // 'delivery' | 'business'
+  const [step, setStep] = useState(1); 
+  const [activeTab, setActiveTab] = useState(null); 
   const [billingCycle, setBillingCycle] = useState('semiannual'); 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -182,9 +181,11 @@ export default function CommercePage({ navigateTo }) {
             </div>
 
             <div className="lg:w-1/2 relative flex justify-center">
+
                 <div className="absolute inset-0 bg-red-500/20 blur-[100px] rounded-full"></div>
                 
                 <div className="relative w-[300px] h-[600px] bg-black border-4 border-zinc-800 rounded-[3rem] shadow-2xl overflow-hidden z-10">
+                    
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-zinc-800 rounded-b-2xl z-20"></div>
                     
                     <div className="w-full h-full bg-zinc-900 flex flex-col font-sans">
@@ -197,7 +198,7 @@ export default function CommercePage({ navigateTo }) {
                         </div>
 
                         <div className="flex-1 p-4 space-y-4 overflow-hidden relative">
-                           
+
                              <div className="bg-zinc-800 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-xs text-zinc-300 animate-fade-in">
                                 Olá! 👋 Bem-vindo à ZyTech Burger. Gostaria de ver nosso cardápio?
                              </div>
@@ -325,7 +326,7 @@ export default function CommercePage({ navigateTo }) {
                                 </div>
 
                                 <div className="mb-6 p-4 rounded-xl bg-black/40 border border-white/5">
-                                    <div className="text-[10px] text-zinc-500 uppercase font-bold mb-1">A partir de:</div>
+                                    <div className="text-[10px] text-zinc-500 uppercase font-bold mb-1">Investimento</div>
                                     <div className="flex items-baseline gap-1">
                                         <span className="text-zinc-500 text-sm">R$</span>
                                         <span className={`text-3xl font-bold ${plan.popular ? 'text-red-500' : 'text-white'}`}>{getPrice(plan.price)}</span>
