@@ -23,9 +23,9 @@ export default function CommercePage({ navigateTo }) {
 
   const deliveryPlans = [
     {
-      name: 'ZyStart Delivery',
+      name: 'ZyStart',
       tag: 'Essencial',
-      price: 147,
+      price: 197,
       color: 'red',
       icon: <Shield className="text-red-500" size={24} />,
       desc: 'Atendimento inicial ágil para pequenos deliveries.',
@@ -34,7 +34,7 @@ export default function CommercePage({ navigateTo }) {
     {
       name: 'ZyControl',
       tag: 'Gestão',
-      price: 397,
+      price: 347,
       color: 'orange',
       icon: <Database className="text-orange-500" size={24} />,
       desc: 'Controle total com automação para crescer.',
@@ -43,7 +43,7 @@ export default function CommercePage({ navigateTo }) {
     {
       name: 'ZyBotAI',
       tag: 'Inteligência',
-      price: 697,
+      price: 447,
       color: 'amber',
       popular: true,
       icon: <Zap className="text-amber-500" size={24} />,
@@ -53,7 +53,7 @@ export default function CommercePage({ navigateTo }) {
     {
       name: 'ZyCore',
       tag: 'Franquia',
-      price: 1297,
+      price: 697,
       color: 'purple',
       icon: <Crown className="text-purple-500" size={24} />,
       desc: 'Potência máxima para grandes volumes e redes.',
@@ -63,27 +63,27 @@ export default function CommercePage({ navigateTo }) {
 
   const businessPlans = [
     {
-      name: 'Agenda Start',
+      name: 'ZyStart',
       tag: 'Básico',
-      price: 147,
+      price: 197,
       color: 'red',
       icon: <Store className="text-red-500" size={24} />,
       desc: 'Digitalize seus agendamentos e organize a casa.',
       features: ['Link de Agendamento', 'Lembretes WhatsApp', 'Gestão de Clientes', 'Histórico de Visitas']
     },
     {
-      name: 'Agenda Pro',
+      name: 'ZyControl',
       tag: 'Profissional',
-      price: 397,
+      price: 297,
       color: 'orange',
       icon: <Store className="text-orange-500" size={24} />,
       desc: 'Profissionalize com site e pagamentos online.',
       features: ['Tudo do Start +', 'Site One-Page Incluso', 'Pagamento Online (Pix/Card)', 'Bloqueio de Agenda', 'Galeria de Fotos']
     },
     {
-      name: 'Secretária AI',
+      name: 'ZyBotAI',
       tag: 'Automação',
-      price: 697,
+      price: 447,
       color: 'amber',
       popular: true,
       icon: <MessageSquare className="text-amber-500" size={24} />,
@@ -91,9 +91,9 @@ export default function CommercePage({ navigateTo }) {
       features: ['Tudo do Pro +', 'IA Humanizada', 'Responde Dúvidas', 'Reagendamento Auto', 'Triagem de Leads']
     },
     {
-      name: 'ZyBusiness',
+      name: 'ZyCore',
       tag: 'Enterprise',
-      price: 1297,
+      price: 697,
       color: 'purple',
       icon: <TrendingUp className="text-purple-500" size={24} />,
       desc: 'Gestão completa para escalar seu serviço.',
