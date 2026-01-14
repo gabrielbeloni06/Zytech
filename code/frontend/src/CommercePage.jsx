@@ -34,7 +34,7 @@ export default function CommercePage({ navigateTo }) {
     {
       name: 'ZyControl',
       tag: 'Gestão',
-      price: 347,
+      price: 297,
       color: 'orange',
       icon: <Database className="text-orange-500" size={24} />,
       desc: 'Controle total com automação para crescer.',
@@ -43,7 +43,7 @@ export default function CommercePage({ navigateTo }) {
     {
       name: 'ZyBotAI',
       tag: 'Inteligência',
-      price: 447,
+      price: 397,
       color: 'amber',
       popular: true,
       icon: <Zap className="text-amber-500" size={24} />,
@@ -83,7 +83,7 @@ export default function CommercePage({ navigateTo }) {
     {
       name: 'ZyBotAI',
       tag: 'Automação',
-      price: 447,
+      price: 397,
       color: 'amber',
       popular: true,
       icon: <MessageSquare className="text-amber-500" size={24} />,
