@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ArrowRight, Zap, Crown, Shield, Bike, Store, MessageSquare, Database, Clock, TrendingUp, Check, Star, Building2, ShoppingBag, Smartphone
+  ArrowRight, Zap, Crown, Shield, Bike, Store, MessageSquare, Database, Clock, TrendingUp, Check, Star, Building2, ShoppingBag, Smartphone, Target, Lock, Activity
 } from 'lucide-react';
-import { ContactModal } from './SharedComponents';
+import { ContactModal, CyberpunkChart } from './SharedComponents';
 
 const bgRedTheme = "https://images.unsplash.com/photo-1629737199462-8178129759d6?q=80&w=2070&auto=format&fit=crop";
 
@@ -126,7 +126,7 @@ export default function CommercePage({ navigateTo }) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(220,38,38,0.15),transparent_70%)]"></div>
       </div>
 
-      <div className="relative z-10 pt-28 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <div className="relative z-10 pt-28 px-4 md:px-8 max-w-7xl mx-auto">
         
         <button 
             onClick={() => navigateTo('landing')} 
@@ -136,7 +136,7 @@ export default function CommercePage({ navigateTo }) {
             Voltar ao Hub
         </button>
 
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-16 mb-32 animate-fade-in-up">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-16 mb-24 animate-fade-in-up">
             
             <div className="lg:w-1/2 space-y-8">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 text-[10px] font-bold uppercase tracking-widest">
@@ -181,13 +181,9 @@ export default function CommercePage({ navigateTo }) {
             </div>
 
             <div className="lg:w-1/2 relative flex justify-center">
-
                 <div className="absolute inset-0 bg-red-500/20 blur-[100px] rounded-full"></div>
-                
                 <div className="relative w-[300px] h-[600px] bg-black border-4 border-zinc-800 rounded-[3rem] shadow-2xl overflow-hidden z-10">
-                    
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-zinc-800 rounded-b-2xl z-20"></div>
-                    
                     <div className="w-full h-full bg-zinc-900 flex flex-col font-sans">
                         <div className="bg-zinc-800 p-4 pt-10 flex items-center gap-3 border-b border-white/5">
                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-xs font-bold">ZY</div>
@@ -196,17 +192,13 @@ export default function CommercePage({ navigateTo }) {
                                 <div className="text-[10px] text-green-400 flex items-center gap-1">● Online</div>
                             </div>
                         </div>
-
                         <div className="flex-1 p-4 space-y-4 overflow-hidden relative">
-
                              <div className="bg-zinc-800 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-xs text-zinc-300 animate-fade-in">
                                 Olá! 👋 Bem-vindo à ZyTech Burger. Gostaria de ver nosso cardápio?
                              </div>
-                             
                              <div className="bg-red-600/20 border border-red-500/20 p-3 rounded-2xl rounded-tr-none max-w-[85%] ml-auto text-xs text-white animate-fade-in animation-delay-500">
                                 Sim, quero fazer um pedido!
                              </div>
-
                              <div className="bg-zinc-800 p-3 rounded-2xl rounded-tl-none max-w-[85%] text-xs text-zinc-300 animate-fade-in animation-delay-1000">
                                 Perfeito! 🍔 Aqui estão nossas promoções de hoje.
                                 <div className="mt-2 bg-black/40 rounded p-2 border border-white/5">
@@ -215,12 +207,8 @@ export default function CommercePage({ navigateTo }) {
                                     <div className="h-2 w-1/3 bg-red-500/50 rounded"></div>
                                 </div>
                              </div>
-
                              <div className="absolute bottom-4 left-4 right-4 animate-fade-in animation-delay-1500">
-                                <button 
-                                    onClick={scrollToSelection}
-                                    className="w-full py-3 bg-green-500 hover:bg-green-400 text-black font-bold text-xs rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2"
-                                >
+                                <button onClick={scrollToSelection} className="w-full py-3 bg-green-500 hover:bg-green-400 text-black font-bold text-xs rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2">
                                     <ShoppingBag size={14} /> Fazer Pedido Agora
                                 </button>
                              </div>
@@ -230,7 +218,136 @@ export default function CommercePage({ navigateTo }) {
             </div>
         </div>
 
-        <div id="selection-section" className="scroll-mt-24">
+        <div className="space-y-24 mb-32 border-t border-white/5 pt-20">
+            
+            <div className="flex flex-col md:flex-row items-center gap-12">
+                <div className="md:w-1/2">
+                    <div className="mb-4 inline-flex items-center gap-2 text-red-500 font-bold uppercase text-xs tracking-widest">
+                        <Target size={16} /> O Problema Invisível
+                    </div>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white leading-tight">
+                        Você perde dinheiro enquanto <span className="text-zinc-500 line-through">dorme</span> descansa.
+                    </h2>
+                    <p className="text-zinc-400 text-lg leading-relaxed mb-6">
+                        O consumidor moderno é imediatista. Se você demora 10 minutos para responder no WhatsApp, ele já fechou com o concorrente. 
+                        <br/><br/>
+                        <strong className="text-white">A ZyTech elimina o tempo de espera.</strong> Seu negócio passa a operar 24 horas por dia, 7 dias por semana, capturando leads às 2 da manhã com a mesma eficiência das 2 da tarde.
+                    </p>
+                    <ul className="space-y-2">
+                        <li className="flex items-center gap-2 text-zinc-300"><div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div> Resposta instantânea (0 delay)</li>
+                        <li className="flex items-center gap-2 text-zinc-300"><div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div> Sem perda de paciência do cliente</li>
+                        <li className="flex items-center gap-2 text-zinc-300"><div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div> Triagem automática de curiosos</li>
+                    </ul>
+                </div>
+                <div className="md:w-1/2 relative">
+                    <div className="absolute inset-0 bg-red-600/10 blur-3xl rounded-full"></div>
+                    <div className="relative bg-zinc-900 border border-white/10 p-8 rounded-3xl shadow-2xl">
+                        <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                            <span className="text-zinc-500 text-xs uppercase tracking-widest">Comparativo de Resposta</span>
+                            <Clock className="text-red-500" size={20}/>
+                        </div>
+                        <div className="space-y-6">
+                            <div>
+                                <div className="flex justify-between text-xs mb-2 text-zinc-400">
+                                    <span>Atendimento Humano Comum</span>
+                                    <span className="text-red-400">~15 a 45 min</span>
+                                </div>
+                                <div className="h-3 w-full bg-zinc-800 rounded-full overflow-hidden">
+                                    <div className="h-full bg-red-900/50 w-3/4"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="flex justify-between text-xs mb-2 text-white font-bold">
+                                    <span className="flex items-center gap-2"><Zap size={12} className="text-yellow-400"/> Tecnologia ZyTech</span>
+                                    <span className="text-green-400">Imediato (3s)</span>
+                                </div>
+                                <div className="h-3 w-full bg-zinc-800 rounded-full overflow-hidden">
+                                    <div className="h-full bg-gradient-to-r from-green-500 to-emerald-400 w-full animate-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row-reverse items-center gap-12">
+                <div className="md:w-1/2">
+                    <div className="mb-4 inline-flex items-center gap-2 text-orange-500 font-bold uppercase text-xs tracking-widest">
+                        <Activity size={16} /> Qualidade Superior
+                    </div>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white leading-tight">
+                        Não é um robô burro.<br/>
+                        É <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">Inteligência Real.</span>
+                    </h2>
+                    <p className="text-zinc-400 text-lg leading-relaxed mb-6">
+                        Esqueça aqueles menus de "Digite 1 para financeiro". Nossa IA entende linguagem natural, gírias e contexto. Ela age como seu melhor vendedor: educada, persuasiva e incansável.
+                    </p>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-zinc-900/50 border border-white/5 p-4 rounded-xl">
+                            <MessageSquare className="text-orange-500 mb-2" size={24}/>
+                            <h4 className="font-bold text-white text-sm">Linguagem Natural</h4>
+                            <p className="text-xs text-zinc-500 mt-1">Conversa fluida como um humano.</p>
+                        </div>
+                        <div className="bg-zinc-900/50 border border-white/5 p-4 rounded-xl">
+                            <Database className="text-orange-500 mb-2" size={24}/>
+                            <h4 className="font-bold text-white text-sm">Base de Conhecimento</h4>
+                            <p className="text-xs text-zinc-500 mt-1">Aprende tudo sobre sua empresa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="md:w-1/2 w-full">
+                     <div className="relative aspect-square max-h-[400px] mx-auto bg-black rounded-full border border-zinc-800 flex items-center justify-center overflow-hidden">
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.15),transparent_70%)]"></div>
+                        <div className="relative z-10 text-center">
+                            <div className="w-24 h-24 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-[0_0_50px_rgba(234,88,12,0.3)]">
+                                <Zap size={48} className="text-white" />
+                            </div>
+                            <div className="text-2xl font-black text-white">ZyBot AI</div>
+                            <div className="text-xs text-orange-400 uppercase tracking-widest mt-1">Neural Processing</div>
+                        </div>
+                        <div className="absolute w-[140%] h-[140%] border border-white/5 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                        <div className="absolute w-[180%] h-[180%] border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                     </div>
+                </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center gap-12">
+                <div className="md:w-1/2">
+                    <div className="mb-4 inline-flex items-center gap-2 text-green-500 font-bold uppercase text-xs tracking-widest">
+                        <TrendingUp size={16} /> Retorno Sobre Investimento
+                    </div>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white leading-tight">
+                        Matemática Simples:<br/>
+                        Vende Mais, Custa Menos.
+                    </h2>
+                    <p className="text-zinc-400 text-lg leading-relaxed mb-6">
+                        Quanto custa um funcionário para trabalhar 24h? Salário, encargos, férias... A ZyTech custa uma fração disso e nunca fica doente. O sistema se paga logo nas primeiras vendas recuperadas.
+                    </p>
+                    
+                    <button onClick={scrollToSelection} className="group flex items-center gap-3 text-white border-b border-red-500 pb-1 hover:text-red-400 transition-colors">
+                        <span className="font-bold tracking-wide">Quero Escalar Meu Negócio</span>
+                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform"/>
+                    </button>
+                </div>
+                <div className="md:w-1/2 w-full">
+                    <div className="relative">
+                        <div className="absolute -top-10 -right-10 bg-green-500/10 w-full h-full rounded-full blur-3xl"></div>
+                        <CyberpunkChart />
+                        <div className="absolute -bottom-4 -right-4 bg-zinc-900 border border-green-500/30 p-4 rounded-xl shadow-xl flex items-center gap-3">
+                            <div className="bg-green-500/20 p-2 rounded-lg text-green-500">
+                                <TrendingUp size={24} />
+                            </div>
+                            <div>
+                                <div className="text-xs text-zinc-400 uppercase">Crescimento Médio</div>
+                                <div className="text-xl font-bold text-white">+42.8%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="selection-section" className="scroll-mt-24 pt-10">
             <div className="text-center mb-16">
                 <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Escolha seu Modelo de Negócio</h2>
                 <p className="text-zinc-400">Personalizamos a inteligência artificial para o seu setor.</p>
