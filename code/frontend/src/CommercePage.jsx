@@ -47,7 +47,7 @@ export default function CommercePage({ navigateTo }) {
       color: 'amber',
       popular: true,
       icon: <Zap className="text-amber-500" size={24} />,
-      desc: 'Vendedor virtual 24h que aumenta o ticket médio. Taxa de Instalação: R$ 377,00',
+      desc: 'Vendedor com IA 24hrs. Taxa de Instalação: R$ 377,00',
       features: ['Tudo do Control +', 'IA Vendedora', 'Sugestão de Adicionais', 'Atendimento versátil', 'Dashboard']
     },
     {
@@ -56,7 +56,7 @@ export default function CommercePage({ navigateTo }) {
       price: 697,
       color: 'purple',
       icon: <Crown className="text-purple-500" size={24} />,
-      desc: 'Potência máxima para grandes volumes e redes. Taxa de Instalação: R$ 787,00',
+      desc: 'Potência máxima para grandes volumes. Taxa de Instalação: R$ 787,00',
       features: ['Tudo do BotAI +', 'Sistema de áudio e imagem', 'Escolha da persona da IA', 'Pedidos via WhatsApp', 'Dashboard']
     }
   ];
@@ -68,7 +68,7 @@ export default function CommercePage({ navigateTo }) {
       price: 197,
       color: 'red',
       icon: <Store className="text-red-500" size={24} />,
-      desc: 'Digitalize seus agendamentos e organize a casa. Taxa de Instalação: R$ 117,00',
+      desc: 'Digitalize seus agendamentos. Taxa de Instalação: R$ 117,00',
       features: ['Catálogo Digital', 'Dashboard', 'Gestão de Produtos', 'Agendamentos via WhatsApp']
     },
     {
@@ -77,7 +77,7 @@ export default function CommercePage({ navigateTo }) {
       price: 297,
       color: 'orange',
       icon: <Store className="text-orange-500" size={24} />,
-      desc: 'Profissionalize com site de agendamentos. Taxa de Instalação: R$ 227,00',
+      desc: 'Melhore a gestão de agendamentos. Taxa de Instalação: R$ 227,00',
       features: ['Tudo do Start +', 'Agendamentos via site', '', 'Bloqueio de Agenda', 'Dashboard']
     },
     {
@@ -87,7 +87,7 @@ export default function CommercePage({ navigateTo }) {
       color: 'amber',
       popular: true,
       icon: <MessageSquare className="text-amber-500" size={24} />,
-      desc: 'Atendimento humanizado com agendamentos automáticos. Taxa de Instalação: R$ 377,00',
+      desc: 'Atendimento com IA que agenda pra você. Taxa de Instalação: R$ 377,00',
       features: ['Tudo do Control +', 'IA Humanizada', 'Responde Dúvidas', 'Segue sistema de Agenda', 'FAQ Personalizada']
     },
     {
@@ -96,7 +96,7 @@ export default function CommercePage({ navigateTo }) {
       price: 697,
       color: 'purple',
       icon: <TrendingUp className="text-purple-500" size={24} />,
-      desc: 'IA completa para escalar seu serviço. Taxa de Instalação: R$ 787,00',
+      desc: 'IA completa e personalizada. Taxa de Instalação: R$ 787,00',
       features: ['Tudo da AI +', 'Escolha da persona da IA', 'Planejamento total do bot', 'Sistema de áudios e imagem', 'Dashboard']
     }
   ];
