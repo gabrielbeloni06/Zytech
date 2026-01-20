@@ -28,8 +28,8 @@ export default function CommercePage({ navigateTo }) {
       price: 197,
       color: 'red',
       icon: <Shield className="text-red-500" size={24} />,
-      desc: 'Atendimento inicial ágil para pequenos deliveries.',
-      features: ['Cardápio Digital Simples', 'Pedidos via WhatsApp', 'Painel de Pedidos Básico', 'Link Personalizado']
+      desc: 'Atendimento inicial ágil para pequenos deliveries. Taxa de Instalação: R$ 117,00',
+      features: ['Cardápio Digital Simples', 'Pedidos via WhatsApp', 'Painel de Pedidos Básico', 'Dashboard']
     },
     {
       name: 'ZyControl',
@@ -37,8 +37,8 @@ export default function CommercePage({ navigateTo }) {
       price: 297,
       color: 'orange',
       icon: <Database className="text-orange-500" size={24} />,
-      desc: 'Controle total com automação para crescer.',
-      features: ['Tudo do Start +', 'Gestão de Entregadores', 'Relatórios Financeiros', 'Impressão Automática', 'Controle de Estoque']
+      desc: 'Controle total com automação para crescer. Taxa de Instalação: R$ 227,00',
+      features: ['Tudo do Start +', 'Gestão de Cardápio', 'Atendimento Humanizado sem IA', 'Pedidos via WhatsApp', 'Controle de Estoque']
     },
     {
       name: 'ZyBotAI',
@@ -47,8 +47,8 @@ export default function CommercePage({ navigateTo }) {
       color: 'amber',
       popular: true,
       icon: <Zap className="text-amber-500" size={24} />,
-      desc: 'Vendedor virtual 24h que aumenta o ticket médio.',
-      features: ['Tudo do Control +', 'IA Vendedora (ChatGPT)', 'Sugestão de Adicionais', 'Recuperação de Carrinho', 'Disparos em Massa']
+      desc: 'Vendedor virtual 24h que aumenta o ticket médio. Taxa de Instalação: R$ 377,00',
+      features: ['Tudo do Control +', 'IA Vendedora', 'Sugestão de Adicionais', 'Atendimento versátil', 'Dashboard']
     },
     {
       name: 'ZyCore',
@@ -56,8 +56,8 @@ export default function CommercePage({ navigateTo }) {
       price: 697,
       color: 'purple',
       icon: <Crown className="text-purple-500" size={24} />,
-      desc: 'Potência máxima para grandes volumes e redes.',
-      features: ['Tudo do BotAI +', 'Múltiplos Atendentes', 'API Oficial WhatsApp', 'Programa de Fidelidade', 'Gerente de Contas']
+      desc: 'Potência máxima para grandes volumes e redes. Taxa de Instalação: R$ 787,00',
+      features: ['Tudo do BotAI +', 'Sistema de áudio e imagem', 'Escolha da persona da IA', 'Pedidos via WhatsApp', 'Dashboard']
     }
   ];
 
@@ -68,8 +68,8 @@ export default function CommercePage({ navigateTo }) {
       price: 197,
       color: 'red',
       icon: <Store className="text-red-500" size={24} />,
-      desc: 'Digitalize seus agendamentos e organize a casa.',
-      features: ['Link de Agendamento', 'Lembretes WhatsApp', 'Gestão de Clientes', 'Histórico de Visitas']
+      desc: 'Digitalize seus agendamentos e organize a casa. Taxa de Instalação: R$ 117,00',
+      features: ['Catálogo Digital', 'Dashboard', 'Gestão de Produtos', 'Agendamentos via WhatsApp']
     },
     {
       name: 'ZyControl',
@@ -77,8 +77,8 @@ export default function CommercePage({ navigateTo }) {
       price: 297,
       color: 'orange',
       icon: <Store className="text-orange-500" size={24} />,
-      desc: 'Profissionalize com site e pagamentos online.',
-      features: ['Tudo do Start +', 'Site One-Page Incluso', 'Pagamento Online (Pix/Card)', 'Bloqueio de Agenda', 'Galeria de Fotos']
+      desc: 'Profissionalize com site de agendamentos. Taxa de Instalação: R$ 227,00',
+      features: ['Tudo do Start +', 'Agendamentos via site', '', 'Bloqueio de Agenda', 'Dashboard']
     },
     {
       name: 'ZyBotAI',
@@ -87,8 +87,8 @@ export default function CommercePage({ navigateTo }) {
       color: 'amber',
       popular: true,
       icon: <MessageSquare className="text-amber-500" size={24} />,
-      desc: 'Atendimento humanizado sem intervenção humana.',
-      features: ['Tudo do Pro +', 'IA Humanizada', 'Responde Dúvidas', 'Reagendamento Auto', 'Triagem de Leads']
+      desc: 'Atendimento humanizado com agendamentos automáticos. Taxa de Instalação: R$ 377,00',
+      features: ['Tudo do Control +', 'IA Humanizada', 'Responde Dúvidas', 'Segue sistema de Agenda', 'FAQ Personalizada']
     },
     {
       name: 'ZyCore',
@@ -96,8 +96,8 @@ export default function CommercePage({ navigateTo }) {
       price: 697,
       color: 'purple',
       icon: <TrendingUp className="text-purple-500" size={24} />,
-      desc: 'Gestão completa para escalar seu serviço.',
-      features: ['Tudo da AI +', 'Automação de Marketing', 'Clube de Assinatura', 'Gestão Financeira', 'Dashboard BI']
+      desc: 'IA completa para escalar seu serviço. Taxa de Instalação: R$ 787,00',
+      features: ['Tudo da AI +', 'Escolha da persona da IA', 'Planejamento total do bot', 'Sistema de áudios e imagem', 'Dashboard']
     }
   ];
 
