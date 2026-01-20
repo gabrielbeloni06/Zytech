@@ -165,7 +165,7 @@ export default function AboutPage({ navigateTo }) {
       <div className="border-t border-white/5 bg-black py-8">
           <div className="container mx-auto px-6 text-center">
               <p className="text-gray-500 text-xs font-mono">
-                  CODED IN <span className="text-white font-bold">BELO HORIZONTE, MG</span> • DEPLOYED TO THE WORLD
+                  CODED IN <span className="text-white font-bold">BRAZIL</span> • DEPLOYED TO THE WORLD
               </p>
           </div>
       </div>
